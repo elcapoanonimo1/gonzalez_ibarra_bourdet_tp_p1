@@ -45,8 +45,6 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick()
 	{
-		// Procesamiento de un instante de tiempo
-		// ...
 
 	}
 	
