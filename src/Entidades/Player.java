@@ -42,7 +42,11 @@ public class Player {
 
     public void caer(Entorno e) {
         if(this.y + alto/2 < e.alto()){
-            this.y += 3;
+            this.y += 2;
         }
     }
-}
+
+    public void saltar(Entorno e) {
+            this.y -=7 ;
+    }
+}   

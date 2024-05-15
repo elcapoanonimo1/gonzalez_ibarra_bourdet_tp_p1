@@ -5,8 +5,10 @@ import entorno.Herramientas;
 import entorno.InterfaceJuego;
 import entorno.Board;
 
-import Entidades.Player;
+import java.awt.Color;
 
+import Entidades.Player;
+import Estructuras.Fondo;
 
 
 @SuppressWarnings("unused")
@@ -19,11 +21,15 @@ public class Juego extends InterfaceJuego {
 	private int ALTO_JUEGO = 600;
 
 
-	private Player jugador;
-
+	
 	// Variables y métodos propios de cada grupo
 	// ...
 	
+	private Player jugador;
+	private Fondo fondo;
+
+
+
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, this.TITULO_JUEGO, ANCHO_JUEGO, ALTO_JUEGO);
@@ -31,8 +37,8 @@ public class Juego extends InterfaceJuego {
 		// Inicializar lo que haga falta para el juego
 		// ...
 
-		this.jugador = new Player(ANCHO_JUEGO/2,ALTO_JUEGO/2, 40, 20, 5.0);
-
+		this.jugador = new Player(ANCHO_JUEGO/2,ALTO_JUEGO, 40, 20, 5.0);
+		this.fondo = new Fondo(Color.green, ANCHO_JUEGO, ALTO_JUEGO);
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
@@ -46,16 +52,20 @@ public class Juego extends InterfaceJuego {
 
 
 	public void tick() {
+		fondo.dibujar(entorno);
 		jugador.dibujarse(entorno);
-		jugador.caer(entorno);
-		
 		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 			jugador.moverDerecha(entorno);
 		}
 		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
 			jugador.moverIzquierda(entorno);
 		}
+		if(entorno.estaPresionada(entorno.TECLA_ESPACIO)){
+			jugador.saltar(entorno);
 		
+		}else{
+			jugador.caer(entorno);
+		}
 	}
 	
 
