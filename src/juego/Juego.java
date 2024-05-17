@@ -39,7 +39,7 @@ public class Juego extends InterfaceJuego {
 		
 		// Inicializar lo que haga falta para el juego
 		
-		this.jugador = new Player(ANCHO_JUEGO/2,ALTO_JUEGO, 40, 20, 5.0);
+		this.jugador = new Player(ANCHO_JUEGO/2,ALTO_JUEGO/2, 40, 20, 5.0);
 		this.fondo = new Fondo(Color.green, ANCHO_JUEGO, ALTO_JUEGO);
 		
 		// ...

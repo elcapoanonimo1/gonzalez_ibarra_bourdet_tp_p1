@@ -8,20 +8,17 @@ public class Player {
     private double y;
     private int alto;
     private int ancho;
-    // private int movimientoY;
-    // private int movimientoX;
-    private double desplazamiento;
-    // private double velocidad;
+    protected double velocidad;
+    protected double velocidadSalto = 50;
+    protected double velocidadCaida = 2;
 
-    public Player(double x, double y, int alto, int ancho, double desplazamiento/*, int movY, int movX, int vel */){
+    public Player(double x, double y, int alto, int ancho, double velocidad){
         this.x = x;
         this.y = y;
         this.alto = alto;
         this.ancho = ancho;
-        this.desplazamiento = desplazamiento;
-        // this.movimientoX = movX;
-        // this.movimientoY = movY;
-        // this.velocidad = vel;
+        this.velocidad = velocidad;
+
     }
 
     public void dibujarse(Entorno e) {
@@ -29,28 +26,70 @@ public class Player {
     }
 
     public void moverDerecha(Entorno e) {
-        if(this.x + ancho/2 < e.ancho()){
-            this.x += desplazamiento;
-        }
+            this.x += velocidad;
     }
 
     public void moverIzquierda(Entorno e) {
-        if(this.x - ancho/2 > 0){
-            this.x -= desplazamiento;
-        }
+            this.x -= velocidad;
     }
 
     public void caer(Entorno e) {
-        if(this.y + alto/2 < e.alto()){
-            this.y += 2;
-        }
+        this.y += velocidadCaida;
     }
 
     public void saltar(Entorno e) {
-            this.y -=7 ;
+            this.y -= velocidadSalto;
+    }
 
+    public void agachar(Entorno e) {
+        // funcion agacharse definir
     }
     
+
+/**
+ * Esta función de Java comprueba si hay colisiones con un borde específico en un entorno de juego.
+ * 
+ * @param borde El parámetro "borde" en el método "colicionaBorde" representa el lado del borde en el
+ * que desea comprobar si hay colisión. Puede tener valores de "arriba" (arriba), "abajo" (abajo),
+ * "izquierda" (izquierda) o "derecha"
+ * @param e El parámetro `e` en el método `colicionaBorde` es de tipo `Entorno`. Parece representar
+ * algún tipo de entorno o contexto dentro del cual se realiza la detección de colisiones. El método
+ * utiliza el parámetro `e` para verificar los límites de este entorno al determinar si un
+ * @return El método `colicionaBorde` devuelve un valor booleano basado en si el objeto choca con el
+ * borde especificado (`arriba`, `abajo`, `izquierda`, `derecha`) en el objeto `Entorno` dado `e`. Si
+ * el objeto choca con el borde especificado, devuelve "verdadero"; de lo contrario, devuelve "falso".
+ * Si no se reconoce el borde especificado, lanza una excepción de `IllegalArgumentException`.
+ * 
+ */
+    public boolean colicionaBorde(String borde, Entorno e){
+        if (borde == "arriba"){
+            if(this.y - alto/2 < 0){
+                return true;
+            }
+            return false;
+        }
+        if (borde == "abajo"){
+            if(this.y + alto/2 <= e.alto()){
+                return true;
+            } 
+            return false;
+        }
+        if (borde == "izquierda"){
+            if(this.x - ancho/2 > 0){
+                return true;
+            } 
+            return false;
+        }
+        if (borde == "derecha"){
+            if(this.x + ancho/2 < e.ancho()){
+                return true;
+            }
+            return false;
+        }
+
+        throw new IllegalArgumentException("Borde invalido");
+    }
+
      /*
       * El metodo actualizar() recibe un Entorno, y 
       * se encarga de actualizar todos elementos y/o acciones de la clase Player 
@@ -59,19 +98,28 @@ public class Player {
 
     public void actualizar(Entorno e) {
 		this.dibujarse(e);
-		if(e.estaPresionada(e.TECLA_DERECHA)) {
+
+		if(e.estaPresionada(e.TECLA_DERECHA) && colicionaBorde("derecha", e)) {
 			this.moverDerecha(e);
-		}
-		if(e.estaPresionada(e.TECLA_IZQUIERDA)) {
+		} 
+
+		if(e.estaPresionada(e.TECLA_IZQUIERDA) && colicionaBorde("izquierda", e)) {
 			this.moverIzquierda(e);
-		}
-		if(e.estaPresionada(e.TECLA_ESPACIO)){
-			this.saltar(e);
-		
-		}else{
+		} 
+
+        //as un if que detecte cuando esta presionada la tecla 'x' y cuando no esta presionada la tecla 'x'
+        if (e.estaPresionada('x')) {
+           // this.agachar(e);
+        } 
+
+		if(e.estaPresionada(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)){
+			this.saltar(e);	
+		} 
+
+        if (colicionaBorde("abajo", e)) { 
 			this.caer(e);
 		}
     }
 
-    
+
 }   
