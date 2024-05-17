@@ -67,9 +67,6 @@ public class Juego extends InterfaceJuego {
 			jugador.caer(entorno);
 		}
 	}
-	
-	//XD
-
 
 	public static void main(String[] args) {
 		Juego juego = new Juego();
