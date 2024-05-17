@@ -68,7 +68,7 @@ public class Juego extends InterfaceJuego {
 		}
 	}
 	
-
+	//XD
 
 
 	public static void main(String[] args) {
