@@ -8,10 +8,10 @@ public class Player {
     private double y;
     private int alto;
     private int ancho;
-    private int movimientoY;
-    private int movimientoX;
+    // private int movimientoY;
+    // private int movimientoX;
     private double desplazamiento;
-    private double velocidad;
+    // private double velocidad;
 
     public Player(double x, double y, int alto, int ancho, double desplazamiento/*, int movY, int movX, int vel */){
         this.x = x;
@@ -48,5 +48,30 @@ public class Player {
 
     public void saltar(Entorno e) {
             this.y -=7 ;
+
     }
+    
+     /*
+      * El metodo actualizar() recibe un Entorno, y 
+      * se encarga de actualizar todos elementos y/o acciones de la clase Player 
+      * (Extencion de tick() de la clase Juego).
+      */
+
+    public void actualizar(Entorno e) {
+		this.dibujarse(e);
+		if(e.estaPresionada(e.TECLA_DERECHA)) {
+			this.moverDerecha(e);
+		}
+		if(e.estaPresionada(e.TECLA_IZQUIERDA)) {
+			this.moverIzquierda(e);
+		}
+		if(e.estaPresionada(e.TECLA_ESPACIO)){
+			this.saltar(e);
+		
+		}else{
+			this.caer(e);
+		}
+    }
+
+    
 }   

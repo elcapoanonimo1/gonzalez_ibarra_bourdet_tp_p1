@@ -16,4 +16,15 @@ public class Fondo {
     public void dibujar(Entorno e) {
         e.dibujarRectangulo(ancho/2, alto/2, ancho+ancho/2, alto+ancho/2, 0, color);
     }
+
+    
+     /*
+      * El metodo actualizar() recibe un Entorno, y 
+      * se encarga de actualizar todos elementos y/o acciones de la clase Fondo 
+      * (Extencion de tick() de la clase Juego).
+      */
+    public void actualizar(Entorno e) {
+        this.dibujar(e);
+    }
+
 }

@@ -1,21 +1,31 @@
-## Getting Started
+# Super Elizabeth Sis, Volcano Edition
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+### Participantes (Grupo 12)
+- Gonzalez Cristian
+- Ezequiel Ibarra
+- Bourdet Augusto
 
-## Folder Structure
+## Estructura de Carpetas [Base]
 
-The workspace contains two folders by default, where:
+El espacio de trabajo tiene tres carpetas (Default)
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- `bin`: En esta carpeta se almacenan los archivos salida (compilados) del Proyecto. 
+- `lib`: Esta carpeta almacena las dependencias del Proyecto.
+- `src`: Esta carpeta almacena el codigo fuente del Proyecto.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## Estructura de Carpetas [Proyecto] (Hasta Ahora):
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+- `src/Juego`: Almacena las Clases de Juego.
+- `src/Entidades`: Alamcena las Clases de Entidades.
+- `src/Estructuras`: Alamcena las Clases de Esctructuras.
+- `src/recursos`: Almacena los recursos multimedia.
+    - `src/recursos/imagenes`
+    - `src/recursos/audio`
+- `src/Utilidades`: Almacena Clases de tipo Utilidades o Extras.
 
-## Dependency Management
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## Implementaciones
 
-
-XD
+- [x] Movilidad personaje.
+- [x] Fondo.
+- [ ] Falta un monton de cosas xd.
