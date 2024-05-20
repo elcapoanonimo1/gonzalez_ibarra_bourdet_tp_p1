@@ -9,6 +9,13 @@
             "name": "Juego",
             "request": "launch",
             "mainClass": "juego.Juego",
+            "projectName": "gonzalez_ibarra_bourdet_tp_p1_63b7b70d"
+        },
+        {
+            "type": "java",
+            "name": "Juego",
+            "request": "launch",
+            "mainClass": "juego.Juego",
             "projectName": "gonzalez_ibarra_bourdet_tp_p1_806b58ef"
         },
         {

@@ -8,6 +8,7 @@ public class Player {
     private double y;
     private int alto;
     private int ancho;
+    private boolean estaAgachado = false;
     protected double velocidad;
     protected double velocidadSalto = 50;
     protected double velocidadCaida = 2;
@@ -26,23 +27,33 @@ public class Player {
     }
 
     public void moverDerecha(Entorno e) {
-            this.x += velocidad;
+        this.x += velocidad;
     }
 
     public void moverIzquierda(Entorno e) {
-            this.x -= velocidad;
+        this.x -= velocidad;
     }
 
     public void caer(Entorno e) {
         this.y += velocidadCaida;
     }
 
+    double yAnterior;
     public void saltar(Entorno e) {
-            this.y -= velocidadSalto;
+        this.y -= velocidadSalto;
     }
 
-    public void agachar(Entorno e) {
-        // funcion agacharse definir
+    public void agachar(Entorno e, boolean presionado) {
+        if(presionado && !estaAgachado) {
+            this.estaAgachado = true;
+            this.alto /= 2;
+        }
+
+        if(!presionado && estaAgachado) {
+            this.estaAgachado = false;
+            this.alto *= 2;
+            this.y -= alto/4;
+        }
     }
     
 
@@ -63,28 +74,32 @@ public class Player {
  */
     public boolean colicionaBorde(String borde, Entorno e){
         if (borde == "arriba"){
-            if(this.y - alto/2 < 0){
+            if((this.y - alto/2) > 0){
                 return true;
+            } else {
+                return false;
             }
-            return false;
         }
         if (borde == "abajo"){
-            if(this.y + alto/2 <= e.alto()){
+            if((this.y + alto/2) < e.alto()){
                 return true;
-            } 
-            return false;
+            } else {
+                return false;
+            }
         }
         if (borde == "izquierda"){
-            if(this.x - ancho/2 > 0){
+            if((this.x - ancho/2) > 0){
                 return true;
-            } 
-            return false;
+            } else {
+                return false;
+            }
         }
         if (borde == "derecha"){
-            if(this.x + ancho/2 < e.ancho()){
+            if((this.x + ancho/2) < e.ancho()){
                 return true;
+            } else {
+                return false;
             }
-            return false;
         }
 
         throw new IllegalArgumentException("Borde invalido");
@@ -107,14 +122,15 @@ public class Player {
 			this.moverIzquierda(e);
 		} 
 
-        //as un if que detecte cuando esta presionada la tecla 'x' y cuando no esta presionada la tecla 'x'
         if (e.estaPresionada('x')) {
-           // this.agachar(e);
-        } 
+            this.agachar(e, true);
+        } else {
+            this.agachar(e, false);
+        }
 
-		if(e.estaPresionada(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)){
-			this.saltar(e);	
-		} 
+        if(e.sePresiono(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)) {
+            this.saltar(e);
+        }
 
         if (colicionaBorde("abajo", e)) { 
 			this.caer(e);
