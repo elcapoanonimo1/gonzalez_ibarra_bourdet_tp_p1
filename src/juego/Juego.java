@@ -26,7 +26,6 @@ public class Juego extends InterfaceJuego {
 	private String TITULO_JUEGO = "Super Elizabeth Sis, Volcano Edition - Gonzalez Ibarra Bourdet";
 	private int ANCHO_JUEGO = 800;
 	private int ALTO_JUEGO = 600;
-	private Image imagen = Herramientas.cargarImagen("recursos/imagenes/fondo.png");
 	
 	// Variables y métodos propios de cada grupo 
 	private Player jugador;
@@ -42,7 +41,7 @@ public class Juego extends InterfaceJuego {
 		// Inicializar lo que haga falta para el juego
 		
 		this.jugador = new Player(ANCHO_JUEGO/2,ALTO_JUEGO*0.96, 40, 20, 5.0);
-		this.fondo = new Fondo(imagen, ANCHO_JUEGO/2, ALTO_JUEGO/2, 1);
+		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
 		
 		// ...
 
