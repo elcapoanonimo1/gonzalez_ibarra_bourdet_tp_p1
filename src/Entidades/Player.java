@@ -10,7 +10,7 @@ public class Player {
     private int ancho_personaje;
     private boolean estaAgachado = false;
     protected double velocidad;
-    protected double velocidadSalto = 50;
+    protected double velocidadSalto = 150;
     protected double velocidadCaida = 2;
 
     public Player(double x, double y, int alto_personaje, int ancho_personaje, double velocidad){
