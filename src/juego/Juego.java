@@ -13,6 +13,7 @@ import java.awt.Image;
 // Clases
 import Entidades.Player;
 import Estructuras.Fondo;
+import Estructuras. Plataforma;
 
 
 
@@ -30,6 +31,7 @@ public class Juego extends InterfaceJuego {
 	// Variables y métodos propios de cada grupo 
 	private Player jugador;
 	private Fondo fondo;
+	private Plataforma bloque;
 	
 	// ...
 	
@@ -42,6 +44,7 @@ public class Juego extends InterfaceJuego {
 		
 		this.jugador = new Player(ANCHO_JUEGO/2,ALTO_JUEGO*0.96, 40, 20, 5.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
+		this.bloque = new Plataforma(20, ALTO_JUEGO*0.82, 40, 40, false, Color.green);
 		
 		// ...
 
@@ -59,6 +62,8 @@ public class Juego extends InterfaceJuego {
 	public void tick() {
 		fondo.actualizar(entorno);
 		jugador.actualizar(entorno);
+		bloque.actualizar(entorno);
+
 	}
 	
 
