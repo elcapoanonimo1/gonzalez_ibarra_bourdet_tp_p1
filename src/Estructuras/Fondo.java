@@ -1,20 +1,24 @@
 package Estructuras;
 
-import java.awt.Color;
+import java.awt.Image;
+
 import entorno.Entorno;
 public class Fondo {
-    private Color color;
-    private double ancho;
-    private double alto;
+    private double ancho_fondo;
+    private double alto_fondo;
+    private double escala_fondo;
+    private Image fondo;
 
-    public Fondo(Color color, double ancho, double alto){
-        this.color = color;
-        this.ancho = ancho;
-        this.alto = alto;
+    public Fondo(Image fondo, double ancho_fondo, double alto_fondo, double escala_fondo){
+        this.ancho_fondo = 64;
+        this.alto_fondo = 64;
+        this.escala_fondo = escala_fondo;
+        this.fondo = fondo;
     }
 
     public void dibujar(Entorno e) {
-        e.dibujarRectangulo(ancho/2, alto/2, ancho+ancho/2, alto+ancho/2, 0, color);
+        e.dibujarImagen(fondo, ancho_fondo, alto_fondo, 0, escala_fondo);
+        
     }
 
     
@@ -28,3 +32,4 @@ public class Fondo {
     }
 
 }
+		

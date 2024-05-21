@@ -6,24 +6,24 @@ import java.awt.Color;
 public class Player {
     private double x;
     private double y;
-    private int alto;
-    private int ancho;
+    private int alto_personaje;
+    private int ancho_personaje;
     private boolean estaAgachado = false;
     protected double velocidad;
     protected double velocidadSalto = 50;
     protected double velocidadCaida = 2;
 
-    public Player(double x, double y, int alto, int ancho, double velocidad){
+    public Player(double x, double y, int alto_personaje, int ancho_personaje, double velocidad){
         this.x = x;
         this.y = y;
-        this.alto = alto;
-        this.ancho = ancho;
+        this.alto_personaje = alto_personaje;
+        this.ancho_personaje = ancho_personaje;
         this.velocidad = velocidad;
 
     }
 
     public void dibujarse(Entorno e) {
-        e.dibujarRectangulo(x, y, ancho, alto, 0, Color.red);
+        e.dibujarRectangulo(x, y, ancho_personaje, alto_personaje, 0, Color.red);
     }
 
     public void moverDerecha(Entorno e) {
@@ -46,13 +46,13 @@ public class Player {
     public void agachar(Entorno e, boolean presionado) {
         if(presionado && !estaAgachado) {
             this.estaAgachado = true;
-            this.alto /= 2;
+            this.alto_personaje /= 2;
         }
 
         if(!presionado && estaAgachado) {
             this.estaAgachado = false;
-            this.alto *= 2;
-            this.y -= alto/4;
+            this.alto_personaje *= 2;
+            this.y -= alto_personaje/4;
         }
     }
     
@@ -74,28 +74,28 @@ public class Player {
  */
     public boolean colicionaBorde(String borde, Entorno e){
         if (borde == "arriba"){
-            if((this.y - alto/2) > 0){
+            if((this.y - alto_personaje/2) > 0){
                 return true;
             } else {
                 return false;
             }
         }
         if (borde == "abajo"){
-            if((this.y + alto/2) < e.alto()){
+            if((this.y + alto_personaje/2) < e.alto()){
                 return true;
             } else {
                 return false;
             }
         }
         if (borde == "izquierda"){
-            if((this.x - ancho/2) > 0){
+            if((this.x - ancho_personaje/2) > 0){
                 return true;
             } else {
                 return false;
             }
         }
         if (borde == "derecha"){
-            if((this.x + ancho/2) < e.ancho()){
+            if((this.x + ancho_personaje/2) < e.ancho()){
                 return true;
             } else {
                 return false;

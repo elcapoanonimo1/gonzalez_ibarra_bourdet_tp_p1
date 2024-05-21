@@ -8,10 +8,12 @@ import entorno.Board;
 
 // Importaciones adicionales
 import java.awt.Color;
+import java.awt.Image;
 
 // Clases
 import Entidades.Player;
 import Estructuras.Fondo;
+
 
 
 @SuppressWarnings("unused")
@@ -24,14 +26,14 @@ public class Juego extends InterfaceJuego {
 	private String TITULO_JUEGO = "Super Elizabeth Sis, Volcano Edition - Gonzalez Ibarra Bourdet";
 	private int ANCHO_JUEGO = 800;
 	private int ALTO_JUEGO = 600;
-	
+	private Image imagen = Herramientas.cargarImagen("recursos/imagenes/fondo.png");
 	
 	// Variables y métodos propios de cada grupo 
 	private Player jugador;
 	private Fondo fondo;
 	
 	// ...
-
+	
 
 	Juego() {
 		// Inicializa el objeto entorno
@@ -39,8 +41,8 @@ public class Juego extends InterfaceJuego {
 		
 		// Inicializar lo que haga falta para el juego
 		
-		this.jugador = new Player(ANCHO_JUEGO/2,ALTO_JUEGO/2, 40, 20, 5.0);
-		this.fondo = new Fondo(Color.green, ANCHO_JUEGO, ALTO_JUEGO);
+		this.jugador = new Player(ANCHO_JUEGO/2,ALTO_JUEGO*0.96, 40, 20, 5.0);
+		this.fondo = new Fondo(imagen, ANCHO_JUEGO/2, ALTO_JUEGO/2, 1);
 		
 		// ...
 
