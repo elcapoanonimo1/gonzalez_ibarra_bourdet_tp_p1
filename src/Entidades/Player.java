@@ -9,9 +9,12 @@ public class Player {
     private int alto_personaje;
     private int ancho_personaje;
     private boolean estaAgachado = false;
+    private boolean estaSaltando = false;
     protected double velocidad;
-    protected double velocidadSalto = 8;
+    protected double velocidadSalto = 1;
     protected double velocidadCaida = 3;
+    protected double xAnterior= 0;
+    protected String mira = "i";
 
     public Player(double x, double y, int alto_personaje, int ancho_personaje, double velocidad){
         this.x = x;
@@ -38,13 +41,20 @@ public class Player {
         this.y = y+velocidadCaida;
     }
 
-    double yAnterior;
+    
     public void saltar(Entorno e) {
        
-        for(int i=0; i <= 16.5; i++){
-            velocidadSalto= velocidadSalto-2.3;
-            this.y = y+velocidadSalto;
+        if (this.x < e.alto() - 200 && estaSaltando){
+            this.y = y-velocidadSalto;
+        } else {
+            estaSaltando = !estaSaltando;
         }
+
+
+        /*for(int i=0; i <= velocidadSalto; i++){
+            velocidadSalto= velocidadSalto-2.3;
+            this.y = y-velocidadSalto;
+        }*/
     }
 
     public void agachar(Entorno e, boolean presionado) {
@@ -68,10 +78,11 @@ public class Player {
 
         Proyectil proyectil = new Proyectil(x, y-7, 10, 10, velocidad+2);
         proyectil.dibujarse(e);
-        proyectil.moverDerecha();
+        proyectil.mover(mira);
 
     }
     
+
 
 /**
  * Esta función de Java comprueba si hay colisiones con un borde específico en un entorno de juego.
@@ -91,30 +102,30 @@ public class Player {
     public boolean colicionaBorde(String borde, Entorno e){
         if (borde == "arriba"){
             if((this.y - alto_personaje/2) > 0){
-                return true;
-            } else {
                 return false;
+            } else {
+                return true;
             }
         }
         if (borde == "abajo"){
-            if((this.y + alto_personaje/2) < e.alto()){
-                return true;
-            } else {
+            if((this.y + alto_personaje/2) != e.alto()){
                 return false;
+            } else {
+                return true;
             }
         }
         if (borde == "izquierda"){
             if((this.x - ancho_personaje/2) > 0){
-                return true;
-            } else {
                 return false;
+            } else {
+                return true;
             }
         }
         if (borde == "derecha"){
             if((this.x + ancho_personaje/2) < e.ancho()){
-                return true;
-            } else {
                 return false;
+            } else {
+                return true;
             }
         }
 
@@ -130,12 +141,14 @@ public class Player {
     public void actualizar(Entorno e) {
 		this.dibujarse(e);
 
-		if(e.estaPresionada(e.TECLA_DERECHA) && colicionaBorde("derecha", e)) {
+		if(e.estaPresionada(e.TECLA_DERECHA) && !colicionaBorde("derecha", e)) {
+            mira = "d";
 			this.moverDerecha(e);
 		} 
 
-		if(e.estaPresionada(e.TECLA_IZQUIERDA) && colicionaBorde("izquierda", e)) {
-			this.moverIzquierda(e);
+		if(e.estaPresionada(e.TECLA_IZQUIERDA) && !colicionaBorde("izquierda", e)) {
+			mira = "i";
+            this.moverIzquierda(e);
 		} 
 
         if (e.estaPresionada('x')) {
@@ -144,16 +157,14 @@ public class Player {
             this.agachar(e, false);
         }
 
-        if (e.estaPresionada('c')) {
+        if (e.sePresiono('c')) {
             this.disparar(e);
         } 
 
-        if(e.sePresiono(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)) {
+        if(e.estaPresionada(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)) {
+            estaSaltando = true;
             this.saltar(e);
-            velocidadSalto = 8;
-        }
-
-        if (colicionaBorde("abajo", e)) { 
+        } else if (colicionaBorde("abajo", e) && !estaSaltando) { 
 			this.caer(e);
 		}
     }

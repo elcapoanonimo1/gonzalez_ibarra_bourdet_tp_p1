@@ -15,8 +15,9 @@ import Entidades.Esqueleto;
 import Entidades.Player;
 import Entidades.Proyectil;
 import Entidades.Zombie;
+import Estructuras.Bloque;
 import Estructuras.Fondo;
-import Estructuras. Plataforma;
+import Estructuras.Bloque;
 
 
 
@@ -35,7 +36,7 @@ public class Juego extends InterfaceJuego {
 	private Player jugador;
 	private Zombie zombie;
 	private Fondo fondo;
-	private Plataforma bloque;
+	private Bloque bloque;
 	private Esqueleto esqueleto;
 	private Proyectil prooyectil;
 	
@@ -52,7 +53,7 @@ public class Juego extends InterfaceJuego {
 		this.zombie = new Zombie(ALTO_JUEGO/2, ALTO_JUEGO*0.97, 40, 20, 2.5);
 		this.esqueleto = new Esqueleto(ALTO_JUEGO/2, ALTO_JUEGO*0.97, 40, 20, 2.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
-		this.bloque = new Plataforma(20, ALTO_JUEGO*0.82, 40, 40, false, Color.green);
+		this.bloque = new Bloque(ANCHO_JUEGO, ALTO_JUEGO, 20, 20, 40, 40, false, Color.green);
 		
 		// ...
 
@@ -73,7 +74,7 @@ public class Juego extends InterfaceJuego {
 		bloque.actualizar(entorno);
 		zombie.actualizar(entorno);
 		esqueleto.actualizar(entorno);
-		prooyectil.dibujarse(entorno);
+		// prooyectil.dibujarse(entorno);
 	}
 	
 

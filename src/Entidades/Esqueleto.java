@@ -9,6 +9,7 @@ public class Esqueleto {
     private int alto_esqueleto;
     private int ancho_esqueleto;
     protected double velocidad;
+    protected String destino= "i";
 
     public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad){
         this.x = x;
@@ -22,14 +23,21 @@ public class Esqueleto {
     public void dibujarse(Entorno e) {
         e.dibujarRectangulo(x, y, ancho_esqueleto, alto_esqueleto, 0, Color.DARK_GRAY);
     }
+    public void mover(Entorno e){
 
-    public void moverDerecha(Entorno e) {
-        x += velocidad;
+
+        if(destino == "d" && !colicionaBorde("derecha", e)) {
+            x += velocidad;
+        } else {
+            destino = "i";
+        }
+        if (destino == "i" && !colicionaBorde("izquierda", e)) {
+            x -= velocidad;
+        } else if(destino == "i"){
+            destino = "d";
+        }
     }
 
-    public void moverIzquierda(Entorno e) {
-        x -= velocidad;
-    }
 
     private void eliminarEnemigo() {
         
@@ -77,14 +85,7 @@ public class Esqueleto {
         /*if(colicionaBorde("abajo", e)){
             eliminarEnemigo();
         }else{*/
-            if(colicionaBorde("izquierda", e)){
-                moverDerecha(e);
-            }else if(colicionaBorde("derecha", e)){
-                moverIzquierda(e);
-            }else{
-                moverIzquierda(e);
-            }
-            
+        mover(e);
         }
     
      
