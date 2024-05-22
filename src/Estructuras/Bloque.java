@@ -3,6 +3,7 @@ package Estructuras;
 import java.awt.Color;
 import entorno.Entorno;
 import entorno.Herramientas;
+
 public class Bloque{
     private int ancho_fondo;
     private int alto_fondo;

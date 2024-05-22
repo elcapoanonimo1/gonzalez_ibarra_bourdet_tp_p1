@@ -81,6 +81,12 @@ public class Player {
         proyectil.mover(mira);
 
     }
+
+    public Proyectil disparar(){
+
+        return new Proyectil(x, y-7, 10, 10, velocidad+2);  
+
+    }
     
 
 
