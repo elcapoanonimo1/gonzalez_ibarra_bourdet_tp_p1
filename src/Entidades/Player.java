@@ -10,8 +10,8 @@ public class Player {
     private int ancho_personaje;
     private boolean estaAgachado = false;
     protected double velocidad;
-    protected double velocidadSalto = 150;
-    protected double velocidadCaida = 2;
+    protected double velocidadSalto = 8;
+    protected double velocidadCaida = 3;
 
     public Player(double x, double y, int alto_personaje, int ancho_personaje, double velocidad){
         this.x = x;
@@ -35,25 +35,41 @@ public class Player {
     }
 
     public void caer(Entorno e) {
-        this.y += velocidadCaida;
+        this.y = y+velocidadCaida;
     }
 
     double yAnterior;
     public void saltar(Entorno e) {
-        this.y -= velocidadSalto;
+       
+        for(int i=0; i <= 16.5; i++){
+            velocidadSalto= velocidadSalto-2.3;
+            this.y = y+velocidadSalto;
+        }
     }
 
     public void agachar(Entorno e, boolean presionado) {
+
         if(presionado && !estaAgachado) {
             this.estaAgachado = true;
             this.alto_personaje /= 2;
+            velocidad =0;//Para que el personaje no se mueva mientas esta agachado sino muy OP
         }
 
         if(!presionado && estaAgachado) {
             this.estaAgachado = false;
             this.alto_personaje *= 2;
             this.y -= alto_personaje/4;
+            this.velocidad = 5.0;//Para que el personaje se vuelva a mover a la misma velociadad, no se como hacer para que reciba la velocidad del constructor
+    
         }
+    }
+
+    public void disparar(Entorno e){
+
+        Proyectil proyectil = new Proyectil(x, y-7, 10, 10, velocidad+2);
+        proyectil.dibujarse(e);
+        proyectil.moverDerecha();
+
     }
     
 
@@ -128,8 +144,13 @@ public class Player {
             this.agachar(e, false);
         }
 
+        if (e.estaPresionada('c')) {
+            this.disparar(e);
+        } 
+
         if(e.sePresiono(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)) {
             this.saltar(e);
+            velocidadSalto = 8;
         }
 
         if (colicionaBorde("abajo", e)) { 
