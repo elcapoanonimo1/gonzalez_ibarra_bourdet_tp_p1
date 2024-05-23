@@ -36,7 +36,7 @@ public class Juego extends InterfaceJuego {
 	private Player jugador;
 	private Zombie zombie;
 	private Fondo fondo;
-	private Bloque bloque;
+	private Bloque[] bloques;
 	private Esqueleto esqueleto;
 	private Proyectil prooyectil;
 	
@@ -53,8 +53,13 @@ public class Juego extends InterfaceJuego {
 		this.zombie = new Zombie(ALTO_JUEGO/2, ALTO_JUEGO*0.97, 40, 20, 2.5);
 		this.esqueleto = new Esqueleto(ALTO_JUEGO/2, ALTO_JUEGO*0.97, 40, 20, 2.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
-		this.bloque = new Bloque(ANCHO_JUEGO, ALTO_JUEGO, 20, 20, 40, 40, false, Color.green);
-		
+		this.bloques = new Bloque[]{
+			new Bloque(ANCHO_JUEGO, ALTO_JUEGO, 20, ALTO_JUEGO*0.05, 50, 50, false, Color.green),
+			new Bloque(ANCHO_JUEGO, ALTO_JUEGO, 20, ALTO_JUEGO*0.30, 50, 50, false, Color.green),
+			new Bloque(ANCHO_JUEGO, ALTO_JUEGO, 20, ALTO_JUEGO*0.55, 50, 50, false, Color.green),
+			new Bloque(ANCHO_JUEGO, ALTO_JUEGO, 20, ALTO_JUEGO*0.85, 50, 50, false, Color.green)
+
+		};
 		// ...
 
 		// Inicia el juego!
@@ -71,10 +76,12 @@ public class Juego extends InterfaceJuego {
 	public void tick() {
 		fondo.actualizar(entorno);
 		jugador.actualizar(entorno);
-		bloque.actualizar(entorno);
 		zombie.actualizar(entorno);
 		esqueleto.actualizar(entorno);
 		// prooyectil.dibujarse(entorno);
+		for (Bloque bloque : bloques) {
+            bloque.dibujarBloque(entorno);
+		}
 	}
 	
 

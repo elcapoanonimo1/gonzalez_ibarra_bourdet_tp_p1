@@ -40,16 +40,15 @@ public class Bloque{
     }
     
     public void dibujarBloque(Entorno e) {
-        for (int x = 0; x <= ancho_fondo; x += ancho_bloque) { 
-            for(int y = +20; y <= alto_fondo; y += 150) {
+        for (int x = 20; x <= ancho_fondo; x += ancho_bloque) { 
                 if (x == 0 || x == ancho_fondo) { // barras laterales
-                    e.dibujarRectangulo(x, y, ancho_bloque, alto_bloque, 0, color);
-                } else if (y == alto_fondo) { // base
-                    e.dibujarRectangulo(x, y, ancho_bloque, alto_bloque, 0, color);
+                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Bloque.png"),x, pos_y, 0, 1.2);
+                } else if (pos_y == alto_fondo) { // base
+                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Bloque.png"),x, pos_y, 0, 1.2);
                 } else { // fondo
-                    e.dibujarRectangulo(x, y, ancho_bloque, alto_bloque, 0, color);                    
+                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Bloque.png"),x, pos_y, 0, 1.2);
                 }
-            }
+
         }
         
     }
