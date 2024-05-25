@@ -10,9 +10,10 @@ public class Player {
     private int ancho_personaje;
     private boolean estaAgachado = false;
     private boolean estaSaltando = false;
+    private boolean puedeSaltar = true;
     protected double velocidad;
-    protected double velocidadSalto = 1;
-    protected double velocidadCaida = 3;
+    protected double velocidadSalto = 5;
+    protected double velocidadCaida = 10;
     protected double xAnterior= 0;
     protected String mira = "i";
 
@@ -25,9 +26,39 @@ public class Player {
 
     }
 
+    // DIBUJARSE
     public void dibujarse(Entorno e) {
         e.dibujarRectangulo(x, y, ancho_personaje, alto_personaje, 0, Color.red);
     }
+
+
+    ///////// GETERS Y SETERS /////////
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getArriba() {
+        return (this.y - alto_personaje/2);
+    }
+
+    public double getIzquierda() {
+        return (this.x - ancho_personaje/2);
+    }
+
+    public double getDerecha() {
+        return (this.x + ancho_personaje/2);
+    }
+
+    public double getAbajo() {
+        return (this.y + alto_personaje/2);
+    }
+
+    //////// MOVIMIENTOS ////////
 
     public void moverDerecha(Entorno e) {
         this.x += velocidad;
@@ -38,34 +69,38 @@ public class Player {
     }
 
     public void caer(Entorno e) {
+        if (getAbajo() > e.alto()){
+            this.y = ((e.alto()-alto_personaje/2)) ;
+        }   
+        System.err.println(e.alto()-alto_personaje/2);
         this.y = y+velocidadCaida;
     }
 
-    
     public void saltar(Entorno e) {
-       
-        if (this.x < e.alto() - 200 && estaSaltando){
-            this.y = y-velocidadSalto;
-        } else {
-            estaSaltando = !estaSaltando;
+        if(!estaSaltando && getArriba() > e.alto() - 100) {
+            this.estaSaltando = true;
+            this.y -= velocidadSalto;
+        }
+        if (estaSaltando) {
+            this.y -= velocidadSalto;
         }
 
+        if (getAbajo() > e.alto()- 100) {
+            this.estaSaltando = false;
+            this.puedeSaltar = false;
+        }
 
-        /*for(int i=0; i <= velocidadSalto; i++){
-            velocidadSalto= velocidadSalto-2.3;
-            this.y = y-velocidadSalto;
-        }*/
     }
 
-    public void agachar(Entorno e, boolean presionado) {
+    public void agachar(Entorno e, boolean presionadoAGACHAR) {
 
-        if(presionado && !estaAgachado) {
+        if(presionadoAGACHAR && !estaAgachado) {
             this.estaAgachado = true;
             this.alto_personaje /= 2;
             velocidad =0;//Para que el personaje no se mueva mientas esta agachado sino muy OP
         }
 
-        if(!presionado && estaAgachado) {
+        if(!presionadoAGACHAR && estaAgachado) {
             this.estaAgachado = false;
             this.alto_personaje *= 2;
             this.y -= alto_personaje/4;
@@ -74,6 +109,10 @@ public class Player {
         }
     }
 
+
+/////////////////////////////////////////////////////////////////////////////
+//////////////  ACCIONES    ////////////////////////////////////////////////
+    
     public void disparar(Entorno e){
 
         Proyectil proyectil = new Proyectil(x, y-7, 10, 10, velocidad+2);
@@ -88,55 +127,11 @@ public class Player {
 
     }
     
+////////////////////////////////////    COLICIONES  /////////////////////////////////////////////////
 
 
-/**
- * Esta función de Java comprueba si hay colisiones con un borde específico en un entorno de juego.
- * 
- * @param borde El parámetro "borde" en el método "colicionaBorde" representa el lado del borde en el
- * que desea comprobar si hay colisión. Puede tener valores de "arriba" (arriba), "abajo" (abajo),
- * "izquierda" (izquierda) o "derecha"
- * @param e El parámetro `e` en el método `colicionaBorde` es de tipo `Entorno`. Parece representar
- * algún tipo de entorno o contexto dentro del cual se realiza la detección de colisiones. El método
- * utiliza el parámetro `e` para verificar los límites de este entorno al determinar si un
- * @return El método `colicionaBorde` devuelve un valor booleano basado en si el objeto choca con el
- * borde especificado (`arriba`, `abajo`, `izquierda`, `derecha`) en el objeto `Entorno` dado `e`. Si
- * el objeto choca con el borde especificado, devuelve "verdadero"; de lo contrario, devuelve "falso".
- * Si no se reconoce el borde especificado, lanza una excepción de `IllegalArgumentException`.
- * 
- */
-    public boolean colicionaBorde(String borde, Entorno e){
-        if (borde == "arriba"){
-            if((this.y - alto_personaje/2) > 0){
-                return false;
-            } else {
-                return true;
-            }
-        }
-        if (borde == "abajo"){
-            if((this.y + alto_personaje/2) != e.alto()){
-                return false;
-            } else {
-                return true;
-            }
-        }
-        if (borde == "izquierda"){
-            if((this.x - ancho_personaje/2) > 0){
-                return false;
-            } else {
-                return true;
-            }
-        }
-        if (borde == "derecha"){
-            if((this.x + ancho_personaje/2) < e.ancho()){
-                return false;
-            } else {
-                return true;
-            }
-        }
 
-        throw new IllegalArgumentException("Borde invalido");
-    }
+
 
      /*
       * El metodo actualizar() recibe un Entorno, y 
@@ -147,12 +142,12 @@ public class Player {
     public void actualizar(Entorno e) {
 		this.dibujarse(e);
 
-		if(e.estaPresionada(e.TECLA_DERECHA) && !colicionaBorde("derecha", e)) {
+		if(e.estaPresionada(e.TECLA_DERECHA) && (getDerecha() < e.ancho())) {
             mira = "d";
 			this.moverDerecha(e);
 		} 
 
-		if(e.estaPresionada(e.TECLA_IZQUIERDA) && !colicionaBorde("izquierda", e)) {
+		if(e.estaPresionada(e.TECLA_IZQUIERDA) && (getIzquierda() > 0))    {
 			mira = "i";
             this.moverIzquierda(e);
 		} 
@@ -167,12 +162,15 @@ public class Player {
             this.disparar(e);
         } 
 
-        if(e.estaPresionada(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)) {
-            estaSaltando = true;
+        if((getAbajo() < e.alto() && !e.estaPresionada(e.TECLA_ESPACIO)) ) {
+            this.caer(e);
+        } else {
+            this.puedeSaltar = true;
+        }
+        
+        if(e.estaPresionada(e.TECLA_ESPACIO)) {
             this.saltar(e);
-        } else if (colicionaBorde("abajo", e) && !estaSaltando) { 
-			this.caer(e);
-		}
+        }
     }
 
 

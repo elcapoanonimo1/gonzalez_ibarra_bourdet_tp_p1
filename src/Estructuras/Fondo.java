@@ -22,8 +22,6 @@ public class Fondo {
             for(int y = 0; y <= alto_fondo; y += 100) {
                 if (x == 0 || x == ancho_fondo) { // barras laterales
                     e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo2.png"), x, y, 0, escala_fondo);
-                } else if (y == alto_fondo) { // base
-                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo3.png"), x, y, 0, escala_fondo);
                 } else { // fondo
                     e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo.png"), x, y, 0, escala_fondo);                    
                 }
