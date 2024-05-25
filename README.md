@@ -5,6 +5,9 @@
 - Ezequiel Ibarra
 - Bourdet Augusto
 
+////// RECURSOS: https://minecraft.fandom.com/wiki/List_of_block_textures
+
+
 ## Estructura de Carpetas [Base]
 
 El espacio de trabajo tiene tres carpetas (Default)
