@@ -9,6 +9,7 @@ public class Zombie {
     private int alto_zombie;
     private int ancho_zombie;
     protected double velocidad;
+    private String destino = "i";
 
     public Zombie(double x, double y, int alto_zombie, int ancho_zombie, double velocidad){
         this.x = x;
@@ -29,6 +30,36 @@ public class Zombie {
 
     public void moverIzquierda(Entorno e) {
         x -= velocidad;
+    }
+
+    /*public void mover(){
+    
+        int aux;
+        if(x==800){
+            aux=0;
+        }else{
+            aux=1;
+        }
+        if (aux == 0){
+            x-=velocidad;
+        }else{
+            x+=velocidad;
+        }
+    }*/
+
+    public void mover(Entorno e){
+
+
+        if(destino == "d" && !colicionaBorde("derecha", e)) {
+            x += velocidad;
+        } else {
+            destino = "i";
+        }
+        if (destino == "i" && !colicionaBorde("izquierda", e)) {
+            x -= velocidad;
+        } else if(destino == "i"){
+            destino = "d";
+        }
     }
 
     private void eliminarEnemigo() {
@@ -77,14 +108,14 @@ public class Zombie {
         /*if(colicionaBorde("abajo", e)){
             eliminarEnemigo();
         }else{*/
-            if(colicionaBorde("izquierda", e)){
+            /*if(colicionaBorde("izquierda", e)){
                 moverDerecha(e);
             }else if(colicionaBorde("derecha", e)){
                 moverIzquierda(e);
             }else{
                 moverIzquierda(e);
-            }
-            
+            }*/
+            mover(e);
         }
     
      

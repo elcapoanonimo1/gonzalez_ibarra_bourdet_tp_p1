@@ -22,12 +22,13 @@ public class Proyectil {
         e.dibujarRectangulo(x, y, alto_proyectil, ancho_proyectil, 5, Color.green);
     }
 
-    public void moverDerecha(){
-        x= x+velocidad;
-    }
-
-    public void moverIzquierda(){
-        x= x-velocidad;
+    public void mover(String direccion){
+        if (direccion=="i"){
+            x-=velocidad;
+        }
+        if (direccion=="d"){
+            x+=velocidad;
+        }
     }
 
 
