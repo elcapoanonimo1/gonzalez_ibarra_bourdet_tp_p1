@@ -11,7 +11,7 @@ public class Zombie {
     protected double velocidad;
     private String destino = "i";
 
-    public Zombie(double x, double y, int alto_zombie, int ancho_zombie, double velocidad){
+    public Zombie(double x, double y, int alto_zombie, int ancho_zombie, double velocidad) {
         this.x = x;
         this.y = y;
         this.alto_zombie = alto_zombie;
@@ -32,68 +32,65 @@ public class Zombie {
         x -= velocidad;
     }
 
-    /*public void mover(){
-    
-        int aux;
-        if(x==800){
-            aux=0;
-        }else{
-            aux=1;
-        }
-        if (aux == 0){
-            x-=velocidad;
-        }else{
-            x+=velocidad;
-        }
-    }*/
+    /*
+     * public void mover(){
+     * 
+     * int aux;
+     * if(x==800){
+     * aux=0;
+     * }else{
+     * aux=1;
+     * }
+     * if (aux == 0){
+     * x-=velocidad;
+     * }else{
+     * x+=velocidad;
+     * }
+     * }
+     */
 
-    public void mover(Entorno e){
+    public void mover(Entorno e) {
 
-
-        if(destino == "d" && !colicionaBorde("derecha", e)) {
+        if (destino == "d" && !colicionaBorde("derecha", e)) {
             x += velocidad;
         } else {
             destino = "i";
         }
         if (destino == "i" && !colicionaBorde("izquierda", e)) {
             x -= velocidad;
-        } else if(destino == "i"){
+        } else if (destino == "i") {
             destino = "d";
         }
     }
 
     private void eliminarEnemigo() {
-        
-        
+
     }
-    
-    
 
-
-    public boolean colicionaBorde(String borde, Entorno e){
-        if (borde == "arriba"){
-            if((this.y - alto_zombie/2) > 0){
+    public boolean colicionaBorde(String borde, Entorno e) {
+        if (borde == "arriba") {
+            if ((this.y - alto_zombie / 2) > 0) {
                 return true;
             } else {
                 return false;
             }
         }
-        if (borde == "abajo"){
-            if((this.y + alto_zombie/2) < e.alto()){
+        if (borde == "abajo") {
+            if ((this.y + alto_zombie / 2) < e.alto()) {
                 return true;
             } else {
                 return false;
             }
         }
-        if (borde == "izquierda"){
-            if((this.x - ancho_zombie/2) > 0){
+        if (borde == "izquierda") {
+            if ((this.x - ancho_zombie / 2) > 0) {
                 return false;
             } else {
                 return true;
             }
         }
-        if (borde == "derecha"){
-            if((this.x + ancho_zombie/2) < e.ancho()){
+        if (borde == "derecha") {
+            if ((this.x + ancho_zombie / 2) < e.ancho()) {
                 return false;
             } else {
                 return true;
@@ -104,24 +101,22 @@ public class Zombie {
     }
 
     public void actualizar(Entorno e) {
-		this.dibujarse(e);
-        /*if(colicionaBorde("abajo", e)){
-            eliminarEnemigo();
-        }else{*/
-            /*if(colicionaBorde("izquierda", e)){
-                moverDerecha(e);
-            }else if(colicionaBorde("derecha", e)){
-                moverIzquierda(e);
-            }else{
-                moverIzquierda(e);
-            }*/
-            mover(e);
-        }
-    
-     
+        this.dibujarse(e);
+        /*
+         * if(colicionaBorde("abajo", e)){
+         * eliminarEnemigo();
+         * }else{
+         */
+        /*
+         * if(colicionaBorde("izquierda", e)){
+         * moverDerecha(e);
+         * }else if(colicionaBorde("derecha", e)){
+         * moverIzquierda(e);
+         * }else{
+         * moverIzquierda(e);
+         * }
+         */
+        mover(e);
+    }
+
 }
-
-    
-
-
-   

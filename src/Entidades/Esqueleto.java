@@ -9,9 +9,9 @@ public class Esqueleto {
     private int alto_esqueleto;
     private int ancho_esqueleto;
     protected double velocidad;
-    protected String destino= "i";
+    protected String destino = "i";
 
-    public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad){
+    public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad) {
         this.x = x;
         this.y = y;
         this.alto_esqueleto = alto_esqueleto;
@@ -23,54 +23,49 @@ public class Esqueleto {
     public void dibujarse(Entorno e) {
         e.dibujarRectangulo(x, y, ancho_esqueleto, alto_esqueleto, 0, Color.DARK_GRAY);
     }
-    public void mover(Entorno e){
 
+    public void mover(Entorno e) {
 
-        if(destino == "d" && !colicionaBorde("derecha", e)) {
+        if (destino == "d" && !colicionaBorde("derecha", e)) {
             x += velocidad;
         } else {
             destino = "i";
         }
         if (destino == "i" && !colicionaBorde("izquierda", e)) {
             x -= velocidad;
-        } else if(destino == "i"){
+        } else if (destino == "i") {
             destino = "d";
         }
     }
 
-
     private void eliminarEnemigo() {
-        
-        
+
     }
-    
-    
 
-
-    public boolean colicionaBorde(String borde, Entorno e){
-        if (borde == "arriba"){
-            if((this.y - alto_esqueleto/2) > 0){
+    public boolean colicionaBorde(String borde, Entorno e) {
+        if (borde == "arriba") {
+            if ((this.y - alto_esqueleto / 2) > 0) {
                 return true;
             } else {
                 return false;
             }
         }
-        if (borde == "abajo"){
-            if((this.y + alto_esqueleto/2) < e.alto()){
+        if (borde == "abajo") {
+            if ((this.y + alto_esqueleto / 2) < e.alto()) {
                 return true;
             } else {
                 return false;
             }
         }
-        if (borde == "izquierda"){
-            if((this.x - ancho_esqueleto/2) > 0){
+        if (borde == "izquierda") {
+            if ((this.x - ancho_esqueleto / 2) > 0) {
                 return false;
             } else {
                 return true;
             }
         }
-        if (borde == "derecha"){
-            if((this.x + ancho_esqueleto/2) < e.ancho()){
+        if (borde == "derecha") {
+            if ((this.x + ancho_esqueleto / 2) < e.ancho()) {
                 return false;
             } else {
                 return true;
@@ -81,17 +76,13 @@ public class Esqueleto {
     }
 
     public void actualizar(Entorno e) {
-		this.dibujarse(e);
-        /*if(colicionaBorde("abajo", e)){
-            eliminarEnemigo();
-        }else{*/
+        this.dibujarse(e);
+        /*
+         * if(colicionaBorde("abajo", e)){
+         * eliminarEnemigo();
+         * }else{
+         */
         mover(e);
-        }
-    
-     
+    }
+
 }
-
-    
-
-
-   
