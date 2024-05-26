@@ -75,13 +75,13 @@ public class Juego extends InterfaceJuego {
 	 */
 	public void tick() {
 		fondo.actualizar(entorno);
-		jugador.actualizar(entorno);
 		zombie.actualizar(entorno);
 		esqueleto.actualizar(entorno);
 		// prooyectil.dibujarse(entorno);
 		for (Bloque bloque : bloques) {
-            bloque.dibujarBloque(entorno);
+			bloque.dibujarBloque(entorno);
 		}
+		jugador.actualizar(entorno);
 	}
 	
 
