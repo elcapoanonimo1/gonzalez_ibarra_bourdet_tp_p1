@@ -62,10 +62,10 @@ public class Zombie {
         }
     }
 
-    private void eliminarEnemigo() {
+    // private void eliminarEnemigo() {
         
         
-    }
+    // }
     
     
 

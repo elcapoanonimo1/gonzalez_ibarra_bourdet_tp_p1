@@ -1,7 +1,9 @@
 package Entidades;
 
 import entorno.Entorno;
-import java.awt.Color;
+import entorno.Herramientas;
+
+import java.awt.Image;
 
 public class Esqueleto {
     private double x;
@@ -10,6 +12,8 @@ public class Esqueleto {
     private int ancho_esqueleto;
     protected double velocidad;
     protected String destino= "i";
+    protected String seMueveA = "i";
+    protected Image img;
 
     public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad){
         this.x = x;
@@ -21,15 +25,30 @@ public class Esqueleto {
     }
 
     public void dibujarse(Entorno e) {
-        e.dibujarRectangulo(x, y, ancho_esqueleto, alto_esqueleto, 0, Color.DARK_GRAY);
+        switch (seMueveA) {
+            case "d":
+            img = Herramientas.cargarImagen("recursos/imagenes/Esqueleto/Esqueleto - corriendod.gif");
+            e.dibujarImagen(img, x, y-10,0,3);
+                break;
+            
+            case "i":
+            img = Herramientas.cargarImagen("recursos/imagenes/Esqueleto/Esqueleto - corriendoi.gif");
+            e.dibujarImagen(img, x, y-10,0,3);
+                break;
+
+            default:
+            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y-10,0,3);
+                break;
     }
+    }
+
     public void mover(Entorno e){
-
-
         if(destino == "d" && !colicionaBorde("derecha", e)) {
             x += velocidad;
+            seMueveA = "d";
         } else {
             destino = "i";
+            seMueveA = "i";
         }
         if (destino == "i" && !colicionaBorde("izquierda", e)) {
             x -= velocidad;
@@ -39,10 +58,10 @@ public class Esqueleto {
     }
 
 
-    private void eliminarEnemigo() {
+    // private void eliminarEnemigo() {
         
         
-    }
+    // }
     
     
 
@@ -90,8 +109,3 @@ public class Esqueleto {
     
      
 }
-
-    
-
-
-   
