@@ -22,10 +22,10 @@ public class Fondo {
             for (int y = 0; y <= alto_fondo; y += 100) { // fondo
                     e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo.png"), x, y, 0, escala_fondo);
                     if (x == 0) { // barras laterales
-                        e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo2.png"), x, y, 0, escala_fondo);
+                        e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/pared.png"), x, y, 0, escala_fondo);
                     }
                     if(x >= ancho_fondo-100){
-                        e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo2.png"), ancho_fondo, y, 0, escala_fondo);
+                        e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/pared.png"), ancho_fondo, y, 0, escala_fondo);
                     }
                 }
         }

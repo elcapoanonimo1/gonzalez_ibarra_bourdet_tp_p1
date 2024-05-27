@@ -1,10 +1,9 @@
 package Entidades;
 
 import entorno.Entorno;
-import java.awt.Color;
 import Estructuras.Bloque;
-
-import Estructuras.Plataforma;
+import entorno.Herramientas;
+import java.awt.Image;
 
 public class Player {
     private double x;
@@ -13,12 +12,14 @@ public class Player {
     private int ancho_personaje;
     private boolean estaAgachado = false;
     private boolean estaSaltando = false;
+    @SuppressWarnings("unused")
     private boolean puedeSaltar = true;
     protected double velocidad;
     protected double velocidadSalto = 5;
     protected double velocidadCaida = 10;
     protected double xAnterior = 0;
     protected String mira = "i";
+    protected Image img;
 
     public Player(double x, double y, int alto_personaje, int ancho_personaje, double velocidad) {
         this.x = x;
@@ -31,8 +32,27 @@ public class Player {
 
     // DIBUJARSE
     public void dibujarse(Entorno e) {
-        e.dibujarRectangulo(x, y, ancho_personaje, alto_personaje, 0, Color.red);
+        switch (se_mueve_a(e)) {
+            case "d":
+            img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendod.gif");
+            e.dibujarImagen(img, x, y-10,0,3);
+                break;
+            
+            case "i":
+            img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendoi.gif");
+            e.dibujarImagen(img, x, y-10,0,3);
+                break;
+
+            case "x":
+            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachado.png"), x, y-10,0,3);
+                break;
+        
+            default:
+            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y-10,0,3);
+                break;
+        }
     }
+
 
     ///////// GETERS Y SETERS /////////
 
@@ -114,19 +134,34 @@ public class Player {
     /////////////////////////////////////////////////////////////////////////////
     ////////////// ACCIONES ////////////////////////////////////////////////
 
-    public void disparar(Entorno e) {
+    public String se_mueve_a(Entorno e){
+        if(e.estaPresionada(e.TECLA_DERECHA)) {
+            return "d";
+		} 
 
-        Proyectil proyectil = new Proyectil(x, y - 7, 10, 10, velocidad + 2);
-        proyectil.dibujarse(e);
-        proyectil.mover(mira);
+		if(e.estaPresionada(e.TECLA_IZQUIERDA)) {
+			return "i";
+		} 
 
+        if (e.estaPresionada(e.TECLA_SHIFT)) {
+            return "x";
+        }
+
+        if (e.sePresiono('c')) {
+            return "c";
+        } 
+
+        /*if(e.estaPresionada(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)) {
+            return "saltar";
+        } else if (colicionaBorde("abajo", e) && !estaSaltando) { 
+			return "caer";
+		}*/
+        return "null";
     }
 
-    public Proyectil disparar() {
-
-        return new Proyectil(x, y - 7, 10, 10, velocidad + 2);
-
-    }
+    public Proyectil disparar(){         
+        return new Proyectil(x, y, this.alto_personaje, mira);
+     }
 
     //////////////////////////////////// COLICIONES
 
@@ -171,14 +206,14 @@ public class Player {
             this.moverIzquierda(e);
         }
 
-        if (e.estaPresionada('x')) {
+        if (e.estaPresionada(e.TECLA_SHIFT)) {
             this.agachar(e, true);
         } else {
             this.agachar(e, false);
         }
 
         if (e.sePresiono('c')) {
-            this.disparar(e);
+            this.disparar();
         }
 
         if (e.estaPresionada(e.TECLA_ESPACIO)) {

@@ -1,34 +1,62 @@
 package Entidades;
 
+import java.awt.Image;
+
+import entorno.Herramientas;
 import entorno.Entorno;
-import java.awt.Color;
 
 public class Proyectil {
+
     private double x;
     private double y;
-    private int alto_proyectil;
-    private int ancho_proyectil;
-    protected double velocidad;
 
-    public Proyectil(double x, double y, int alto_proyectil, int ancho_proyectil, double velocidad) {
+    
+	private int alto;
+	private String direccion;
+
+	private Image img;
+
+
+    public Proyectil(double x, double y, int alto, String direccion) {
         this.x = x;
-        this.y = y;
-        this.alto_proyectil = alto_proyectil;
-        this.ancho_proyectil = ancho_proyectil;
-        this.velocidad = velocidad;
-    }
-
-    public void dibujarse(Entorno e) {
-        e.dibujarRectangulo(x, y, alto_proyectil, ancho_proyectil, 5, Color.green);
-    }
-
-    public void mover(String direccion) {
-        if (direccion == "i") {
-            x -= velocidad;
-        }
+		this.y = y;
+		this.alto = alto;
+		this.direccion = direccion;
+        
         if (direccion == "d") {
-            x += velocidad;
+            this.img = Herramientas.cargarImagen("recursos/imagenes/Proyectil/Flecha der.gif");
+        } else if (direccion == "i") {
+            this.img = Herramientas.cargarImagen("recursos/imagenes/Proyectil/Flecha izq.gif");
         }
     }
 
+    public void dibujar(Entorno e) {
+		e.dibujarImagen(img, x, y, 0, 1);
+  
+	}
+
+    public void mover() {
+		if (direccion == "d") {
+			x += 6;
+		}
+		if (direccion == "i") {
+			x -= 6;
+		}
+	}
+
+	public boolean estaFueraDEPantalla(Entorno e) {
+		return x < 0 || x > e.ancho();
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public int getAlto() {
+		return alto;
+	}
 }
