@@ -9,9 +9,12 @@ import entorno.Board;
 // Importaciones adicionales
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Timer;
 
-import Entidades.Esqueleto;
 // Clases
+import Entidades.Esqueleto;
 import Entidades.Player;
 import Entidades.Proyectil;
 import Entidades.Zombie;
@@ -36,8 +39,14 @@ public class Juego extends InterfaceJuego {
 	private Fondo fondo;
 	private Plataforma plataforma;
 	private Esqueleto esqueleto;
-	private Proyectil prooyectil;
+	private Proyectil proyectil;
 	private Bloque[] bloques;
+	private ArrayList <Proyectil> proyectiles;
+
+	//Fps
+	private int temporizador = 0;
+	private int fps = 0;
+	//private long mTime;
 
 	// ...
 
@@ -67,11 +76,25 @@ public class Juego extends InterfaceJuego {
 	 * (ver el enunciado del TP para mayor detalle).
 	 */
 	public void tick() {
+		long tiempoAnterior = System.nanoTime();
+
 		fondo.actualizar(entorno);
 		jugador.actualizar(entorno, this.bloques);
 		zombie.actualizar(entorno);
 		esqueleto.actualizar(entorno);
 		plataforma.actualizar(entorno, this.bloques);
+
+		if (proyectil != null) {
+			proyectil.dibujar(entorno);
+			proyectil.mover();
+			if (proyectil.estaFueraDEPantalla(entorno)) {
+				proyectil = null;
+			}
+		}
+
+		if(entorno.estaPresionada('x') && proyectil == null) {
+			proyectil = jugador.disparar();
+		}
 
 	}
 
