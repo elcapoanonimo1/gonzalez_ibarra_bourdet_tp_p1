@@ -21,7 +21,7 @@ public class Fondo {
         for (int x = 0; x <= ancho_fondo; x += 100) { 
             for(int y = 0; y <= alto_fondo; y += 100) {
                 if (x == 0 || x == ancho_fondo) { // barras laterales
-                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo2.png"), x, y, 0, escala_fondo);
+                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/pared.png"), x, y, 0, escala_fondo);
                 } else { // fondo
                     e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo.png"), x, y, 0, escala_fondo);                    
                 }

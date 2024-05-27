@@ -2,9 +2,6 @@ package Entidades;
 
 import entorno.Entorno;
 import entorno.Herramientas;
-import juego.Juego;
-
-import java.awt.Color;
 import java.awt.Image;
 
 public class Player {
@@ -97,8 +94,6 @@ public class Player {
         } else {
             this.y = y+velocidadCaida;
         }   
-        // System.err.println(e.alto()-alto_personaje/2);
-        // System.err.println(getAbajo());
         
     }
 
@@ -112,7 +107,7 @@ public class Player {
 			return "i";
 		} 
 
-        if (e.estaPresionada('x')) {
+        if (e.estaPresionada(e.TECLA_SHIFT)) {
             return "x";
         }
 
