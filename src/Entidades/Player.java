@@ -133,7 +133,7 @@ public class Player {
 //////////////  ACCIONES    ////////////////////////////////////////////////
 
     public Proyectil disparar(){         
-       return new Proyectil(x, y, 5, 10, 5);
+       return new Proyectil(x, y, this.alto_personaje, mira);
     }
 
     public void agachar(Entorno e, boolean presionadoAGACHAR) {
@@ -194,15 +194,15 @@ public class Player {
             this.moverIzquierda(e);
 		} 
 
-        if (e.estaPresionada('x')) {
+        if (e.estaPresionada(e.TECLA_SHIFT)) {
             this.agachar(e, true);
         } else {
             this.agachar(e, false);
         }
 
-        //if (e.sePresiono('c')) {
+        // if (e.sePresiono('c')) {
         //    Proyectil proyectil =this.disparar();
-        //} 
+        // } 
 
         if((getAbajo() < e.alto() && !e.estaPresionada(e.TECLA_ESPACIO)) ) {
             this.caer(e);
