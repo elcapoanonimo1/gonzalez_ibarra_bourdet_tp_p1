@@ -1,6 +1,8 @@
 package Entidades;
 
 import entorno.Entorno;
+import entorno.Herramientas;
+
 import java.awt.Color;
 
 public class Esqueleto {
@@ -10,6 +12,7 @@ public class Esqueleto {
     private int ancho_esqueleto;
     protected double velocidad;
     protected String destino= "i";
+    protected String seMueveA = "i";
 
     public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad){
         this.x = x;
@@ -21,15 +24,28 @@ public class Esqueleto {
     }
 
     public void dibujarse(Entorno e) {
-        e.dibujarRectangulo(x, y, ancho_esqueleto, alto_esqueleto, 0, Color.DARK_GRAY);
+        switch (seMueveA) {
+            case "d":
+            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Esqueleto/Esqueleto - corriendo1d.png"), x, y-10,0,3);
+                break;
+            
+            case "i":
+            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Esqueleto/Esqueleto - corriendo1i.png"), x, y-10,0,3);
+                break;
+
+            default:
+            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y-10,0,3);
+                break;
     }
+    }
+
     public void mover(Entorno e){
-
-
         if(destino == "d" && !colicionaBorde("derecha", e)) {
             x += velocidad;
+            seMueveA = "d";
         } else {
             destino = "i";
+            seMueveA = "i";
         }
         if (destino == "i" && !colicionaBorde("izquierda", e)) {
             x -= velocidad;

@@ -9,6 +9,9 @@ import entorno.Board;
 // Importaciones adicionales
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Timer;
 
 import Entidades.Esqueleto;
 // Clases
@@ -17,6 +20,7 @@ import Entidades.Proyectil;
 import Entidades.Zombie;
 import Estructuras.Bloque;
 import Estructuras.Fondo;
+import Extras.Fps;
 import Estructuras.Bloque;
 
 
@@ -38,10 +42,15 @@ public class Juego extends InterfaceJuego {
 	private Fondo fondo;
 	private Bloque[] bloques;
 	private Esqueleto esqueleto;
-	private Proyectil prooyectil;
+	private Proyectil proyectil;
+	//private static ArrayList <Proyectil> proyectiles;
 	
+	//Fps
+	private int temporizador = 0;
+	private int fps = 0;
+	//private long mTime;
+
 	// ...
-	
 
 	Juego() {
 		// Inicializa el objeto entorno
@@ -60,12 +69,22 @@ public class Juego extends InterfaceJuego {
 			new Bloque(ANCHO_JUEGO, ALTO_JUEGO, 20, ALTO_JUEGO*0.85, 50, 50, false, Color.green)
 
 		};
-		// ...
+		
+		if (entorno.sePresiono('c')) {
+            proyectil = jugador.disparar();
+        } 
+		
 
+
+		// Proyectil
+		//this.proyectiles =new ArrayList<>();
+		
 		// Inicia el juego!
 		this.entorno.iniciar();
+
 	}
 
+	
 
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
@@ -74,14 +93,54 @@ public class Juego extends InterfaceJuego {
 	 * (ver el enunciado del TP para mayor detalle).
 	 */
 	public void tick() {
+		long tiempoAnterior = System.nanoTime();
+
+
 		fondo.actualizar(entorno);
 		zombie.actualizar(entorno);
 		esqueleto.actualizar(entorno);
-		// prooyectil.dibujarse(entorno);
 		for (Bloque bloque : bloques) {
 			bloque.dibujarBloque(entorno);
 		}
 		jugador.actualizar(entorno);
+
+
+		//Proyectiles
+		
+		
+		if (proyectil != null) {
+			proyectil.dibujar(entorno);
+			proyectil.mover();
+			if (proyectil.estaFueraDEPantalla(entorno)) {
+				proyectil = null;
+			}
+		}
+
+		/*for(int i =0; i<proyectiles.size(); i++){
+			Proyectil proyectil = proyectiles.get(i);
+			proyectil.dibujarse(entorno, proyectil);
+			if (proyectil.estaFueraDEPantalla(entorno)){
+				proyectiles.remove(i);
+			}
+		}*/
+	
+
+	    
+		//Fps
+		long tiempoActual = System.nanoTime();
+		temporizador +=tiempoActual-tiempoAnterior;
+		fps++;
+		
+		if (temporizador >= 1000000000){
+            System.out.println("fps: " + fps);
+			fps = 0;
+			temporizador = 0;
+			
+        }
+
+		//mTime = (System.nanoTime()/1000000000);
+		//System.out.println("   Segundos en pantalla: " + mTime);
+		
 	}
 	
 

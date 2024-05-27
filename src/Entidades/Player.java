@@ -1,6 +1,9 @@
 package Entidades;
 
 import entorno.Entorno;
+import entorno.Herramientas;
+import juego.Juego;
+
 import java.awt.Color;
 
 public class Player {
@@ -28,7 +31,23 @@ public class Player {
 
     // DIBUJARSE
     public void dibujarse(Entorno e) {
-        e.dibujarRectangulo(x, y, ancho_personaje, alto_personaje, 0, Color.red);
+        switch (se_mueve_a(e)) {
+            case "d":
+            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - coriendo1d.png"), x, y-10,0,3);
+                break;
+            
+            case "i":
+            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - coriendo1i.png"), x, y-10,0,3);
+                break;
+
+            case "x":
+            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachado.png"), x, y-10,0,3);
+                break;
+        
+            default:
+            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y-10,0,3);
+                break;
+    }
     }
 
 
@@ -79,20 +98,38 @@ public class Player {
         
     }
 
-    public void saltar(Entorno e) {
-        if(!estaSaltando && getArriba() > e.alto() - 100) {
-            this.estaSaltando = true;
-            this.y -= velocidadSalto;
-        }
-        if (estaSaltando) {
-            this.y -= velocidadSalto;
+
+    public String se_mueve_a(Entorno e){
+        if(e.estaPresionada(e.TECLA_DERECHA)) {
+            return "d";
+		} 
+
+		if(e.estaPresionada(e.TECLA_IZQUIERDA)) {
+			return "i";
+		} 
+
+        if (e.estaPresionada('x')) {
+            return "x";
         }
 
-        if (getAbajo() > e.alto()- 100) {
-            this.estaSaltando = false;
-            this.puedeSaltar = false;
-        }
+        if (e.sePresiono('c')) {
+            return "c";
+        } 
 
+        /*if(e.estaPresionada(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)) {
+            return "saltar";
+        } else if (colicionaBorde("abajo", e) && !estaSaltando) { 
+			return "caer";
+		}*/
+        return "null";
+    }
+
+
+/////////////////////////////////////////////////////////////////////////////
+//////////////  ACCIONES    ////////////////////////////////////////////////
+
+    public Proyectil disparar(){         
+       return new Proyectil(x, y, 5, 10, 5);
     }
 
     public void agachar(Entorno e, boolean presionadoAGACHAR) {
@@ -110,21 +147,19 @@ public class Player {
         }
     }
 
+    public void saltar(Entorno e) {
+        if(!estaSaltando && getArriba() > e.alto() - 100) {
+            this.estaSaltando = true;
+            this.y -= velocidadSalto;
+        }
+        if (estaSaltando) {
+            this.y -= velocidadSalto;
+        }
 
-/////////////////////////////////////////////////////////////////////////////
-//////////////  ACCIONES    ////////////////////////////////////////////////
-    
-    public void disparar(Entorno e){
-
-        Proyectil proyectil = new Proyectil(x, y-7, 10, 10, velocidad+2);
-        proyectil.dibujarse(e);
-        proyectil.mover(mira);
-
-    }
-
-    public Proyectil disparar(){
-
-        return new Proyectil(x, y-7, 10, 10, velocidad+2);  
+        if (getAbajo() > e.alto()- 100) {
+            this.estaSaltando = false;
+            this.puedeSaltar = false;
+        }
 
     }
     
@@ -139,6 +174,8 @@ public class Player {
       * se encarga de actualizar todos elementos y/o acciones de la clase Player 
       * (Extencion de tick() de la clase Juego).
       */
+
+    
 
     public void actualizar(Entorno e) {
 		this.dibujarse(e);
@@ -159,9 +196,9 @@ public class Player {
             this.agachar(e, false);
         }
 
-        if (e.sePresiono('c')) {
-            this.disparar(e);
-        } 
+        //if (e.sePresiono('c')) {
+        //    Proyectil proyectil =this.disparar();
+        //} 
 
         if((getAbajo() < e.alto() && !e.estaPresionada(e.TECLA_ESPACIO)) ) {
             this.caer(e);
