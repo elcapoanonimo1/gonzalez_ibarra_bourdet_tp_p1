@@ -78,7 +78,8 @@ public class Player {
     }
 
     public void saltar(Entorno e) {
-        if (!estaSaltando && getArriba() > e.alto() - 265) {
+        int alturaSalto = 250;
+        if (!estaSaltando && getArriba() > e.alto() - alturaSalto) {
             this.estaSaltando = true;
             this.y -= velocidadSalto;
         }
@@ -86,7 +87,7 @@ public class Player {
             this.y -= velocidadSalto;
         }
 
-        if (getAbajo() > e.alto() - 265) {
+        if (getAbajo() > e.alto() - alturaSalto) {
             this.estaSaltando = false;
             this.puedeSaltar = false;
         }
