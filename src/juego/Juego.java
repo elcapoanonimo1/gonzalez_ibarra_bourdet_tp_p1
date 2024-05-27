@@ -69,15 +69,10 @@ public class Juego extends InterfaceJuego {
 			new Bloque(ANCHO_JUEGO, ALTO_JUEGO, 20, ALTO_JUEGO*0.85, 50, 50, false, Color.green)
 
 		};
-		
-		if (entorno.sePresiono('c')) {
-            proyectil = jugador.disparar();
-        } 
+
 		
 
 
-		// Proyectil
-		//this.proyectiles =new ArrayList<>();
 		
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -104,10 +99,6 @@ public class Juego extends InterfaceJuego {
 		}
 		jugador.actualizar(entorno);
 
-
-		//Proyectiles
-		
-		
 		if (proyectil != null) {
 			proyectil.dibujar(entorno);
 			proyectil.mover();
@@ -116,13 +107,22 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 
-		/*for(int i =0; i<proyectiles.size(); i++){
-			Proyectil proyectil = proyectiles.get(i);
-			proyectil.dibujarse(entorno, proyectil);
-			if (proyectil.estaFueraDEPantalla(entorno)){
-				proyectiles.remove(i);
-			}
-		}*/
+		if(entorno.estaPresionada('x') && proyectil == null) {
+			proyectil = jugador.disparar();
+		}
+
+
+
+
+		// if (proyectil != null) {
+		// 	proyectil.dibujar(entorno);
+		// 	proyectil.mover();
+		// 	if (proyectil.estaFueraDEPantalla(entorno)) {
+		// 		proyectil = null;
+		// 	}
+		// }
+
+
 	
 
 	    
@@ -138,8 +138,6 @@ public class Juego extends InterfaceJuego {
 			
         }
 
-		//mTime = (System.nanoTime()/1000000000);
-		//System.out.println("   Segundos en pantalla: " + mTime);
 		
 	}
 	
