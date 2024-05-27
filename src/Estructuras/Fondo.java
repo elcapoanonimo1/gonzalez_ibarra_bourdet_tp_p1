@@ -19,13 +19,15 @@ public class Fondo {
 
     public void dibujar(Entorno e) {
         for (int x = 0; x <= ancho_fondo; x += 100) {
-            for (int y = 0; y <= alto_fondo; y += 100) {
-                if (x == 0 || x == ancho_fondo) { // barras laterales
-                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo2.png"), x, y, 0, escala_fondo);
-                } else { // fondo
+            for (int y = 0; y <= alto_fondo; y += 100) { // fondo
                     e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo.png"), x, y, 0, escala_fondo);
+                    if (x == 0) { // barras laterales
+                        e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo2.png"), x, y, 0, escala_fondo);
+                    }
+                    if(x >= ancho_fondo-100){
+                        e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/fondo2.png"), ancho_fondo, y, 0, escala_fondo);
+                    }
                 }
-            }
         }
 
     }

@@ -2,6 +2,9 @@ package Entidades;
 
 import entorno.Entorno;
 import java.awt.Color;
+import Estructuras.Bloque;
+
+import Estructuras.Plataforma;
 
 public class Player {
     private double x;
@@ -71,12 +74,12 @@ public class Player {
         if (getAbajo() > e.alto()) {
             this.y = ((e.alto() - alto_personaje / 2));
         }
-        System.err.println(e.alto() - alto_personaje / 2);
+        // System.err.println(e.alto() - alto_personaje / 2);
         this.y = y + velocidadCaida;
     }
 
     public void saltar(Entorno e) {
-        if (!estaSaltando && getArriba() > e.alto() - 100) {
+        if (!estaSaltando && getArriba() > e.alto() - 265) {
             this.estaSaltando = true;
             this.y -= velocidadSalto;
         }
@@ -84,7 +87,7 @@ public class Player {
             this.y -= velocidadSalto;
         }
 
-        if (getAbajo() > e.alto() - 100) {
+        if (getAbajo() > e.alto() - 265) {
             this.estaSaltando = false;
             this.puedeSaltar = false;
         }
@@ -127,6 +130,26 @@ public class Player {
     }
 
     //////////////////////////////////// COLICIONES
+
+    public void estaColisionando(Bloque[] b) {
+        for (Bloque bloque : b) {
+            if (bloque != null) {
+                if (getAbajo() == bloque.ObtenerLadoSuperior()) {
+                    
+                }
+                if (getArriba() == bloque.ObtenerLadoInferior()) {
+
+                }
+                if (getDerecha() == bloque.ObtenerLadoIzquierdo()) {
+
+                }
+                if (getIzquierda() == bloque.ObtenerLadoDerecho()) {
+
+                }
+            }
+        }
+    }
+
     //////////////////////////////////// /////////////////////////////////////////////////
 
     /*
@@ -135,8 +158,9 @@ public class Player {
      * (Extencion de tick() de la clase Juego).
      */
 
-    public void actualizar(Entorno e) {
+    public void actualizar(Entorno e, Bloque[] b) {
         this.dibujarse(e);
+        estaColisionando(b);
 
         if (e.estaPresionada(e.TECLA_DERECHA) && (getDerecha() < e.ancho())) {
             mira = "d";
@@ -158,15 +182,15 @@ public class Player {
             this.disparar(e);
         }
 
+        if (e.estaPresionada(e.TECLA_ESPACIO)) {
+            this.saltar(e);
+        }
+
         if ((getAbajo() < e.alto() && !e.estaPresionada(e.TECLA_ESPACIO))) {
             this.caer(e);
         } else {
             this.puedeSaltar = true;
         }
-
-        if (e.estaPresionada(e.TECLA_ESPACIO)) {
-            this.saltar(e);
-        }
+        ;
     }
-
 }

@@ -17,6 +17,7 @@ import Entidades.Proyectil;
 import Entidades.Zombie;
 import Estructuras.Bloque;
 import Estructuras.Fondo;
+import Estructuras.Plataforma;
 import Estructuras.Bloque;
 
 @SuppressWarnings("unused")
@@ -33,9 +34,11 @@ public class Juego extends InterfaceJuego {
 	private Player jugador;
 	private Zombie zombie;
 	private Fondo fondo;
-	private Bloque[] bloques;
+	private Plataforma plataforma;
 	private Esqueleto esqueleto;
 	private Proyectil prooyectil;
+
+	private Bloque[] bloques;
 
 	// ...
 
@@ -45,17 +48,15 @@ public class Juego extends InterfaceJuego {
 
 		// Inicializar lo que haga falta para el juego
 
-		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 100, 40, 20, 5.0);
+		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 500, 40, 20, 5.0);
 		this.zombie = new Zombie(ALTO_JUEGO / 2, ALTO_JUEGO - 230, 40, 20, 2.5);
 		this.esqueleto = new Esqueleto(ALTO_JUEGO / 2, ALTO_JUEGO - 410, 40, 20, 2.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
-		this.bloques = new Bloque[] {
-				new Bloque(20, ALTO_JUEGO - 25, 50, 50, false),
-				new Bloque(20, ALTO_JUEGO * 0.70, 50, 50, false),
-				new Bloque(20, ALTO_JUEGO * 0.40, 50, 50, false),
-				new Bloque(20, ALTO_JUEGO * 0.10, 50, 50, false)
+		this.plataforma = new Plataforma(ALTO_JUEGO, ANCHO_JUEGO);
+		this.bloques = this.plataforma.getBloques();
 
-		};
+
+
 		// ...
 
 		// Inicia el juego!
@@ -70,13 +71,21 @@ public class Juego extends InterfaceJuego {
 	 */
 	public void tick() {
 		fondo.actualizar(entorno);
-		jugador.actualizar(entorno);
+		jugador.actualizar(entorno, this.bloques);
 		zombie.actualizar(entorno);
 		esqueleto.actualizar(entorno);
+		plataforma.actualizar(entorno, this.bloques);
+
+
+		// System.out.println("---------------------");
+		// for (Bloque bloque : plataforma.getBloques()) {
+		// 	System.out.print("[" + bloque.getX() + "," + bloque.getY() + "]");
+		// 	System.out.println(", ");
+		// }
+		// System.out.println("---------------------");
+
 		// prooyectil.dibujarse(entorno);
-		for (Bloque bloque : bloques) {
-			bloque.dibujarBloque(entorno);
-		}
+
 	}
 
 	/**
