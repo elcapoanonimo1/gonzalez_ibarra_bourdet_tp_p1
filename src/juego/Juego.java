@@ -37,7 +37,6 @@ public class Juego extends InterfaceJuego {
 	private Plataforma plataforma;
 	private Esqueleto esqueleto;
 	private Proyectil prooyectil;
-
 	private Bloque[] bloques;
 
 	// ...
@@ -48,14 +47,12 @@ public class Juego extends InterfaceJuego {
 
 		// Inicializar lo que haga falta para el juego
 
-		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 500, 40, 20, 5.0);
-		this.zombie = new Zombie(ALTO_JUEGO / 2, ALTO_JUEGO - 230, 40, 20, 2.5);
-		this.esqueleto = new Esqueleto(ALTO_JUEGO / 2, ALTO_JUEGO - 410, 40, 20, 2.0);
+		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 560, 40, 20, 5.0);
+		this.zombie = new Zombie(ALTO_JUEGO / 2, ALTO_JUEGO - 214, 40, 20, 2.5);
+		this.esqueleto = new Esqueleto(ALTO_JUEGO / 2, ALTO_JUEGO - 357, 40, 20, 2.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
 		this.plataforma = new Plataforma(ALTO_JUEGO, ANCHO_JUEGO);
 		this.bloques = this.plataforma.getBloques();
-
-
 
 		// ...
 
@@ -76,21 +73,12 @@ public class Juego extends InterfaceJuego {
 		esqueleto.actualizar(entorno);
 		plataforma.actualizar(entorno, this.bloques);
 
-
-		// System.out.println("---------------------");
-		// for (Bloque bloque : plataforma.getBloques()) {
-		// 	System.out.print("[" + bloque.getX() + "," + bloque.getY() + "]");
-		// 	System.out.println(", ");
-		// }
-		// System.out.println("---------------------");
-
-		// prooyectil.dibujarse(entorno);
-
 	}
 
 	/**
 	 * La función principal crea una instancia de la clase Juego.
 	 */
+	
 	public static void main(String[] args) {
 		Juego juego = new Juego();
 	}

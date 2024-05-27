@@ -74,7 +74,6 @@ public class Player {
         if (getAbajo() > e.alto()) {
             this.y = ((e.alto() - alto_personaje / 2));
         }
-        // System.err.println(e.alto() - alto_personaje / 2);
         this.y = y + velocidadCaida;
     }
 
@@ -135,16 +134,16 @@ public class Player {
         for (Bloque bloque : b) {
             if (bloque != null) {
                 if (getAbajo() == bloque.ObtenerLadoSuperior()) {
-                    
+                    System.out.println("colisiono abajo");
                 }
                 if (getArriba() == bloque.ObtenerLadoInferior()) {
-
+                    System.out.println("colisiono arriba");
                 }
                 if (getDerecha() == bloque.ObtenerLadoIzquierdo()) {
-
+                    System.out.println("colisiono con la derecha");
                 }
                 if (getIzquierda() == bloque.ObtenerLadoDerecho()) {
-
+                    System.out.println("colisiono la izquierda");
                 }
             }
         }
