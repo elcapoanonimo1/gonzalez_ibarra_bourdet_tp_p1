@@ -5,6 +5,7 @@ import entorno.Herramientas;
 import juego.Juego;
 
 import java.awt.Color;
+import java.awt.Image;
 
 public class Player {
     private double x;
@@ -19,6 +20,7 @@ public class Player {
     protected double velocidadCaida = 10;
     protected double xAnterior= 0;
     protected String mira = "i";
+    protected Image img;
 
     public Player(double x, double y, int alto_personaje, int ancho_personaje, double velocidad){
         this.x = x;
@@ -33,11 +35,13 @@ public class Player {
     public void dibujarse(Entorno e) {
         switch (se_mueve_a(e)) {
             case "d":
-            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - coriendo1d.png"), x, y-10,0,3);
+            img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendod.gif");
+            e.dibujarImagen(img, x, y-10,0,3);
                 break;
             
             case "i":
-            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - coriendo1i.png"), x, y-10,0,3);
+            img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendoi.gif");
+            e.dibujarImagen(img, x, y-10,0,3);
                 break;
 
             case "x":

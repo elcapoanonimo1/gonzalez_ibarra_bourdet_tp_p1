@@ -4,6 +4,7 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 import java.awt.Color;
+import java.awt.Image;
 
 public class Esqueleto {
     private double x;
@@ -13,6 +14,7 @@ public class Esqueleto {
     protected double velocidad;
     protected String destino= "i";
     protected String seMueveA = "i";
+    protected Image img;
 
     public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad){
         this.x = x;
@@ -26,11 +28,13 @@ public class Esqueleto {
     public void dibujarse(Entorno e) {
         switch (seMueveA) {
             case "d":
-            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Esqueleto/Esqueleto - corriendo1d.png"), x, y-10,0,3);
+            img = Herramientas.cargarImagen("recursos/imagenes/Esqueleto/Esqueleto - corriendod.gif");
+            e.dibujarImagen(img, x, y-10,0,3);
                 break;
             
             case "i":
-            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Esqueleto/Esqueleto - corriendo1i.png"), x, y-10,0,3);
+            img = Herramientas.cargarImagen("recursos/imagenes/Esqueleto/Esqueleto - corriendoi.gif");
+            e.dibujarImagen(img, x, y-10,0,3);
                 break;
 
             default:

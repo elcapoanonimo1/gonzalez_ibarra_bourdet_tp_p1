@@ -43,8 +43,8 @@ public class Juego extends InterfaceJuego {
 	private Bloque[] bloques;
 	private Esqueleto esqueleto;
 	private Proyectil proyectil;
-	//private static ArrayList <Proyectil> proyectiles;
-	
+	private ArrayList <Proyectil> proyectiles;
+
 	//Fps
 	private int temporizador = 0;
 	private int fps = 0;
@@ -58,9 +58,9 @@ public class Juego extends InterfaceJuego {
 		
 		// Inicializar lo que haga falta para el juego
 		
-		this.jugador = new Player(ANCHO_JUEGO/2,ALTO_JUEGO*0.96, 40, 20, 5.0);
+		this.jugador = new Player(ANCHO_JUEGO/2,ALTO_JUEGO*0.95, 40, 20, 5.0);
 		this.zombie = new Zombie(ALTO_JUEGO/2, ALTO_JUEGO*0.97, 40, 20, 2.5);
-		this.esqueleto = new Esqueleto(ALTO_JUEGO/2, ALTO_JUEGO*0.97, 40, 20, 2.0);
+		this.esqueleto = new Esqueleto(ALTO_JUEGO/2, ALTO_JUEGO*0.96, 40, 20, 2.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
 		this.bloques = new Bloque[]{
 			new Bloque(ANCHO_JUEGO, ALTO_JUEGO, 20, ALTO_JUEGO*0.05, 50, 50, false, Color.green),
@@ -69,15 +69,9 @@ public class Juego extends InterfaceJuego {
 			new Bloque(ANCHO_JUEGO, ALTO_JUEGO, 20, ALTO_JUEGO*0.85, 50, 50, false, Color.green)
 
 		};
-		
-		if (entorno.sePresiono('c')) {
-            proyectil = jugador.disparar();
-        } 
-		
-
 
 		// Proyectil
-		//this.proyectiles =new ArrayList<>();
+		this.proyectiles =new ArrayList<>();
 		
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -107,22 +101,26 @@ public class Juego extends InterfaceJuego {
 
 		//Proyectiles
 		
-		
-		if (proyectil != null) {
+		if (entorno.sePresiono('c')) {
+            proyectil = jugador.disparar();
+			proyectiles.add(proyectil);
+        } 
+		for(int i =0; i<proyectiles.size(); i++){
+			Proyectil proyectil = proyectiles.get(i);
 			proyectil.dibujar(entorno);
 			proyectil.mover();
-			if (proyectil.estaFueraDEPantalla(entorno)) {
-				proyectil = null;
-			}
-		}
-
-		/*for(int i =0; i<proyectiles.size(); i++){
-			Proyectil proyectil = proyectiles.get(i);
-			proyectil.dibujarse(entorno, proyectil);
 			if (proyectil.estaFueraDEPantalla(entorno)){
 				proyectiles.remove(i);
 			}
-		}*/
+		}
+			/*proyectil.dibujar(entorno);
+			proyectil.mover();
+			
+			if (proyectil.estaFueraDEPantalla(entorno)) {
+				proyectil = null;
+			}*/
+
+		
 	
 
 	    
