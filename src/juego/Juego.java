@@ -79,23 +79,13 @@ public class Juego extends InterfaceJuego {
 		long tiempoAnterior = System.nanoTime();
 
 		fondo.actualizar(entorno);
-		jugador.actualizar(entorno, this.bloques);
 		zombie.actualizar(entorno);
 		esqueleto.actualizar(entorno);
-		plataforma.actualizar(entorno, this.bloques);
-
-		if (proyectil != null) {
-			proyectil.dibujar(entorno);
-			proyectil.mover();
-			if (proyectil.estaFueraDEPantalla(entorno)) {
-				proyectil = null;
-			}
+		// prooyectil.dibujarse(entorno);
+		for (Bloque bloque : bloques) {
+			bloque.dibujarBloque(entorno);
 		}
-
-		if(entorno.estaPresionada('x') && proyectil == null) {
-			proyectil = jugador.disparar();
-		}
-
+		jugador.actualizar(entorno);
 	}
 
 	/**

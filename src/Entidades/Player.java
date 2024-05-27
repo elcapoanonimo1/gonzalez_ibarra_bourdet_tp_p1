@@ -91,10 +91,14 @@ public class Player {
     }
 
     public void caer(Entorno e) {
-        if (getAbajo() > e.alto()) {
-            this.y = ((e.alto() - alto_personaje / 2));
-        }
-        this.y = y + velocidadCaida;
+        if (getAbajo() >= e.alto()){
+            this.y = ((e.alto())) ;
+        } else {
+            this.y = y+velocidadCaida;
+        }   
+        // System.err.println(e.alto()-alto_personaje/2);
+        // System.err.println(getAbajo());
+        
     }
 
     public void saltar(Entorno e) {
@@ -118,17 +122,14 @@ public class Player {
 
         if (presionadoAGACHAR && !estaAgachado) {
             this.estaAgachado = true;
-            this.alto_personaje /= 2;
-            velocidad = 0;// Para que el personaje no se mueva mientas esta agachado sino muy OP
+            this.alto_personaje /= 2;   
         }
 
         if (!presionadoAGACHAR && estaAgachado) {
             this.estaAgachado = false;
             this.alto_personaje *= 2;
-            this.y -= alto_personaje / 4;
-            this.velocidad = 5.0;// Para que el personaje se vuelva a mover a la misma velociadad, no se como
-                                 // hacer para que reciba la velocidad del constructor
-
+            this.y -= alto_personaje/4;
+    
         }
     }
 
