@@ -15,8 +15,8 @@ public class Player {
     @SuppressWarnings("unused")
     private boolean puedeSaltar = true;
     protected double velocidad;
-    protected double velocidadSalto = 5;
-    protected double velocidadCaida = 10;
+    protected double velocidadSalto = 1;
+    protected double velocidadCaida = 1;
     protected double xAnterior = 0;
     protected String mira = "i";
     protected Image img;
@@ -34,25 +34,26 @@ public class Player {
     public void dibujarse(Entorno e) {
         switch (se_mueve_a(e)) {
             case "d":
-            img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendod.gif");
-            e.dibujarImagen(img, x, y-10,0,3);
+                img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendod.gif");
+                e.dibujarImagen(img, x, y - 10, 0, 3);
                 break;
-            
+
             case "i":
-            img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendoi.gif");
-            e.dibujarImagen(img, x, y-10,0,3);
+                img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendoi.gif");
+                e.dibujarImagen(img, x, y - 10, 0, 3);
                 break;
 
             case "x":
-            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachado.png"), x, y-10,0,3);
+                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachado.png"), x, y - 10, 0,
+                        3);
                 break;
-        
+
             default:
-            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y-10,0,3);
+                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y - 10, 0,
+                        3);
                 break;
         }
     }
-
 
     ///////// GETERS Y SETERS /////////
 
@@ -91,27 +92,27 @@ public class Player {
     }
 
     public void caer(Entorno e) {
-        if (getAbajo() >= e.alto()){
-            this.y = ((e.alto())) ;
+        if (getAbajo() >= e.alto()) {
+            this.y = (this.y + alto_personaje/2);
         } else {
-            this.y = y+velocidadCaida;
-        }   
+            this.y = y + velocidadCaida;
+        }
         // System.err.println(e.alto()-alto_personaje/2);
         // System.err.println(getAbajo());
-        
+
     }
 
-    public void saltar(Entorno e) {
-        int alturaSalto = 250;
-        if (!estaSaltando && getArriba() > e.alto() - alturaSalto) {
+    public void saltar(Entorno e, Bloque[] b) {
+        double alturaSalto = this.getY() - 100;
+        if (!estaSaltando && !colisionoArriba(b)) {
             this.estaSaltando = true;
-            this.y -= velocidadSalto;
+            this.y -= alturaSalto;
         }
-        if (estaSaltando) {
+        if (estaSaltando && !colisionoArriba(b)) {
             this.y -= velocidadSalto;
         }
 
-        if (getAbajo() > e.alto() - alturaSalto) {
+        if (colisionoArriba(b)) {
             this.estaSaltando = false;
         }
 
@@ -121,28 +122,28 @@ public class Player {
 
         if (presionadoAGACHAR && !estaAgachado) {
             this.estaAgachado = true;
-            this.alto_personaje /= 2;   
+            this.alto_personaje /= 2;
         }
 
         if (!presionadoAGACHAR && estaAgachado) {
             this.estaAgachado = false;
             this.alto_personaje *= 2;
-            this.y -= alto_personaje/4;
-    
+            this.y -= alto_personaje / 4;
+
         }
     }
 
     /////////////////////////////////////////////////////////////////////////////
     ////////////// ACCIONES ////////////////////////////////////////////////
 
-    public String se_mueve_a(Entorno e){
-        if(e.estaPresionada(e.TECLA_DERECHA)) {
+    public String se_mueve_a(Entorno e) {
+        if (e.estaPresionada(e.TECLA_DERECHA)) {
             return "d";
-		} 
+        }
 
-		if(e.estaPresionada(e.TECLA_IZQUIERDA)) {
-			return "i";
-		} 
+        if (e.estaPresionada(e.TECLA_IZQUIERDA)) {
+            return "i";
+        }
 
         if (e.estaPresionada(e.TECLA_SHIFT)) {
             return "x";
@@ -150,40 +151,94 @@ public class Player {
 
         if (e.sePresiono('c')) {
             return "c";
-        } 
+        }
 
-        /*if(e.estaPresionada(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)) {
-            return "saltar";
-        } else if (colicionaBorde("abajo", e) && !estaSaltando) { 
-			return "caer";
-		}*/
+        /*
+         * if(e.estaPresionada(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)) {
+         * return "saltar";
+         * } else if (colicionaBorde("abajo", e) && !estaSaltando) {
+         * return "caer";
+         * }
+         */
         return "null";
     }
 
-    public Proyectil disparar(){         
+    public Proyectil disparar() {
         return new Proyectil(x, y, this.alto_personaje, mira);
-     }
+    }
 
     //////////////////////////////////// COLICIONES
 
-    public void estaColisionando(Bloque[] b) {
+    public boolean colisionoArriba(Bloque[] b) {
+        for (Bloque bloque : b) {
+            if (bloque != null){
+                if (getArriba() == bloque.ObtenerLadoInferior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
+                    System.err.println("COL AR");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean colisionoAbajo(Bloque[] b) {
+        for (Bloque bloque : b) {
+            if (bloque != null){
+                if (getAbajo() == bloque.ObtenerLadoSuperior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
+                    System.err.println("COL AB");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean colisionoDerecha(Bloque[] b  , Entorno e ) {
+        for (Bloque bloque : b) {
+            if (bloque != null){
+                if (getDerecha() == bloque.ObtenerLadoIzquierdo() && (getAbajo() > bloque.ObtenerLadoInferior() && getArriba() < bloque.ObtenerLadoSuperior()) || (getDerecha() < e.ancho())){
+                    System.err.println("COL DERE");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean colisionoIzquierda(Bloque[] b) {
+        for (Bloque bloque : b) {
+            if (bloque != null){
+                if ((getIzquierda() == bloque.ObtenerLadoDerecho() && (getAbajo() > bloque.ObtenerLadoInferior() && getArriba() < bloque.ObtenerLadoSuperior())) || (getIzquierda() > 0) ){
+                    System.err.println("COL IZ");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /*public void estaColisionando(Bloque[] b) {
         for (Bloque bloque : b) {
             if (bloque != null) {
                 if (getAbajo() == bloque.ObtenerLadoSuperior()) {
+
                     // System.out.println("colisiono abajo");
                 }
                 if (getArriba() == bloque.ObtenerLadoInferior()) {
+
                     // System.out.println("colisiono arriba");
                 }
                 if (getDerecha() == bloque.ObtenerLadoIzquierdo()) {
+
                     // System.out.println("colisiono con la derecha");
                 }
                 if (getIzquierda() == bloque.ObtenerLadoDerecho()) {
+
                     // System.out.println("colisiono la izquierda");
                 }
             }
         }
-    }
+    }*/
 
     //////////////////////////////////// /////////////////////////////////////////////////
 
@@ -195,14 +250,16 @@ public class Player {
 
     public void actualizar(Entorno e, Bloque[] b) {
         this.dibujarse(e);
-        estaColisionando(b);
 
-        if (e.estaPresionada(e.TECLA_DERECHA) && (getDerecha() < e.ancho())) {
+        if (e.estaPresionada(e.TECLA_DERECHA) && colisionoDerecha(b, e)) {
+            System.out.println("me voy a la derecha");
             mira = "d";
             this.moverDerecha(e);
         }
 
-        if (e.estaPresionada(e.TECLA_IZQUIERDA) && (getIzquierda() > 0)) {
+        if (e.estaPresionada(e.TECLA_IZQUIERDA) && colisionoIzquierda(b)) {
+            System.out.println("me voy a la izquierda");
+
             mira = "i";
             this.moverIzquierda(e);
         }
@@ -217,11 +274,9 @@ public class Player {
             this.disparar();
         }
 
-        if (e.estaPresionada(e.TECLA_ESPACIO)) {
-            this.saltar(e);
-        }
+ 
 
-        if ((getAbajo() < e.alto() && !e.estaPresionada(e.TECLA_ESPACIO))) {
+        if (!colisionoAbajo(b) && !e.estaPresionada(e.TECLA_ESPACIO)) {
             this.caer(e);
         } else {
             this.puedeSaltar = true;
