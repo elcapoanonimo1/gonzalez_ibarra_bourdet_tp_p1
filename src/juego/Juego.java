@@ -2,16 +2,10 @@ package juego;
 
 // Importaciones
 import entorno.Entorno;
-import entorno.Herramientas;
 import entorno.InterfaceJuego;
-import entorno.Board;
 
-// Importaciones adicionales
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Timer;
+
+
 
 // Clases
 import Entidades.Esqueleto;
@@ -21,9 +15,8 @@ import Entidades.Zombie;
 import Estructuras.Bloque;
 import Estructuras.Fondo;
 import Estructuras.Plataforma;
-import Estructuras.Bloque;
 
-@SuppressWarnings("unused")
+
 public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
@@ -34,21 +27,13 @@ public class Juego extends InterfaceJuego {
 	private int ALTO_JUEGO = 600;
 
 	// Variables y métodos propios de cada grupo
-	private Player jugador;
-	private Zombie zombie;
-	private Zombie zombie2;
 	private Fondo fondo;
-	private Plataforma plataforma;
-	private Esqueleto esqueleto;
-	private Esqueleto esqueleto2;
-	private Proyectil proyectil;
 	private Bloque[] bloques;
-	private ArrayList<Proyectil> proyectiles;
-
-	// Fps
-	private int temporizador = 0;
-	private int fps = 0;
-	// private long mTime;
+	private Plataforma plataforma;
+	private Player jugador;
+	private Proyectil proyectil;
+	private Zombie zombie, zombie2;
+	private Esqueleto esqueleto, esqueleto2;
 
 	// ...
 
@@ -80,15 +65,17 @@ public class Juego extends InterfaceJuego {
 	 * (ver el enunciado del TP para mayor detalle).
 	 */
 	public void tick() {
-		long tiempoAnterior = System.nanoTime();
 
 		fondo.actualizar(entorno);
-		jugador.actualizar(entorno, this.bloques);
 		zombie.actualizar(entorno);
 		zombie2.actualizar(entorno);
 		esqueleto.actualizar(entorno);
 		esqueleto2.actualizar(entorno);
 		plataforma.actualizar(entorno, this.bloques);
+
+
+
+
 
 		if (proyectil != null) {
 			proyectil.dibujar(entorno);
@@ -97,6 +84,42 @@ public class Juego extends InterfaceJuego {
 				proyectil = null;
 			}
 		}
+
+
+
+
+		/// JUGADOR
+
+		jugador.dibujarse(entorno);
+
+        if (entorno.estaPresionada(entorno.TECLA_DERECHA) && jugador.colisionoDerecha(this.bloques, entorno)) {
+            System.out.println("me voy a la derecha");
+            jugador.setMira("d");
+            jugador.moverDerecha(entorno);
+        }
+
+        if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && jugador.colisionoIzquierda(this.bloques)) {
+            System.out.println("me voy a la izquierda");
+
+            jugador.setMira("i");
+            jugador.moverIzquierda(entorno);
+        }
+
+        if (entorno.estaPresionada(entorno.TECLA_SHIFT)) {
+            jugador.agachar(entorno, true);
+        } else {
+            jugador.agachar(entorno, false);
+        }
+
+        if (entorno.sePresiono('c')) {
+            jugador.disparar();
+        }
+
+        if (!jugador.colisionoAbajo(this.bloques)) {
+            jugador.caer(entorno);
+        } else {
+			jugador.setPuedeSaltar(true);
+        }
 
 		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && !jugador.colisionoArriba(this.bloques) && jugador.colisionoAbajo(this.bloques)) {
             jugador.saltar(entorno, this.bloques);
@@ -111,7 +134,7 @@ public class Juego extends InterfaceJuego {
 	/**
 	 * La función principal crea una instancia de la clase Juego.
 	 */
-
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Juego juego = new Juego();
 	}

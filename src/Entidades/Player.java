@@ -57,6 +57,14 @@ public class Player {
 
     ///////// GETERS Y SETERS /////////
 
+    public void setPuedeSaltar(boolean p){
+        this.puedeSaltar = p;
+    }
+
+    public void setMira(String m){
+        this.mira = m;
+    }
+
     public double getX() {
         return x;
     }
@@ -217,70 +225,5 @@ public class Player {
         return false;
     }
 
-    /*public void estaColisionando(Bloque[] b) {
-        for (Bloque bloque : b) {
-            if (bloque != null) {
-                if (getAbajo() == bloque.ObtenerLadoSuperior()) {
 
-                    // System.out.println("colisiono abajo");
-                }
-                if (getArriba() == bloque.ObtenerLadoInferior()) {
-
-                    // System.out.println("colisiono arriba");
-                }
-                if (getDerecha() == bloque.ObtenerLadoIzquierdo()) {
-
-                    // System.out.println("colisiono con la derecha");
-                }
-                if (getIzquierda() == bloque.ObtenerLadoDerecho()) {
-
-                    // System.out.println("colisiono la izquierda");
-                }
-            }
-        }
-    }*/
-
-    //////////////////////////////////// /////////////////////////////////////////////////
-
-    /*
-     * El metodo actualizar() recibe un Entorno, y
-     * se encarga de actualizar todos elementos y/o acciones de la clase Player
-     * (Extencion de tick() de la clase Juego).
-     */
-
-    public void actualizar(Entorno e, Bloque[] b) {
-        this.dibujarse(e);
-
-        if (e.estaPresionada(e.TECLA_DERECHA) && colisionoDerecha(b, e)) {
-            System.out.println("me voy a la derecha");
-            mira = "d";
-            this.moverDerecha(e);
-        }
-
-        if (e.estaPresionada(e.TECLA_IZQUIERDA) && colisionoIzquierda(b)) {
-            System.out.println("me voy a la izquierda");
-
-            mira = "i";
-            this.moverIzquierda(e);
-        }
-
-        if (e.estaPresionada(e.TECLA_SHIFT)) {
-            this.agachar(e, true);
-        } else {
-            this.agachar(e, false);
-        }
-
-        if (e.sePresiono('c')) {
-            this.disparar();
-        }
-
- 
-
-        if (!colisionoAbajo(b) && !e.estaPresionada(e.TECLA_ESPACIO)) {
-            this.caer(e);
-        } else {
-            this.puedeSaltar = true;
-        }
-        ;
-    }
 }
