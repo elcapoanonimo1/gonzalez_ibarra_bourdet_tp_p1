@@ -73,7 +73,6 @@ public class Juego extends InterfaceJuego {
 		esqueleto2.actualizar(entorno);
 		plataforma.actualizar(entorno, this.bloques, this.jugador);
 		jugador.dibujarse(entorno);
-		System.out.println("jaja");
 		if (proyectil != null) {
 			proyectil.dibujar(entorno);
 			proyectil.mover();
