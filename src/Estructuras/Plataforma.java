@@ -53,7 +53,7 @@ public class Plataforma {
     }
 
     Bloque[] juntarPlataformas() {
-        double y = alto_ventana - 25;
+        double y = alto_ventana - 20;
         Bloque[] pepe0 = crearPlataforma(y, false);
         Bloque[] pepe1 = crearPlataforma(y * 0.75, true);
         Bloque[] pepe2 = crearPlataforma(y * 0.50, true);
@@ -66,6 +66,9 @@ public class Plataforma {
         System.arraycopy(pepe2, 0, res, pepe0.length + pepe1.length, pepe2.length);
         System.arraycopy(pepe3, 0, res, pepe0.length + pepe1.length + pepe2.length, pepe3.length);
         res[7] = null;
+        res[20] = null;
+        res[44] = null;
+        res[66] = null;
         return res;
 
     }
