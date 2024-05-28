@@ -10,6 +10,7 @@ public class Player {
     private double y;
     private int alto_personaje;
     private int ancho_personaje;
+    private double alturaMaximaSalto;
     private boolean estaAgachado = false;
     private boolean estaSaltando = false;
     @SuppressWarnings("unused")
@@ -67,14 +68,31 @@ public class Player {
 
     ///////// GETERS Y SETERS /////////
 
-    public void setPuedeSaltar(boolean p){
-        this.puedeSaltar = p;
+    public void setAlturaMaximaSalto(double alturamax) {
+        this.alturaMaximaSalto = alturamax;
+    }
+
+    public double getAlturaMaximaSalto() {
+        return this.alturaMaximaSalto;
+    }
+
+    public void setEstaSaltando(boolean saltando){
+        this.estaSaltando = saltando;
+    }
+
+    public boolean getEstaSaltando(){
+        return estaSaltando;
     }
 
     public void setMira(String m){
         this.mira = m;
     }
-
+    public double getalto_personaje() {
+        return this.alto_personaje;
+    }
+    public double getancho_personaje() {
+        return this.ancho_personaje;
+    }
     public double getX() {
         return x;
     }
@@ -100,6 +118,14 @@ public class Player {
     }
 
     //////// MOVIMIENTOS ////////
+    
+    public void moverAbajo(Entorno e) {
+        this.y += velocidadCaida;
+    }
+
+    public void moverArriba(Entorno e) {
+        this.y -= velocidadSalto;
+    }
 
     public void moverDerecha(Entorno e) {
         this.x += velocidad;
@@ -234,6 +260,7 @@ public class Player {
         }
         return false;
     }
+
 
 
 }

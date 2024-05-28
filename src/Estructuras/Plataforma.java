@@ -65,7 +65,7 @@ public class Plataforma {
         System.arraycopy(pepe1, 0, res, pepe0.length, pepe1.length);
         System.arraycopy(pepe2, 0, res, pepe0.length + pepe1.length, pepe2.length);
         System.arraycopy(pepe3, 0, res, pepe0.length + pepe1.length + pepe2.length, pepe3.length);
-        res[7] = null;
+        //res[7] = null;
         res[20] = null;
         res[44] = null;
         res[66] = null;

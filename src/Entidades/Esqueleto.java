@@ -5,6 +5,8 @@ import entorno.Herramientas;
 
 import java.awt.Image;
 
+import Estructuras.Bloque;
+
 public class Esqueleto {
     private double x;
     private double y;
@@ -14,7 +16,6 @@ public class Esqueleto {
     protected String destino;
     protected String seMueveA;
     protected Image img;
-    protected Proyectil proyectil;
     protected double velocidadCaida = 1;
 
     public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad,int destino){
@@ -50,7 +51,7 @@ public class Esqueleto {
             default:
             e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y-10,0,3);
                 break;
-    }
+        }
     }
 
     public void mover(Entorno e){
@@ -67,31 +68,12 @@ public class Esqueleto {
             destino = "d";
         }
     }
-
-
-    // private void eliminarEnemigo() {
-        
-        
-    // }
+            
     
     public Proyectil disparar() {
         return new Proyectil(x, y-10, this.alto_esqueleto, destino, "esq");
     }
 
-    public double getAbajo() {
-        return (this.y + alto_esqueleto / 2);
-    }
-
-    public void caer(Entorno e) {
-        if (getAbajo() >= e.alto()) {
-            this.y = (this.y + alto_esqueleto/2);
-        } else {
-            this.y = y + velocidadCaida;
-        }
-        // System.err.println(e.alto()-alto_personaje/2);
-        // System.err.println(getAbajo());
-
-    }
 
 
     public boolean colicionaBorde(String borde, Entorno e){
@@ -127,22 +109,45 @@ public class Esqueleto {
         throw new IllegalArgumentException("Borde invalido");
     }
 
-    public void actualizar(Entorno e) {
+    public double getAbajo() {
+        return (this.y + alto_esqueleto / 2);
+    }
+
+        public double getIzquierda() {
+        return (this.x - ancho_esqueleto / 2);
+    }
+
+    public double getDerecha() {
+        return (this.x + ancho_esqueleto / 2);
+    }
+
+    public void caer(Entorno e) {
+        if (getAbajo() >= e.alto()) {
+            this.y = (this.y + alto_esqueleto/2);
+        } else {
+            this.y = y + velocidadCaida;
+        }
+    }
+
+     public boolean colisionoAbajo(Bloque[] b) {
+        for (Bloque bloque : b) {
+            if (bloque != null){
+                if (getAbajo() == bloque.ObtenerLadoSuperior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
+                    System.err.println("COL AB");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void actualizar(Entorno e, Bloque[] bloques) {
 		
         this.dibujarse(e);
         mover(e);
-
-        if(proyectil == null){
-            proyectil = disparar();
+        if (!this.colisionoAbajo(bloques)) {
+            this.caer(e);
         }
-        
-        if (proyectil != null) {
-			proyectil.dibujar(e);
-			proyectil.mover();
-			if (proyectil.estaFueraDEPantalla(e)) {
-				proyectil = null;
-			}
-		}
     }
     
      

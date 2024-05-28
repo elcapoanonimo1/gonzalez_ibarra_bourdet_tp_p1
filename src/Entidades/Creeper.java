@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 
 import java.awt.Color;
 
+import Estructuras.Bloque;
+
 public class Creeper {
     private double x;
     private double y;
@@ -15,7 +17,6 @@ public class Creeper {
     private String destino;
     protected String seMueveA;
     protected java.awt.Image img;
-    protected Proyectil proyectil;
     protected double velocidadCaida = 1;
 
     public Creeper(double x, double y, int alto_creeper, int ancho_creeper, double velocidad, int destino){
@@ -61,20 +62,6 @@ public class Creeper {
         x -= velocidad;
     }
 
-    /*public void mover(){
-    
-        int aux;
-        if(x==800){
-            aux=0;
-        }else{
-            aux=1;
-        }
-        if (aux == 0){
-            x-=velocidad;
-        }else{
-            x+=velocidad;
-        }
-    }*/
 
     public void mover(Entorno e){
         if(destino == "d" && !colicionaBorde("derecha", e)) {
@@ -90,14 +77,7 @@ public class Creeper {
             destino = "d";
         }
     }
-
-    // private void eliminarEnemigo() {
-        
-        
-    // }
     
-    
-
 
     public boolean colicionaBorde(String borde, Entorno e){
         if (borde == "arriba"){
@@ -133,11 +113,19 @@ public class Creeper {
     }
 
     public Proyectil disparar() {
-        return new Proyectil(x, y, this.alto_creeper, destino,"cre");
+        return new Proyectil(x, y-10, this.alto_creeper, destino,"cre");
     }
 
     public double getAbajo() {
         return (this.y + alto_creeper / 2);
+    }
+
+    public double getIzquierda() {
+        return (this.x - ancho_creeper / 2);
+    }
+
+    public double getDerecha() {
+        return (this.x + ancho_creeper / 2);
     }
 
     public void caer(Entorno e) {
@@ -146,24 +134,27 @@ public class Creeper {
         } else {
             this.y = y + velocidadCaida;
         }
-        // System.err.println(e.alto()-alto_personaje/2);
-        // System.err.println(getAbajo());
-
     }
 
-    public void actualizar(Entorno e) {
+     public boolean colisionoAbajo(Bloque[] b) {
+        for (Bloque bloque : b) {
+            if (bloque != null){
+                if (getAbajo() == bloque.ObtenerLadoSuperior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
+                    System.err.println("COL AB");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+    public void actualizar(Entorno e, Bloque[] bloques) {
 		    this.dibujarse(e);
             mover(e);
-            if(proyectil == null){
-                proyectil = disparar();
-            }
-            
-            if (proyectil != null) {
-                proyectil.dibujar(e);
-                proyectil.mover();
-                if (proyectil.estaFueraDEPantalla(e)) {
-                    proyectil = null;
-                }
+            if (!this.colisionoAbajo(bloques)) {
+                this.caer(e);
             }
         }
     

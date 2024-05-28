@@ -5,7 +5,6 @@ import entorno.Entorno;
 import entorno.InterfaceJuego;
 
 import java.util.Random;
-import java.util.random.*;
 
 
 
@@ -36,8 +35,9 @@ public class Juego extends InterfaceJuego {
 	private Plataforma plataforma;
 	private Player jugador;
 	private Proyectil proyectil;
-	private Creeper zombie, zombie2;
-	private Esqueleto esqueleto, esqueleto2;
+	private Proyectil[] proyectilesCre;
+	private Proyectil[] proyectilesEsq;
+	private Proyectil[] proyectilesEst;
 	private Esqueleto[] Esqueletos;
 	private Creeper[] Creepers;
 
@@ -65,8 +65,13 @@ public class Juego extends InterfaceJuego {
 			if (Creepers[j] == null) {
 				Creepers[j] = new Creeper((random.nextInt(1, 8)* 100), 532-(random.nextInt(1, 4)* 145), 40, 20, 1, random.nextInt());
 		}
+						
 		}
-		
+
+		//Proyectiles
+		proyectilesCre= new Proyectil[4];
+		proyectilesEsq= new Proyectil[4];
+		proyectilesEst= new Proyectil[1];
 		
 		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 150, 40, 20, 5.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
@@ -92,27 +97,56 @@ public class Juego extends InterfaceJuego {
 		fondo.actualizar(entorno);
 		plataforma.actualizar(entorno, this.bloques);
 
-
+		//Actualizar enemigos y proyectiles de enemigos
 		for (int e = 0; e < Creepers.length; e++) {
 			if (Creepers[e] != null) {
-				Creepers[e].actualizar(entorno);
+				Creepers[e].actualizar(entorno, bloques);
+
+				if (proyectilesCre[e] == null && Creepers[e] != null) {
+					proyectilesCre[e] = Creepers[e].disparar();
+				
+				}
+
+				if (proyectilesCre[e] != null) {
+					proyectilesCre[e].dibujar(entorno);
+					proyectilesCre[e].mover();
+					if (proyectilesCre[e] != null && proyectilesCre[e].getX() <= jugador.getX() + (jugador.getancho_personaje()/2) && proyectilesCre[e].getX() >= jugador.getX() - (jugador.getancho_personaje()/2) && proyectilesCre[e].getY() >= jugador.getY() - (jugador.getalto_personaje()/2) && proyectilesCre[e].getY() <= jugador.getY() + (jugador.getalto_personaje()/2)){
+						proyectilesCre[e] = null;
+					}
+					if (proyectilesCre[e] != null && proyectilesCre[e].estaFueraDEPantalla(entorno)) {
+						proyectilesCre[e] = null;
+					}
+				}
 			}
+
 		}
 
 		for (int e = 0; e < Esqueletos.length; e++) {
 			if (Esqueletos[e] != null) {
-				Esqueletos[e].actualizar(entorno);
+				Esqueletos[e].actualizar(entorno, bloques);
 			}
+
+			if (proyectilesEsq[e] == null && Esqueletos[e] != null) {
+				proyectilesEsq[e] = Esqueletos[e].disparar();
+			
+			}
+
+			if (proyectilesEsq[e] != null) {
+				proyectilesEsq[e].dibujar(entorno);
+				proyectilesEsq[e].mover();
+				if (proyectilesEsq[e] != null && proyectilesEsq[e].getX() <= jugador.getX() + (jugador.getancho_personaje()/2) && proyectilesEsq[e].getX() >= jugador.getX() - (jugador.getancho_personaje()/2) && proyectilesEsq[e].getY() >= jugador.getY() - (jugador.getalto_personaje()/2) && proyectilesEsq[e].getY() <= jugador.getY() + (jugador.getalto_personaje()/2)){
+					proyectilesEsq[e] = null;
+				}
+				if (proyectilesEsq[e] != null && proyectilesEsq[e].estaFueraDEPantalla(entorno)) {
+					proyectilesEsq[e] = null;
+				}
+			}
+
+			
 		}
 
 
-		if (proyectil != null) {
-			proyectil.dibujar(entorno);
-			proyectil.mover();
-			if (proyectil.estaFueraDEPantalla(entorno)) {
-				proyectil = null;
-			}
-		}
+		
 
 
 
@@ -140,18 +174,42 @@ public class Juego extends InterfaceJuego {
             jugador.agachar(entorno, false);
         }
 
-        if (!jugador.colisionoAbajo(this.bloques)) {
-            jugador.caer(entorno);
-        } else {
-			jugador.setPuedeSaltar(true);
+		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques)) {
+			jugador.setAlturaMaximaSalto(jugador.getY() - 150);
+			jugador.setEstaSaltando(true);
         }
+		
+		if (jugador.getEstaSaltando() == true){
+			if(!jugador.colisionoArriba(this.bloques) && (jugador.getY() >= jugador.getAlturaMaximaSalto())){
+				jugador.moverArriba(entorno);
+			} else {
+				jugador.setEstaSaltando(false);
+			}
+		}
 
-		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && !jugador.colisionoArriba(this.bloques) && jugador.colisionoAbajo(this.bloques)) {
-            jugador.saltar(entorno, this.bloques);
-        }
+		if (jugador.getEstaSaltando() == false){
+			if (!jugador.colisionoAbajo(this.bloques)){
+				jugador.moverAbajo(entorno);
+			}
+		}
 
-		if(entorno.estaPresionada('x') && proyectil == null) {
-			proyectil = jugador.disparar();
+		
+
+		//Proyectiles y coliciones Player
+
+		if(entorno.estaPresionada('x') && proyectilesEst[0] == null) {
+			proyectilesEst[0] = jugador.disparar();
+		}
+
+		if (proyectilesEst[0] != null) {
+			proyectilesEst[0].dibujar(entorno);
+			proyectilesEst[0].mover();
+			if (proyectilesEst[0] != null && proyectilesEsq[0].getX() <= jugador.getX() + (jugador.getancho_personaje()/2) && proyectilesEsq[0].getX() >= jugador.getX() - (jugador.getancho_personaje()/2) && proyectilesEsq[0].getY() >= jugador.getY() - (jugador.getalto_personaje()/2) && proyectilesEsq[0].getY() <= jugador.getY() + (jugador.getalto_personaje()/2)){
+				proyectilesEst[0] = null;
+			}
+			if (proyectilesEst[0] != null && proyectilesEsq[0].estaFueraDEPantalla(entorno)) {
+				proyectilesEst[0] = null;
+			}
 		}
 
 	}

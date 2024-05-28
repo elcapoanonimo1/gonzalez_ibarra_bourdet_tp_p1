@@ -62,10 +62,10 @@ public class Proyectil {
 
     public void mover() {
 		if (direccion == "d") {
-			x += 6;
+			x += 3;
 		}
 		if (direccion == "i") {
-			x -= 6;
+			x -= 3;
 		}
 	}
 
