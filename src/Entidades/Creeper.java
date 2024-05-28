@@ -12,17 +12,26 @@ public class Creeper {
     private int alto_creeper;
     private int ancho_creeper;
     protected double velocidad;
-    private String destino = "i";
-    protected String seMueveA = "i";
+    private String destino;
+    protected String seMueveA;
     protected java.awt.Image img;
     protected Proyectil proyectil;
+    protected double velocidadCaida = 1;
 
-    public Creeper(double x, double y, int alto_creeper, int ancho_creeper, double velocidad){
+    public Creeper(double x, double y, int alto_creeper, int ancho_creeper, double velocidad, int destino){
         this.x = x;
         this.y = y;
         this.alto_creeper = alto_creeper;
         this.ancho_creeper = ancho_creeper;
         this.velocidad = velocidad;
+        
+        if (destino % 2== 0){
+            this.destino = "d";
+            this.seMueveA = "d";
+        }else{
+            this.destino = "i";
+            this.seMueveA = "i";
+        }
 
     }
 
@@ -127,9 +136,23 @@ public class Creeper {
         return new Proyectil(x, y, this.alto_creeper, destino,"cre");
     }
 
-    public void actualizar(Entorno e) {
-		this.dibujarse(e);
+    public double getAbajo() {
+        return (this.y + alto_creeper / 2);
+    }
 
+    public void caer(Entorno e) {
+        if (getAbajo() >= e.alto()) {
+            this.y = (this.y + alto_creeper/2);
+        } else {
+            this.y = y + velocidadCaida;
+        }
+        // System.err.println(e.alto()-alto_personaje/2);
+        // System.err.println(getAbajo());
+
+    }
+
+    public void actualizar(Entorno e) {
+		    this.dibujarse(e);
             mover(e);
             if(proyectil == null){
                 proyectil = disparar();

@@ -39,7 +39,7 @@ public class Proyectil {
 
 			case "cre":
 			if (direccion == "d") {
-				this.img = Herramientas.cargarImagen("recursos/imagenes/Proyectil/Proyectil TNT.gif");
+				this.img = Herramientas.cargarImagen("recursos/imagenes/Proyectil/Proyectil TNTd.gif");
 			} else if (direccion == "i") {
 				this.img = Herramientas.cargarImagen("recursos/imagenes/Proyectil/Proyectil TNTi.gif");
 			}

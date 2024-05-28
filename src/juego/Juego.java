@@ -49,21 +49,26 @@ public class Juego extends InterfaceJuego {
 		this.entorno = new Entorno(this, this.TITULO_JUEGO, ANCHO_JUEGO, ALTO_JUEGO);
 
 		// Inicializar lo que haga falta para el juego
+
+		//Instanciamos los Array de enemigos
 		Random random = new Random();
 		Creepers = new Creeper[4];
+		Esqueletos = new Esqueleto[4];
+
+		for (int j = 0; j < Esqueletos.length; j++){ 
+			if (Esqueletos[j] == null) {
+				Esqueletos[j] = new Esqueleto((random.nextInt(1, 8)* 100), 532-(random.nextInt(1, 4)* 145), 40, 20, 1.0, random.nextInt());;
+		}
+		}
 		
 		for (int j = 0; j < Creepers.length; j++){ 
 			if (Creepers[j] == null) {
-				Creepers[j] = new Creeper(ALTO_JUEGO / 2 + (random.nextInt(1, 8)* 100), ALTO_JUEGO - 214, 40, 20, 1);
+				Creepers[j] = new Creeper((random.nextInt(1, 8)* 100), 532-(random.nextInt(1, 4)* 145), 40, 20, 1, random.nextInt());
 		}
 		}
 		
-
+		
 		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 150, 40, 20, 5.0);
-		//this.creeper = new Creeper(ALTO_JUEGO / 2, ALTO_JUEGO - 214, 40, 20, 1);
-		//this.creeper2 = new Creeper(ALTO_JUEGO / 2 + 300, ALTO_JUEGO - 214, 40, 20, 1);
-		this.esqueleto = new Esqueleto(ALTO_JUEGO / 2, ALTO_JUEGO - 357, 40, 20, 1.0);
-		this.esqueleto2 = new Esqueleto(ALTO_JUEGO / 2 + 300, ALTO_JUEGO - 357, 40, 20, 1.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
 		this.plataforma = new Plataforma(ALTO_JUEGO, ANCHO_JUEGO);
 		this.bloques = this.plataforma.getBloques();
@@ -82,21 +87,23 @@ public class Juego extends InterfaceJuego {
 	 */
 	public void tick() {
 
+
+
+		fondo.actualizar(entorno);
+		plataforma.actualizar(entorno, this.bloques);
+
+
 		for (int e = 0; e < Creepers.length; e++) {
 			if (Creepers[e] != null) {
 				Creepers[e].actualizar(entorno);
 			}
 		}
 
-		fondo.actualizar(entorno);
-		//creeper.actualizar(entorno);
-		//creeper2.actualizar(entorno);
-		esqueleto.actualizar(entorno);
-		esqueleto2.actualizar(entorno);
-		plataforma.actualizar(entorno, this.bloques);
-
-
-
+		for (int e = 0; e < Esqueletos.length; e++) {
+			if (Esqueletos[e] != null) {
+				Esqueletos[e].actualizar(entorno);
+			}
+		}
 
 
 		if (proyectil != null) {

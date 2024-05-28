@@ -11,17 +11,27 @@ public class Esqueleto {
     private int alto_esqueleto;
     private int ancho_esqueleto;
     protected double velocidad;
-    protected String destino= "i";
-    protected String seMueveA = "i";
+    protected String destino;
+    protected String seMueveA;
     protected Image img;
     protected Proyectil proyectil;
+    protected double velocidadCaida = 1;
 
-    public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad){
+    public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad,int destino){
         this.x = x;
         this.y = y;
         this.alto_esqueleto = alto_esqueleto;
         this.ancho_esqueleto = ancho_esqueleto;
         this.velocidad = velocidad;
+        
+        if (destino % 2== 0){
+            this.destino = "d";
+            this.seMueveA = "d";
+        }else{
+            this.destino = "i";
+            this.seMueveA = "i";
+        }
+        
 
     }
 
@@ -66,6 +76,21 @@ public class Esqueleto {
     
     public Proyectil disparar() {
         return new Proyectil(x, y-10, this.alto_esqueleto, destino, "esq");
+    }
+
+    public double getAbajo() {
+        return (this.y + alto_esqueleto / 2);
+    }
+
+    public void caer(Entorno e) {
+        if (getAbajo() >= e.alto()) {
+            this.y = (this.y + alto_esqueleto/2);
+        } else {
+            this.y = y + velocidadCaida;
+        }
+        // System.err.println(e.alto()-alto_personaje/2);
+        // System.err.println(getAbajo());
+
     }
 
 
