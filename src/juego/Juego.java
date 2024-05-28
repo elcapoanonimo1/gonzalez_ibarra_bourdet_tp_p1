@@ -73,7 +73,7 @@ public class Juego extends InterfaceJuego {
 		esqueleto2.actualizar(entorno);
 		plataforma.actualizar(entorno, this.bloques, this.jugador);
 		jugador.dibujarse(entorno);
-		
+		System.out.println("jaja");
 		if (proyectil != null) {
 			proyectil.dibujar(entorno);
 			proyectil.mover();
@@ -128,7 +128,7 @@ public class Juego extends InterfaceJuego {
 			proyectil = jugador.disparar();
 		}		
 	}
-
+	
 	/**
 	 * La función principal crea una instancia de la clase Juego.
 	 */
