@@ -1,27 +1,47 @@
 package Entidades;
 
 import entorno.Entorno;
+import entorno.Herramientas;
+import javafx.scene.image.Image;
+
 import java.awt.Color;
 
-public class Zombie {
+public class Creeper {
     private double x;
     private double y;
-    private int alto_zombie;
-    private int ancho_zombie;
+    private int alto_creeper;
+    private int ancho_creeper;
     protected double velocidad;
     private String destino = "i";
+    protected String seMueveA = "i";
+    protected java.awt.Image img;
+    protected Proyectil proyectil;
 
-    public Zombie(double x, double y, int alto_zombie, int ancho_zombie, double velocidad){
+    public Creeper(double x, double y, int alto_creeper, int ancho_creeper, double velocidad){
         this.x = x;
         this.y = y;
-        this.alto_zombie = alto_zombie;
-        this.ancho_zombie = ancho_zombie;
+        this.alto_creeper = alto_creeper;
+        this.ancho_creeper = ancho_creeper;
         this.velocidad = velocidad;
 
     }
 
     public void dibujarse(Entorno e) {
-        e.dibujarRectangulo(x, y, ancho_zombie, alto_zombie, 0, Color.green);
+        switch (seMueveA) {
+            case "d":
+            img = Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendod.gif");
+            e.dibujarImagen(img, x, y,0,3);
+                break;
+            
+            case "i":
+            img = Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendoi.gif");
+            e.dibujarImagen(img, x, y,0,3);
+                break;
+
+            default:
+            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendoi.gif"), x, y-10,0,3);
+                break;
+    }
     }
 
     public void moverDerecha(Entorno e) {
@@ -48,12 +68,12 @@ public class Zombie {
     }*/
 
     public void mover(Entorno e){
-
-
         if(destino == "d" && !colicionaBorde("derecha", e)) {
             x += velocidad;
+            seMueveA = "d";
         } else {
             destino = "i";
+            seMueveA = "i";
         }
         if (destino == "i" && !colicionaBorde("izquierda", e)) {
             x -= velocidad;
@@ -72,28 +92,28 @@ public class Zombie {
 
     public boolean colicionaBorde(String borde, Entorno e){
         if (borde == "arriba"){
-            if((this.y - alto_zombie/2) > 0){
+            if((this.y - alto_creeper/2) > 0){
                 return true;
             } else {
                 return false;
             }
         }
         if (borde == "abajo"){
-            if((this.y + alto_zombie/2) < e.alto()){
+            if((this.y + alto_creeper/2) < e.alto()){
                 return true;
             } else {
                 return false;
             }
         }
         if (borde == "izquierda"){
-            if((this.x - ancho_zombie/2) > 0){
+            if((this.x - ancho_creeper/2) > 0){
                 return false;
             } else {
                 return true;
             }
         }
         if (borde == "derecha"){
-            if((this.x + ancho_zombie/2) < e.ancho()){
+            if((this.x + ancho_creeper/2) < e.ancho()){
                 return false;
             } else {
                 return true;
@@ -103,19 +123,25 @@ public class Zombie {
         throw new IllegalArgumentException("Borde invalido");
     }
 
+    public Proyectil disparar() {
+        return new Proyectil(x, y, this.alto_creeper, destino,"cre");
+    }
+
     public void actualizar(Entorno e) {
 		this.dibujarse(e);
-        /*if(colicionaBorde("abajo", e)){
-            eliminarEnemigo();
-        }else{*/
-            /*if(colicionaBorde("izquierda", e)){
-                moverDerecha(e);
-            }else if(colicionaBorde("derecha", e)){
-                moverIzquierda(e);
-            }else{
-                moverIzquierda(e);
-            }*/
+
             mover(e);
+            if(proyectil == null){
+                proyectil = disparar();
+            }
+            
+            if (proyectil != null) {
+                proyectil.dibujar(e);
+                proyectil.mover();
+                if (proyectil.estaFueraDEPantalla(e)) {
+                    proyectil = null;
+                }
+            }
         }
     
      

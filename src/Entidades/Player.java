@@ -35,22 +35,32 @@ public class Player {
         switch (se_mueve_a(e)) {
             case "d":
                 img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendod.gif");
-                e.dibujarImagen(img, x, y - 10, 0, 3);
+                e.dibujarImagen(img, x, y-1, 0, 3);
                 break;
 
             case "i":
                 img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendoi.gif");
-                e.dibujarImagen(img, x, y - 10, 0, 3);
+                e.dibujarImagen(img, x, y-1, 0, 3);
                 break;
 
             case "x":
-                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachado.png"), x, y - 10, 0,
+            if(mira=="d"){
+                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadod.png"), x, y, 0,
                         3);
+            }else {
+                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadoi.png"), x, y, 0,
+                        3);
+            }
                 break;
 
             default:
-                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y - 10, 0,
+            if(mira=="d"){ 
+                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y, 0,
                         3);
+            }else {
+                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quietoi.png"), x, y, 0,
+                        3);
+            }
                 break;
         }
     }
@@ -172,7 +182,7 @@ public class Player {
     }
 
     public Proyectil disparar() {
-        return new Proyectil(x, y, this.alto_personaje, mira);
+        return new Proyectil(x, y, this.alto_personaje, mira,"ste");
     }
 
     //////////////////////////////////// COLICIONES

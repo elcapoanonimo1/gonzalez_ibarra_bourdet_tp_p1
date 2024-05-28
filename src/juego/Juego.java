@@ -4,6 +4,9 @@ package juego;
 import entorno.Entorno;
 import entorno.InterfaceJuego;
 
+import java.util.Random;
+import java.util.random.*;
+
 
 
 
@@ -11,10 +14,11 @@ import entorno.InterfaceJuego;
 import Entidades.Esqueleto;
 import Entidades.Player;
 import Entidades.Proyectil;
-import Entidades.Zombie;
+import Entidades.Creeper;
 import Estructuras.Bloque;
 import Estructuras.Fondo;
 import Estructuras.Plataforma;
+
 
 
 public class Juego extends InterfaceJuego {
@@ -32,8 +36,11 @@ public class Juego extends InterfaceJuego {
 	private Plataforma plataforma;
 	private Player jugador;
 	private Proyectil proyectil;
-	private Zombie zombie, zombie2;
+	private Creeper zombie, zombie2;
 	private Esqueleto esqueleto, esqueleto2;
+	private Esqueleto[] Esqueletos;
+	private Creeper[] Creepers;
+
 
 	// ...
 
@@ -42,10 +49,19 @@ public class Juego extends InterfaceJuego {
 		this.entorno = new Entorno(this, this.TITULO_JUEGO, ANCHO_JUEGO, ALTO_JUEGO);
 
 		// Inicializar lo que haga falta para el juego
+		Random random = new Random();
+		Creepers = new Creeper[4];
+		
+		for (int j = 0; j < Creepers.length; j++){ 
+			if (Creepers[j] == null) {
+				Creepers[j] = new Creeper(ALTO_JUEGO / 2 + (random.nextInt(1, 8)* 100), ALTO_JUEGO - 214, 40, 20, 1);
+		}
+		}
+		
 
 		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 150, 40, 20, 5.0);
-		this.zombie = new Zombie(ALTO_JUEGO / 2, ALTO_JUEGO - 214, 40, 20, 1);
-		this.zombie2 = new Zombie(ALTO_JUEGO / 2 + 300, ALTO_JUEGO - 214, 40, 20, 1);
+		//this.creeper = new Creeper(ALTO_JUEGO / 2, ALTO_JUEGO - 214, 40, 20, 1);
+		//this.creeper2 = new Creeper(ALTO_JUEGO / 2 + 300, ALTO_JUEGO - 214, 40, 20, 1);
 		this.esqueleto = new Esqueleto(ALTO_JUEGO / 2, ALTO_JUEGO - 357, 40, 20, 1.0);
 		this.esqueleto2 = new Esqueleto(ALTO_JUEGO / 2 + 300, ALTO_JUEGO - 357, 40, 20, 1.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
@@ -66,9 +82,15 @@ public class Juego extends InterfaceJuego {
 	 */
 	public void tick() {
 
+		for (int e = 0; e < Creepers.length; e++) {
+			if (Creepers[e] != null) {
+				Creepers[e].actualizar(entorno);
+			}
+		}
+
 		fondo.actualizar(entorno);
-		zombie.actualizar(entorno);
-		zombie2.actualizar(entorno);
+		//creeper.actualizar(entorno);
+		//creeper2.actualizar(entorno);
 		esqueleto.actualizar(entorno);
 		esqueleto2.actualizar(entorno);
 		plataforma.actualizar(entorno, this.bloques);
@@ -109,10 +131,6 @@ public class Juego extends InterfaceJuego {
             jugador.agachar(entorno, true);
         } else {
             jugador.agachar(entorno, false);
-        }
-
-        if (entorno.sePresiono('c')) {
-            jugador.disparar();
         }
 
         if (!jugador.colisionoAbajo(this.bloques)) {

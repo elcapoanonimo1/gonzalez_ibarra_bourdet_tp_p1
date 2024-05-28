@@ -14,6 +14,7 @@ public class Esqueleto {
     protected String destino= "i";
     protected String seMueveA = "i";
     protected Image img;
+    protected Proyectil proyectil;
 
     public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad){
         this.x = x;
@@ -28,12 +29,12 @@ public class Esqueleto {
         switch (seMueveA) {
             case "d":
             img = Herramientas.cargarImagen("recursos/imagenes/Esqueleto/Esqueleto - corriendod.gif");
-            e.dibujarImagen(img, x, y-10,0,3);
+            e.dibujarImagen(img, x, y-5,0,3);
                 break;
             
             case "i":
             img = Herramientas.cargarImagen("recursos/imagenes/Esqueleto/Esqueleto - corriendoi.gif");
-            e.dibujarImagen(img, x, y-10,0,3);
+            e.dibujarImagen(img, x, y-5,0,3);
                 break;
 
             default:
@@ -63,7 +64,9 @@ public class Esqueleto {
         
     // }
     
-    
+    public Proyectil disparar() {
+        return new Proyectil(x, y-10, this.alto_esqueleto, destino, "esq");
+    }
 
 
     public boolean colicionaBorde(String borde, Entorno e){
@@ -100,12 +103,22 @@ public class Esqueleto {
     }
 
     public void actualizar(Entorno e) {
-		this.dibujarse(e);
-        /*if(colicionaBorde("abajo", e)){
-            eliminarEnemigo();
-        }else{*/
+		
+        this.dibujarse(e);
         mover(e);
+
+        if(proyectil == null){
+            proyectil = disparar();
         }
+        
+        if (proyectil != null) {
+			proyectil.dibujar(e);
+			proyectil.mover();
+			if (proyectil.estaFueraDEPantalla(e)) {
+				proyectil = null;
+			}
+		}
+    }
     
      
 }
