@@ -28,6 +28,10 @@ public class Bloque {
         return pos_x;
     }
 
+    public boolean getSeRompe(){
+        return se_rompe;
+    }
+
     public double getY(){
         return pos_y;
     }

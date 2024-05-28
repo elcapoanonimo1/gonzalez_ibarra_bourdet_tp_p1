@@ -10,13 +10,13 @@ public class Player {
     private double y;
     private int alto_personaje;
     private int ancho_personaje;
+    private double alturaMaximaSalto;
     private boolean estaAgachado = false;
     private boolean estaSaltando = false;
     @SuppressWarnings("unused")
-    private boolean puedeSaltar = true;
     protected double velocidad;
-    protected double velocidadSalto = 1;
-    protected double velocidadCaida = 1;
+    protected double velocidadSalto = 1.0;
+    protected double velocidadCaida = 1.0;
     protected double xAnterior = 0;
     protected String mira = "i";
     protected Image img;
@@ -57,8 +57,20 @@ public class Player {
 
     ///////// GETERS Y SETERS /////////
 
-    public void setPuedeSaltar(boolean p){
-        this.puedeSaltar = p;
+    public void setAlturaMaximaSalto(double alturamax) {
+        this.alturaMaximaSalto = alturamax;
+    }
+
+    public double getAlturaMaximaSalto() {
+        return this.alturaMaximaSalto;
+    }
+
+    public void setEstaSaltando(boolean saltando){
+        this.estaSaltando = saltando;
+    }
+
+    public boolean getEstaSaltando(){
+        return estaSaltando;
     }
 
     public void setMira(String m){
@@ -91,39 +103,20 @@ public class Player {
 
     //////// MOVIMIENTOS ////////
 
+    public void moverAbajo(Entorno e) {
+        this.y += velocidadCaida;
+    }
+
+    public void moverArriba(Entorno e) {
+        this.y -= velocidadSalto;
+    }
+
     public void moverDerecha(Entorno e) {
         this.x += velocidad;
     }
 
     public void moverIzquierda(Entorno e) {
         this.x -= velocidad;
-    }
-
-    public void caer(Entorno e) {
-        if (getAbajo() >= e.alto()) {
-            this.y = (this.y + alto_personaje/2);
-        } else {
-            this.y = y + velocidadCaida;
-        }
-        // System.err.println(e.alto()-alto_personaje/2);
-        // System.err.println(getAbajo());
-
-    }
-
-    public void saltar(Entorno e, Bloque[] b) {
-        double alturaSalto = this.getY() - 100;
-        if (!estaSaltando && !colisionoArriba(b)) {
-            this.estaSaltando = true;
-            this.y -= alturaSalto;
-        }
-        if (estaSaltando && !colisionoArriba(b)) {
-            this.y -= velocidadSalto;
-        }
-
-        if (colisionoArriba(b)) {
-            this.estaSaltando = false;
-        }
-
     }
 
     public void agachar(Entorno e, boolean presionadoAGACHAR) {
@@ -160,14 +153,6 @@ public class Player {
         if (e.sePresiono('c')) {
             return "c";
         }
-
-        /*
-         * if(e.estaPresionada(e.TECLA_ESPACIO) && !colicionaBorde("abajo", e)) {
-         * return "saltar";
-         * } else if (colicionaBorde("abajo", e) && !estaSaltando) {
-         * return "caer";
-         * }
-         */
         return "null";
     }
 
@@ -181,7 +166,6 @@ public class Player {
         for (Bloque bloque : b) {
             if (bloque != null){
                 if (getArriba() == bloque.ObtenerLadoInferior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
-                    System.err.println("COL AR");
                     return true;
                 }
             }
@@ -193,7 +177,6 @@ public class Player {
         for (Bloque bloque : b) {
             if (bloque != null){
                 if (getAbajo() == bloque.ObtenerLadoSuperior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
-                    System.err.println("COL AB");
                     return true;
                 }
             }
@@ -201,10 +184,10 @@ public class Player {
         return false;
     }
 
-    public boolean colisionoDerecha(Bloque[] b  , Entorno e ) {
+    public boolean colisionoDerecha(Bloque[] b, Entorno e ) {
         for (Bloque bloque : b) {
             if (bloque != null){
-                if (getDerecha() == bloque.ObtenerLadoIzquierdo() && (getAbajo() > bloque.ObtenerLadoInferior() && getArriba() < bloque.ObtenerLadoSuperior()) || (getDerecha() < e.ancho())){
+                if (getDerecha() == bloque.ObtenerLadoIzquierdo()){
                     System.err.println("COL DERE");
                     return true;
                 }
@@ -216,7 +199,7 @@ public class Player {
     public boolean colisionoIzquierda(Bloque[] b) {
         for (Bloque bloque : b) {
             if (bloque != null){
-                if ((getIzquierda() == bloque.ObtenerLadoDerecho() && (getAbajo() > bloque.ObtenerLadoInferior() && getArriba() < bloque.ObtenerLadoSuperior())) || (getIzquierda() > 0) ){
+                if ((getIzquierda() == bloque.ObtenerLadoDerecho())){
                     System.err.println("COL IZ");
                     return true;
                 }
@@ -225,5 +208,5 @@ public class Player {
         return false;
     }
 
-
+    
 }

@@ -43,7 +43,7 @@ public class Juego extends InterfaceJuego {
 
 		// Inicializar lo que haga falta para el juego
 
-		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 150, 40, 20, 5.0);
+		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 100, 40, 20, 3.0);
 		this.zombie = new Zombie(ALTO_JUEGO / 2, ALTO_JUEGO - 214, 40, 20, 1);
 		this.zombie2 = new Zombie(ALTO_JUEGO / 2 + 300, ALTO_JUEGO - 214, 40, 20, 1);
 		this.esqueleto = new Esqueleto(ALTO_JUEGO / 2, ALTO_JUEGO - 357, 40, 20, 1.0);
@@ -64,19 +64,16 @@ public class Juego extends InterfaceJuego {
 	 * actualizar el estado interno del juego para simular el paso del tiempo
 	 * (ver el enunciado del TP para mayor detalle).
 	 */
-	public void tick() {
 
+	public void tick() {
 		fondo.actualizar(entorno);
 		zombie.actualizar(entorno);
 		zombie2.actualizar(entorno);
 		esqueleto.actualizar(entorno);
 		esqueleto2.actualizar(entorno);
-		plataforma.actualizar(entorno, this.bloques);
-
-
-
-
-
+		plataforma.actualizar(entorno, this.bloques, this.jugador);
+		jugador.dibujarse(entorno);
+		
 		if (proyectil != null) {
 			proyectil.dibujar(entorno);
 			proyectil.mover();
@@ -84,24 +81,17 @@ public class Juego extends InterfaceJuego {
 				proyectil = null;
 			}
 		}
-
-
-
-
+		
 		/// JUGADOR
-
-		jugador.dibujarse(entorno);
-
-        if (entorno.estaPresionada(entorno.TECLA_DERECHA) && jugador.colisionoDerecha(this.bloques, entorno)) {
-            System.out.println("me voy a la derecha");
-            jugador.setMira("d");
+		
+		
+        if (entorno.estaPresionada(entorno.TECLA_DERECHA) && !jugador.colisionoDerecha(this.bloques, entorno)) {
+			jugador.setMira("d");
             jugador.moverDerecha(entorno);
         }
 
-        if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && jugador.colisionoIzquierda(this.bloques)) {
-            System.out.println("me voy a la izquierda");
-
-            jugador.setMira("i");
+        if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && !jugador.colisionoIzquierda(this.bloques)) {
+			jugador.setMira("i");
             jugador.moverIzquierda(entorno);
         }
 
@@ -115,25 +105,34 @@ public class Juego extends InterfaceJuego {
             jugador.disparar();
         }
 
-        if (!jugador.colisionoAbajo(this.bloques)) {
-            jugador.caer(entorno);
-        } else {
-			jugador.setPuedeSaltar(true);
+		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques)) {
+			jugador.setAlturaMaximaSalto(jugador.getY() - 150);
+			jugador.setEstaSaltando(true);
         }
-
-		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && !jugador.colisionoArriba(this.bloques) && jugador.colisionoAbajo(this.bloques)) {
-            jugador.saltar(entorno, this.bloques);
-        }
-
-		if(entorno.estaPresionada('x') && proyectil == null) {
-			proyectil = jugador.disparar();
+		
+		if (jugador.getEstaSaltando() == true){
+			if(!jugador.colisionoArriba(this.bloques) && (jugador.getY() >= jugador.getAlturaMaximaSalto())){
+				jugador.moverArriba(entorno);
+			} else {
+				jugador.setEstaSaltando(false);
+			}
 		}
 
+		if (jugador.getEstaSaltando() == false){
+			if (!jugador.colisionoAbajo(this.bloques)){
+				jugador.moverAbajo(entorno);
+			}
+		}
+		
+		if(entorno.estaPresionada('x') && proyectil == null) {
+			proyectil = jugador.disparar();
+		}		
 	}
 
 	/**
 	 * La función principal crea una instancia de la clase Juego.
 	 */
+
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Juego juego = new Juego();

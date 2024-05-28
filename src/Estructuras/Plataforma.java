@@ -3,6 +3,8 @@ package Estructuras;
 import entorno.Entorno;
 import java.util.Random;
 
+import Entidades.Player;
+
 public class Plataforma {
     double alto_ventana;
     double ancho_ventana;
@@ -65,10 +67,6 @@ public class Plataforma {
         System.arraycopy(pepe1, 0, res, pepe0.length, pepe1.length);
         System.arraycopy(pepe2, 0, res, pepe0.length + pepe1.length, pepe2.length);
         System.arraycopy(pepe3, 0, res, pepe0.length + pepe1.length + pepe2.length, pepe3.length);
-        res[7] = null;
-        res[20] = null;
-        res[44] = null;
-        res[66] = null;
         return res;
 
     }
@@ -77,11 +75,20 @@ public class Plataforma {
         return juntarPlataformas();
     }
 
-    public void actualizar(Entorno e, Bloque[] bloques) {
-        for (Bloque bloque : bloques) {
-            if (bloque != null) {
-                bloque.dibujarBloque(e);
+    public void actualizar(Entorno e, Bloque[] bloques, Player jugador) {
+        for (int i = 0; i < bloques.length;  i++){
+            if(bloques[i] != null){
+                if(bloques[i].getSeRompe() == true){
+                    if(jugador.getArriba() == bloques[i].ObtenerLadoInferior() && (jugador.getDerecha() >= bloques[i].ObtenerLadoIzquierdo() && jugador.getIzquierda() <= bloques[i].ObtenerLadoDerecho())){
+                        bloques[i] = null;
+                        jugador.setEstaSaltando(false);
+                    }
+                }
+                if(bloques[i] != null){
+                    bloques[i].actualizar(e);
+                }
             }
         }
+
     }
 }
