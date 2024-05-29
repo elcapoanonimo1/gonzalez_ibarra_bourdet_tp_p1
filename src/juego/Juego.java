@@ -25,7 +25,7 @@ public class Juego extends InterfaceJuego {
 	private Entorno entorno;
 
 	// Variables y métodos propios de cada grupo (Principales)
-	private String TITULO_JUEGO = "Super Elizabeth Sis, Volcano Edition - Gonzalez Ibarra Bourdet";
+	private String TITULO_JUEGO = "Escaping Steve, Volcano Edition - Gonzalez Ibarra Bourdet";
 	private int ANCHO_JUEGO = 800;
 	private int ALTO_JUEGO = 600;
 
