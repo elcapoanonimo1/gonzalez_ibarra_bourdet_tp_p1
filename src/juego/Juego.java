@@ -96,8 +96,7 @@ public class Juego extends InterfaceJuego {
 
 
 		fondo.actualizar(entorno);
-		plataforma.actualizar(entorno, this.bloques, jugador);
-		jugador.dibujarse(entorno);
+
 
 		if (proyectil != null) {
 			proyectil.dibujar(entorno);
@@ -157,7 +156,8 @@ public class Juego extends InterfaceJuego {
 
 
 		
-
+		jugador.dibujarse(entorno);
+		plataforma.actualizar(entorno, this.bloques, jugador);
 
 
 
