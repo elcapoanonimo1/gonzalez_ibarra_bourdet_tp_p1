@@ -129,11 +129,10 @@ public class Esqueleto {
         }
     }
 
-     public boolean colisionoAbajo(Bloque[] b) {
+    public boolean colisionoAbajo(Bloque[] b) {
         for (Bloque bloque : b) {
             if (bloque != null){
                 if (getAbajo() == bloque.ObtenerLadoSuperior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
-                    System.err.println("COL AB");
                     return true;
                 }
             }

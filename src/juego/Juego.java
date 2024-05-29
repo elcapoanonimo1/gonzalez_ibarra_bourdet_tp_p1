@@ -37,6 +37,7 @@ public class Juego extends InterfaceJuego {
 	private Proyectil proyectil;
 	private Proyectil[] proyectilesCre;
 	private Proyectil[] proyectilesEsq;
+	@SuppressWarnings("unused")
 	private Proyectil[] proyectilesEst;
 	private Esqueleto[] Esqueletos;
 	private Creeper[] Creepers;
@@ -73,7 +74,7 @@ public class Juego extends InterfaceJuego {
 		proyectilesEsq= new Proyectil[4];
 		proyectilesEst= new Proyectil[1];
 		
-		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 150, 40, 20, 5.0);
+		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 80, 40, 20, 5.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
 		this.plataforma = new Plataforma(ALTO_JUEGO, ANCHO_JUEGO);
 		this.bloques = this.plataforma.getBloques();
@@ -96,6 +97,15 @@ public class Juego extends InterfaceJuego {
 
 		fondo.actualizar(entorno);
 		plataforma.actualizar(entorno, this.bloques, jugador);
+		jugador.dibujarse(entorno);
+
+		if (proyectil != null) {
+			proyectil.dibujar(entorno);
+			proyectil.mover();
+			if (proyectil.estaFueraDEPantalla(entorno)) {
+				proyectil = null;
+			}
+		}
 
 		//Actualizar enemigos y proyectiles de enemigos
 		for (int e = 0; e < Creepers.length; e++) {
