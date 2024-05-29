@@ -72,7 +72,7 @@ public class Juego extends InterfaceJuego {
 		esqueleto.actualizar(entorno);
 		esqueleto2.actualizar(entorno);
 		plataforma.actualizar(entorno, this.bloques, this.jugador);
-		jugador.dibujarse(entorno);
+		jugador.dibujarse(entorno);	
 		if (proyectil != null) {
 			proyectil.dibujar(entorno);
 			proyectil.mover();
@@ -84,12 +84,12 @@ public class Juego extends InterfaceJuego {
 		/// JUGADOR
 		
 		
-        if (entorno.estaPresionada(entorno.TECLA_DERECHA) && !jugador.colisionoDerecha(this.bloques, entorno)) {
+        if (entorno.estaPresionada(entorno.TECLA_DERECHA) && !jugador.colisionoDerecha(this.bloques, entorno) && jugador.getDerecha() < this.ANCHO_JUEGO) {
 			jugador.setMira("d");
             jugador.moverDerecha(entorno);
         }
 
-        if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && !jugador.colisionoIzquierda(this.bloques)) {
+        if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && !jugador.colisionoIzquierda(this.bloques)&& jugador.getIzquierda() > 0) {
 			jugador.setMira("i");
             jugador.moverIzquierda(entorno);
         }

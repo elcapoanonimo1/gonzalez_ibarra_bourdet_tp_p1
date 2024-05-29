@@ -15,8 +15,8 @@ public class Player {
     private boolean estaSaltando = false;
     @SuppressWarnings("unused")
     protected double velocidad;
-    protected double velocidadSalto = 1.0;
-    protected double velocidadCaida = 1.0;
+    protected double velocidadSalto = 5.0;
+    protected double velocidadCaida = 5.0;
     protected double xAnterior = 0;
     protected String mira = "i";
     protected Image img;
@@ -184,29 +184,32 @@ public class Player {
         return false;
     }
 
-    public boolean colisionoDerecha(Bloque[] b, Entorno e ) {
+    public boolean colisionoDerecha(Bloque[] b, Entorno e) {
         for (Bloque bloque : b) {
-            if (bloque != null){
-                if (getDerecha() == bloque.ObtenerLadoIzquierdo()){
-                    System.err.println("COL DERE");
+            if (bloque != null) {
+                if (getDerecha() + velocidad >= bloque.ObtenerLadoIzquierdo() &&
+                    getDerecha() <= bloque.ObtenerLadoIzquierdo() + velocidad &&
+                    getAbajo() > bloque.ObtenerLadoSuperior() &&
+                    getArriba() < bloque.ObtenerLadoInferior()) {
                     return true;
                 }
             }
         }
         return false;
     }
-
+    
     public boolean colisionoIzquierda(Bloque[] b) {
         for (Bloque bloque : b) {
-            if (bloque != null){
-                if ((getIzquierda() == bloque.ObtenerLadoDerecho())){
-                    System.err.println("COL IZ");
+            if (bloque != null) {
+                if (getIzquierda() - velocidad <= bloque.ObtenerLadoDerecho() &&
+                    getIzquierda() >= bloque.ObtenerLadoDerecho() - velocidad &&
+                    getAbajo() > bloque.ObtenerLadoSuperior() &&
+                    getArriba() < bloque.ObtenerLadoInferior()) {
                     return true;
                 }
             }
         }
         return false;
     }
-
     
 }
