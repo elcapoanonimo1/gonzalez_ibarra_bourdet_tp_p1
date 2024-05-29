@@ -115,7 +115,7 @@ public class Juego extends InterfaceJuego {
 	public void tick() {
 		//Pantalla de carga
 		if (jugador.getVidas()>0){ 
-			if (entorno.sePresiono(entorno.TECLA_ESPACIO)|| tick >500){
+			if (entorno.sePresiono(entorno.TECLA_ENTER )|| tick >500){
 				pantalla_carga = false;
 			}
 
@@ -192,7 +192,8 @@ public class Juego extends InterfaceJuego {
 					proyectilesEst[0].getY() >= Esqueletos[e].getArriba()){
 
 					proyectilesEst[0] = null;
-					int x = random.nextInt(0, 5);
+					// int x = random.nextInt(0, 5);
+					int x = random.nextInt(5);   
 					if(x==4){
 						Items[0]= new Item("hueso",Esqueletos[e].getX(), Esqueletos[e].getY());
 
