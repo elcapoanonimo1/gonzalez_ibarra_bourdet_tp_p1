@@ -12,8 +12,8 @@ public class Bloque {
     private int alto_bloque;
     private boolean se_rompe;
 
-    private Image bloque_normal = Herramientas.cargarImagen("recursos/imagenes/Deepslate_Bricks.png");
-    private Image bloque_rompible = Herramientas.cargarImagen("recursos/imagenes/Cracked_Deepslate_Bricks.png");
+    private Image bloque_normal = Herramientas.cargarImagen("recursos/imagenes/Bloque/bloque.png");
+    private Image bloque_rompible = Herramientas.cargarImagen("recursos/imagenes/Bloque/bloque_rompible.png");
 
 
     public Bloque(double pos_x, double pos_y, int ancho_bloque, int alto_bloque, boolean se_rompe) {
