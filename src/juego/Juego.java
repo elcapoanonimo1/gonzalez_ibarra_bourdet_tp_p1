@@ -4,6 +4,8 @@ package juego;
 import entorno.Entorno;
 import entorno.InterfaceJuego;
 
+import java.util.Random;
+
 
 
 
@@ -11,10 +13,11 @@ import entorno.InterfaceJuego;
 import Entidades.Esqueleto;
 import Entidades.Player;
 import Entidades.Proyectil;
-import Entidades.Zombie;
+import Entidades.Creeper;
 import Estructuras.Bloque;
 import Estructuras.Fondo;
 import Estructuras.Plataforma;
+
 
 
 public class Juego extends InterfaceJuego {
@@ -32,8 +35,12 @@ public class Juego extends InterfaceJuego {
 	private Plataforma plataforma;
 	private Player jugador;
 	private Proyectil proyectil;
-	private Zombie zombie, zombie2;
-	private Esqueleto esqueleto, esqueleto2;
+	private Proyectil[] proyectilesCre;
+	private Proyectil[] proyectilesEsq;
+	private Proyectil[] proyectilesEst;
+	private Esqueleto[] Esqueletos;
+	private Creeper[] Creepers;
+
 
 	// ...
 
@@ -43,11 +50,30 @@ public class Juego extends InterfaceJuego {
 
 		// Inicializar lo que haga falta para el juego
 
-		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 100, 40, 20, 3.0);
-		this.zombie = new Zombie(ALTO_JUEGO / 2, ALTO_JUEGO - 214, 40, 20, 1);
-		this.zombie2 = new Zombie(ALTO_JUEGO / 2 + 300, ALTO_JUEGO - 214, 40, 20, 1);
-		this.esqueleto = new Esqueleto(ALTO_JUEGO / 2, ALTO_JUEGO - 357, 40, 20, 1.0);
-		this.esqueleto2 = new Esqueleto(ALTO_JUEGO / 2 + 300, ALTO_JUEGO - 357, 40, 20, 1.0);
+		//Instanciamos los Array de enemigos
+		Random random = new Random();
+		Creepers = new Creeper[4];
+		Esqueletos = new Esqueleto[4];
+
+		for (int j = 0; j < Esqueletos.length; j++){ 
+			if (Esqueletos[j] == null) {
+				Esqueletos[j] = new Esqueleto((random.nextInt(1)* 100), 532-(random.nextInt(2)* 145), 40, 20, 1.0, random.nextInt());;
+		}
+		}
+		
+		for (int j = 0; j < Creepers.length; j++){ 
+			if (Creepers[j] == null) {
+				Creepers[j] = new Creeper((random.nextInt(3)* 100), 532-(random.nextInt(4)* 145), 40, 20, 1, random.nextInt());
+		}
+						
+		}
+
+		//Proyectiles
+		proyectilesCre= new Proyectil[4];
+		proyectilesEsq= new Proyectil[4];
+		proyectilesEst= new Proyectil[1];
+		
+		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 150, 40, 20, 5.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
 		this.plataforma = new Plataforma(ALTO_JUEGO, ANCHO_JUEGO);
 		this.bloques = this.plataforma.getBloques();
@@ -66,21 +92,65 @@ public class Juego extends InterfaceJuego {
 	 */
 
 	public void tick() {
+
+
 		fondo.actualizar(entorno);
-		zombie.actualizar(entorno);
-		zombie2.actualizar(entorno);
-		esqueleto.actualizar(entorno);
-		esqueleto2.actualizar(entorno);
-		plataforma.actualizar(entorno, this.bloques, this.jugador);
-		jugador.dibujarse(entorno);	
-		if (proyectil != null) {
-			proyectil.dibujar(entorno);
-			proyectil.mover();
-			if (proyectil.estaFueraDEPantalla(entorno)) {
-				proyectil = null;
+		plataforma.actualizar(entorno, this.bloques, jugador);
+
+		//Actualizar enemigos y proyectiles de enemigos
+		for (int e = 0; e < Creepers.length; e++) {
+			if (Creepers[e] != null) {
+				Creepers[e].actualizar(entorno, bloques);
+
+				if (proyectilesCre[e] == null && Creepers[e] != null) {
+					proyectilesCre[e] = Creepers[e].disparar();
+				
+				}
+
+				if (proyectilesCre[e] != null) {
+					proyectilesCre[e].dibujar(entorno);
+					proyectilesCre[e].mover();
+					if (proyectilesCre[e] != null && proyectilesCre[e].getX() <= jugador.getX() + (jugador.getancho_personaje()/2) && proyectilesCre[e].getX() >= jugador.getX() - (jugador.getancho_personaje()/2) && proyectilesCre[e].getY() >= jugador.getY() - (jugador.getalto_personaje()/2) && proyectilesCre[e].getY() <= jugador.getY() + (jugador.getalto_personaje()/2)){
+						proyectilesCre[e] = null;
+					}
+					if (proyectilesCre[e] != null && proyectilesCre[e].estaFueraDEPantalla(entorno)) {
+						proyectilesCre[e] = null;
+					}
+				}
 			}
+
 		}
+
+		for (int e = 0; e < Esqueletos.length; e++) {
+			if (Esqueletos[e] != null) {
+				Esqueletos[e].actualizar(entorno, bloques);
+			}
+
+			if (proyectilesEsq[e] == null && Esqueletos[e] != null) {
+				proyectilesEsq[e] = Esqueletos[e].disparar();
+			
+			}
+
+			if (proyectilesEsq[e] != null) {
+				proyectilesEsq[e].dibujar(entorno);
+				proyectilesEsq[e].mover();
+				if (proyectilesEsq[e] != null && proyectilesEsq[e].getX() <= jugador.getX() + (jugador.getancho_personaje()/2) && proyectilesEsq[e].getX() >= jugador.getX() - (jugador.getancho_personaje()/2) && proyectilesEsq[e].getY() >= jugador.getY() - (jugador.getalto_personaje()/2) && proyectilesEsq[e].getY() <= jugador.getY() + (jugador.getalto_personaje()/2)){
+					proyectilesEsq[e] = null;
+				}
+				if (proyectilesEsq[e] != null && proyectilesEsq[e].estaFueraDEPantalla(entorno)) {
+					proyectilesEsq[e] = null;
+				}
+			}
+
+			
+		}
+
+
 		
+
+
+
+
 		/// JUGADOR
 		
 		
@@ -100,8 +170,9 @@ public class Juego extends InterfaceJuego {
             jugador.agachar(entorno, false);
         }
 
-        if (entorno.sePresiono('c')) {
-            jugador.disparar();
+		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques)) {
+			jugador.setAlturaMaximaSalto(jugador.getY() - 150);
+			jugador.setEstaSaltando(true);
         }
 
 		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques)) {
