@@ -13,7 +13,6 @@ public class Player {
     private double alturaMaximaSalto;
     private boolean estaAgachado = false;
     private boolean estaSaltando = false;
-    @SuppressWarnings("unused")
     protected double velocidad;
     protected double velocidadSalto = 5.0;
     protected double velocidadCaida = 5.0;
