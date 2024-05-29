@@ -85,12 +85,6 @@ public class Player {
     public void setMira(String m){
         this.mira = m;
     }
-    public double getalto_personaje() {
-        return this.alto_personaje;
-    }
-    public double getancho_personaje() {
-        return this.ancho_personaje;
-    }
     public double getX() {
         return x;
     }

@@ -6,9 +6,6 @@ import entorno.InterfaceJuego;
 
 import java.util.Random;
 
-
-
-
 // Clases
 import Entidades.Esqueleto;
 import Entidades.Player;
@@ -17,8 +14,7 @@ import Entidades.Creeper;
 import Estructuras.Bloque;
 import Estructuras.Fondo;
 import Estructuras.Plataforma;
-
-
+import Scores.Puntuaciones;
 
 public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
@@ -41,7 +37,7 @@ public class Juego extends InterfaceJuego {
 	private Proyectil[] proyectilesEst;
 	private Esqueleto[] Esqueletos;
 	private Creeper[] Creepers;
-
+	private Puntuaciones puntuaciones;
 
 	// ...
 
@@ -51,38 +47,44 @@ public class Juego extends InterfaceJuego {
 
 		// Inicializar lo que haga falta para el juego
 
-		//Instanciamos los Array de enemigos
+		// Instanciamos los Array de enemigos
 		Random random = new Random();
 		Creepers = new Creeper[4];
 		Esqueletos = new Esqueleto[4];
 
-		for (int j = 0; j < Esqueletos.length; j++){ 
+		for (int j = 0; j < Esqueletos.length; j++) {
 			if (Esqueletos[j] == null) {
-				Esqueletos[j] = new Esqueleto((random.nextInt(1)* 100), 532-(random.nextInt(2)* 145), 40, 20, 1.0, random.nextInt());;
-		}
-		}
-		
-		for (int j = 0; j < Creepers.length; j++){ 
-			if (Creepers[j] == null) {
-				Creepers[j] = new Creeper((random.nextInt(3)* 100), 532-(random.nextInt(4)* 145), 40, 20, 1, random.nextInt());
-		}
-						
+				Esqueletos[j] = new Esqueleto((random.nextInt(1) * 100), 532 - (random.nextInt(2) * 145), 40, 20, 1.0,
+						random.nextInt());
+				;
+			}
 		}
 
-		//Proyectiles
-		proyectilesCre= new Proyectil[4];
-		proyectilesEsq= new Proyectil[4];
-		proyectilesEst= new Proyectil[1];
-		
+		for (int j = 0; j < Creepers.length; j++) {
+			if (Creepers[j] == null) {
+				Creepers[j] = new Creeper((random.nextInt(3) * 100), 532 - (random.nextInt(4) * 145), 40, 20, 1,
+						random.nextInt());
+			}
+
+		}
+
+		// Proyectiles
+		proyectilesCre = new Proyectil[4];
+		proyectilesEsq = new Proyectil[4];
+		proyectilesEst = new Proyectil[1];
+
 		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 80, 40, 20, 5.0);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
 		this.plataforma = new Plataforma(ALTO_JUEGO, ANCHO_JUEGO);
 		this.bloques = this.plataforma.getBloques();
-
+		this.puntuaciones = new Puntuaciones(20, 15, 30);
 		// ...
+
+		// this.entorno.cambiarFont("Comics Sans", 500, Color.green);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
+
 	}
 
 	/**
@@ -93,10 +95,8 @@ public class Juego extends InterfaceJuego {
 	 */
 
 	public void tick() {
-
-
+		System.out.println();
 		fondo.actualizar(entorno);
-
 
 		if (proyectil != null) {
 			proyectil.dibujar(entorno);
@@ -106,20 +106,24 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 
-		//Actualizar enemigos y proyectiles de enemigos
+		// Actualizar enemigos y proyectiles de enemigos
 		for (int e = 0; e < Creepers.length; e++) {
 			if (Creepers[e] != null) {
 				Creepers[e].actualizar(entorno, bloques);
 
 				if (proyectilesCre[e] == null && Creepers[e] != null) {
 					proyectilesCre[e] = Creepers[e].disparar();
-				
+
 				}
 
 				if (proyectilesCre[e] != null) {
 					proyectilesCre[e].dibujar(entorno);
 					proyectilesCre[e].mover();
-					if (proyectilesCre[e] != null && proyectilesCre[e].getX() <= jugador.getX() + (jugador.getancho_personaje()/2) && proyectilesCre[e].getX() >= jugador.getX() - (jugador.getancho_personaje()/2) && proyectilesCre[e].getY() >= jugador.getY() - (jugador.getalto_personaje()/2) && proyectilesCre[e].getY() <= jugador.getY() + (jugador.getalto_personaje()/2)){
+					if (proyectilesCre[e] != null
+							&& proyectilesCre[e].getX() <= jugador.getDerecha()
+							&& proyectilesCre[e].getX() >= jugador.getIzquierda()
+							&& proyectilesCre[e].getY() >= jugador.getArriba()
+							&& proyectilesCre[e].getY() <= jugador.getAbajo()) {
 						proyectilesCre[e] = null;
 					}
 					if (proyectilesCre[e] != null && proyectilesCre[e].estaFueraDEPantalla(entorno)) {
@@ -137,13 +141,17 @@ public class Juego extends InterfaceJuego {
 
 			if (proyectilesEsq[e] == null && Esqueletos[e] != null) {
 				proyectilesEsq[e] = Esqueletos[e].disparar();
-			
+
 			}
 
 			if (proyectilesEsq[e] != null) {
 				proyectilesEsq[e].dibujar(entorno);
 				proyectilesEsq[e].mover();
-				if (proyectilesEsq[e] != null && proyectilesEsq[e].getX() <= jugador.getX() + (jugador.getancho_personaje()/2) && proyectilesEsq[e].getX() >= jugador.getX() - (jugador.getancho_personaje()/2) && proyectilesEsq[e].getY() >= jugador.getY() - (jugador.getalto_personaje()/2) && proyectilesEsq[e].getY() <= jugador.getY() + (jugador.getalto_personaje()/2)){
+				if (proyectilesEsq[e] != null
+						&& proyectilesEsq[e].getX() <= jugador.getDerecha()
+						&& proyectilesEsq[e].getX() >= jugador.getIzquierda()
+						&& proyectilesEsq[e].getY() >= jugador.getArriba()
+						&& proyectilesEsq[e].getY() <= jugador.getAbajo()) {
 					proyectilesEsq[e] = null;
 				}
 				if (proyectilesEsq[e] != null && proyectilesEsq[e].estaFueraDEPantalla(entorno)) {
@@ -151,64 +159,65 @@ public class Juego extends InterfaceJuego {
 				}
 			}
 
-			
 		}
 
-
-		
 		jugador.dibujarse(entorno);
 		plataforma.actualizar(entorno, this.bloques, jugador);
-
-
+		puntuaciones.dibujarse(entorno);
 
 		/// JUGADOR
-		
-		
-        if (entorno.estaPresionada(entorno.TECLA_DERECHA) && !jugador.colisionoDerecha(this.bloques, entorno) && jugador.getDerecha() < this.ANCHO_JUEGO) {
+
+		if (entorno.estaPresionada(entorno.TECLA_DERECHA) && !jugador.colisionoDerecha(this.bloques, entorno)
+				&& jugador.getDerecha() < this.ANCHO_JUEGO) {
 			jugador.setMira("d");
-            jugador.moverDerecha(entorno);
-        }
+			jugador.moverDerecha(entorno);
+		}
 
-        if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && !jugador.colisionoIzquierda(this.bloques)&& jugador.getIzquierda() > 0) {
+		if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && !jugador.colisionoIzquierda(this.bloques)
+				&& jugador.getIzquierda() > 0) {
 			jugador.setMira("i");
-            jugador.moverIzquierda(entorno);
-        }
+			jugador.moverIzquierda(entorno);
+		}
 
-        if (entorno.estaPresionada(entorno.TECLA_SHIFT)) {
-            jugador.agachar(entorno, true);
-        } else {
-            jugador.agachar(entorno, false);
-        }
-
-		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques)) {
-			jugador.setAlturaMaximaSalto(jugador.getY() - 150);
-			jugador.setEstaSaltando(true);
-        }
+		if (entorno.estaPresionada(entorno.TECLA_SHIFT)) {
+			jugador.agachar(entorno, true);
+		} else {
+			jugador.agachar(entorno, false);
+		}
 
 		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques)) {
 			jugador.setAlturaMaximaSalto(jugador.getY() - 150);
 			jugador.setEstaSaltando(true);
-        }
-		
-		if (jugador.getEstaSaltando() == true){
-			if(!jugador.colisionoArriba(this.bloques) && (jugador.getY() >= jugador.getAlturaMaximaSalto())){
+		}
+
+		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques)) {
+			jugador.setAlturaMaximaSalto(jugador.getY() - 150);
+			jugador.setEstaSaltando(true);
+		}
+
+		if (jugador.getEstaSaltando() == true) {
+			if (!jugador.colisionoArriba(this.bloques) && (jugador.getY() >= jugador.getAlturaMaximaSalto())) {
 				jugador.moverArriba(entorno);
 			} else {
 				jugador.setEstaSaltando(false);
 			}
 		}
 
-		if (jugador.getEstaSaltando() == false){
-			if (!jugador.colisionoAbajo(this.bloques)){
+		if (jugador.getEstaSaltando() == false) {
+			if (!jugador.colisionoAbajo(this.bloques)) {
 				jugador.moverAbajo(entorno);
 			}
 		}
-		
-		if(entorno.estaPresionada('x') && proyectil == null) {
+
+		if (entorno.estaPresionada('x') && proyectil == null) {
 			proyectil = jugador.disparar();
-		}		
+		}
+
+		if (entorno.sePresiono('p')){
+			puntuaciones.addPuntos(1);
+		}
 	}
-	
+
 	/**
 	 * La función principal crea una instancia de la clase Juego.
 	 */
