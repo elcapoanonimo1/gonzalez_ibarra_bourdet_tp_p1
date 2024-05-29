@@ -1,8 +1,9 @@
 {
-    "java.project.sourcePaths": ["src"],
+    "java.project.sourcePaths": ["src", "lib"],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "lib/**/*.jar",
+        "lib/**/*.java"
     ],
     "isGitignoreExtActive": true
 }
