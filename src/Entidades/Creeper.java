@@ -152,9 +152,19 @@ public class Creeper {
                 this.caer(e);
             }
         }
+
+    public void Cargando(Entorno e) {
+        this.dibujarse(e);
+        if(this.destino == "d") {
+            this.x += this.velocidad;
+        }
+        if (this.destino == "i") {
+            this.x -= this.velocidad;
+        }
     
-     
+    }
 }
+
 
     
 

@@ -2,8 +2,10 @@ package juego;
 
 // Importaciones
 import entorno.Entorno;
+import entorno.Herramientas;
 import entorno.InterfaceJuego;
 
+import java.awt.Color;
 import java.util.Random;
 
 
@@ -21,6 +23,8 @@ import Estructuras.Plataforma;
 
 
 public class Juego extends InterfaceJuego {
+	
+
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 
@@ -41,6 +45,13 @@ public class Juego extends InterfaceJuego {
 	private Proyectil[] proyectilesEst;
 	private Esqueleto[] Esqueletos;
 	private Creeper[] Creepers;
+	private int tick=0;
+	private int Barra_carga = 0;
+	private boolean pantalla_carga = true;
+	private Creeper creeper_cargando1;
+	private Creeper creeper_cargando2;
+	private java.awt.Image imagen_carga;
+	private java.awt.Image imagen_carga_fondo;
 
 
 	// ...
@@ -80,7 +91,10 @@ public class Juego extends InterfaceJuego {
 		this.bloques = this.plataforma.getBloques();
 
 		// ...
-
+		creeper_cargando1 = new Creeper(410, ALTO_JUEGO/2, 40, 20, 0.5, 2);
+		creeper_cargando2 = new Creeper(390, ALTO_JUEGO/2, 40, 20, 0.5, 3);
+		imagen_carga = Herramientas.cargarImagen("recursos/Volcano-Scape.png");
+		imagen_carga_fondo = Herramientas.cargarImagen("recursos/Cargando.jpg");
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
@@ -94,7 +108,29 @@ public class Juego extends InterfaceJuego {
 
 	public void tick() {
 
+		
 
+		/*if (!entorno.sePresiono(entorno.TECLA_ESPACIO)){
+			pantalla_carga = true;
+		} else {
+			pantalla_carga = false;
+			
+		}*/
+
+		if (entorno.sePresiono(entorno.TECLA_ESPACIO)){
+			pantalla_carga = false;
+		}
+
+
+		if (pantalla_carga==true){
+			tick++;
+			entorno.dibujarImagen(imagen_carga_fondo, ANCHO_JUEGO/2, ALTO_JUEGO/2, 0, 1.5);
+			entorno.dibujarRectangulo( ANCHO_JUEGO/2, ALTO_JUEGO/2, Barra_carga, 15, 0, Color.GREEN);
+			entorno.dibujarImagen(imagen_carga, ANCHO_JUEGO/2, 200, 0, 0.9);
+			creeper_cargando1.Cargando(entorno);
+			creeper_cargando2.Cargando(entorno);
+			Barra_carga += 1;
+		}else{ 
 		fondo.actualizar(entorno);
 
 
@@ -206,7 +242,8 @@ public class Juego extends InterfaceJuego {
 		
 		if(entorno.estaPresionada('x') && proyectil == null) {
 			proyectil = jugador.disparar();
-		}		
+		}
+	}		
 	}
 	
 	/**
