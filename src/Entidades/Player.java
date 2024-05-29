@@ -10,6 +10,7 @@ public class Player {
     private double y;
     private int alto_personaje;
     private int ancho_personaje;
+    protected int Vidas;
     private double alturaMaximaSalto;
     private boolean estaAgachado = false;
     private boolean estaSaltando = false;
@@ -19,13 +20,15 @@ public class Player {
     protected double xAnterior = 0;
     protected String mira = "i";
     protected Image img;
+    public int getVidas;
 
-    public Player(double x, double y, int alto_personaje, int ancho_personaje, double velocidad) {
+    public Player(double x, double y, int alto_personaje, int ancho_personaje, double velocidad, int Vidas) {
         this.x = x;
         this.y = y;
         this.alto_personaje = alto_personaje;
         this.ancho_personaje = ancho_personaje;
         this.velocidad = velocidad;
+        this.Vidas = Vidas;
 
     }
 
@@ -33,13 +36,22 @@ public class Player {
     public void dibujarse(Entorno e) {
         switch (se_mueve_a(e)) {
             case "d":
+            if(estaAgachado == false){
+            
                 img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendod.gif");
                 e.dibujarImagen(img, x, y-1, 0, 3);
+            }else{
+                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadod.png"), x, y, 0,3);
+            }
                 break;
 
             case "i":
+            if(estaAgachado == false){
                 img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendoi.gif");
                 e.dibujarImagen(img, x, y-1, 0, 3);
+            }else{
+                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadoi.png"), x, y, 0,3);
+            }
                 break;
 
             case "x":
@@ -118,19 +130,27 @@ public class Player {
     //////// MOVIMIENTOS ////////
 
     public void moverAbajo(Entorno e) {
+        
         this.y += velocidadCaida;
+        
     }
 
     public void moverArriba(Entorno e) {
+        if(estaAgachado == false){
         this.y -= velocidadSalto;
+        }
     }
 
     public void moverDerecha(Entorno e) {
+        if(estaAgachado == false){
         this.x += velocidad;
+        }
     }
 
     public void moverIzquierda(Entorno e) {
+        if(estaAgachado == false){
         this.x -= velocidad;
+        }
     }
 
     public void agachar(Entorno e, boolean presionadoAGACHAR) {
@@ -171,7 +191,7 @@ public class Player {
     }
 
     public Proyectil disparar() {
-        return new Proyectil(x, y, this.alto_personaje, mira,"ste");
+        return new Proyectil(x, y, 10, 10, mira,"ste");
     }
 
     //////////////////////////////////// COLICIONES
@@ -224,6 +244,20 @@ public class Player {
             }
         }
         return false;
+    }
+
+    public void setVidas(int i) {
+        Vidas += i;
+    }
+
+    public void reaparecer(int ANCHO_JUEGO, int ALTO_JUEGO) {
+        Herramientas.cargarSonido("recursos/Muerte.wav").start();;
+        //x= ANCHO_JUEGO/2;
+        //y= ALTO_JUEGO - 80;
+    }
+
+    public int getVidas() {
+        return this.Vidas;
     }
     
 }

@@ -14,12 +14,14 @@ public class Proyectil {
 	private int alto;
 	private String direccion;
 	private String tipoDePro;
+	private int ancho;
 	private Image img;
 
 
-    public Proyectil(double x, double y, int alto, String direccion, String tipoDePro) {
+    public Proyectil(double x, double y, int alto, int ancho, String direccion, String tipoDePro) {
         this.x = x;
 		this.y = y;
+		this.ancho = ancho;
 		this.alto = alto;
 		this.direccion = direccion;
 		this.tipoDePro = tipoDePro;
@@ -84,4 +86,21 @@ public class Proyectil {
 	public int getAlto() {
 		return alto;
 	}
+
+	public double getArriba() {
+        return (this.y - alto / 2);
+    }
+
+    public double getIzquierda() {
+        return (this.x - ancho / 2);
+    }
+
+    public double getDerecha() {
+        return (this.x + ancho / 2);
+    }
+
+    public double getAbajo() {
+        return (this.y + alto / 2);
+    }
+
 }

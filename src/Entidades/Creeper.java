@@ -110,11 +110,15 @@ public class Creeper {
     }
 
     public Proyectil disparar() {
-        return new Proyectil(x, y-10, this.alto_creeper, destino,"cre");
+        return new Proyectil(x, y-10, 10, 10, destino,"cre");
     }
 
     public double getAbajo() {
         return (this.y + alto_creeper / 2);
+    }
+
+    public double getArriba() {
+        return (this.y - alto_creeper / 2);
     }
 
     public double getIzquierda() {

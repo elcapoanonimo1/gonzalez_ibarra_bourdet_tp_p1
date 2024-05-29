@@ -71,7 +71,7 @@ public class Esqueleto {
             
     
     public Proyectil disparar() {
-        return new Proyectil(x, y-10, this.alto_esqueleto, destino, "esq");
+        return new Proyectil(x, y-10, 10, 10, destino, "esq");
     }
 
 
@@ -107,6 +107,16 @@ public class Esqueleto {
         }
 
         throw new IllegalArgumentException("Borde invalido");
+    }
+    public double getX() {
+        return this.x;
+    }
+    public double getY() {
+        return this.y;
+    }
+
+    public double getArriba() {
+        return (this.y - alto_esqueleto / 2);
     }
 
     public double getAbajo() {
