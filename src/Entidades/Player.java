@@ -193,7 +193,7 @@ public class Player {
     public boolean colisionoArriba(Bloque[] b) {
         for (Bloque bloque : b) {
             if (bloque != null){
-                if (getArriba() == bloque.ObtenerLadoInferior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
+                if ((getArriba() == bloque.ObtenerLadoInferior() || getArriba() <= 0) && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
                     return true;
                 }
             }
