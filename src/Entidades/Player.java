@@ -94,6 +94,10 @@ public class Player {
         return estaSaltando;
     }
 
+    public boolean getEstaAgachado(){
+        return this.estaAgachado;
+    }
+
     public void setMira(String m){
         this.mira = m;
     }
@@ -124,15 +128,11 @@ public class Player {
     //////// MOVIMIENTOS ////////
 
     public void moverAbajo(Entorno e) {
-        
-        this.y += velocidadCaida;
-        
+        this.y += velocidadCaida; 
     }
 
-    public void moverArriba(Entorno e) {
-        if(estaAgachado == false){
+    public void moverArriba(Entorno e, Bloque[] b) {
         this.y -= velocidadSalto;
-        }
     }
 
     public void moverDerecha(Entorno e) {

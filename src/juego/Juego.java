@@ -274,25 +274,29 @@ public class Juego extends InterfaceJuego {
 				jugador.agachar(entorno, false);
 			}
 
-			if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques)) {
+			if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques) && !jugador.getEstaAgachado()) {
 				jugador.setAlturaMaximaSalto(jugador.getY() - 150);
 				jugador.setEstaSaltando(true);
 			}
 
-			if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques)) {
+			if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques) && !jugador.getEstaAgachado()) {
 				jugador.setAlturaMaximaSalto(jugador.getY() - 150);
 				jugador.setEstaSaltando(true);
 			}
 			
 			if (jugador.getEstaSaltando() == true){
 				if(!jugador.colisionoArriba(this.bloques) && (jugador.getY() >= jugador.getAlturaMaximaSalto())){
-					jugador.moverArriba(entorno);
+					jugador.moverArriba(entorno, this.bloques);
 				} else {
 					jugador.setEstaSaltando(false);
 				}
 			}
 
-			if (jugador.getEstaSaltando() == false){
+			if(jugador.getEstaAgachado()){
+				jugador.setEstaSaltando(false);
+			}
+
+			if (jugador.getEstaSaltando() == false) {
 				if (!jugador.colisionoAbajo(this.bloques)){
 					jugador.moverAbajo(entorno);
 				}
