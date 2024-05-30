@@ -18,6 +18,7 @@ import Estructuras.Bloque;
 import Estructuras.Fondo;
 import Estructuras.Plataforma;
 import Extras.Puntuaciones;
+import Extras.counterFPS;
 
 public class Juego extends InterfaceJuego {
 	
@@ -37,7 +38,6 @@ public class Juego extends InterfaceJuego {
 	private Player jugador;
 	private Proyectil[] proyectilesCre;
 	private Proyectil[] proyectilesEsq;
-	@SuppressWarnings("unused")
 	private Proyectil[] proyectilesEst;
 	private Esqueleto[] Esqueletos;
 	private Creeper[] Creepers;
@@ -52,6 +52,7 @@ public class Juego extends InterfaceJuego {
 	private java.awt.Image imagen_gameOver;
 	private java.awt.Image imagen_carga_fondo;
 	private Random random = new Random();
+	private counterFPS fps = new counterFPS();
 
 	// ...
 
@@ -102,6 +103,7 @@ public class Juego extends InterfaceJuego {
 
 		imagen_gameOver = Herramientas.cargarImagen("recursos/imagenes/GAME-OVER.png");
 		
+		
 		// Inicia el juego!
 		this.entorno.iniciar();
 
@@ -115,6 +117,9 @@ public class Juego extends InterfaceJuego {
 	 */
 
 	public void tick() {
+		fps.iniciar(System.nanoTime());
+
+
 		//Pantalla de carga
 		if (jugador.getVidas()>0){ 
 			if (entorno.sePresiono(entorno.TECLA_ENTER )|| tick >500){
@@ -130,6 +135,8 @@ public class Juego extends InterfaceJuego {
 				creeper_cargando1.Cargando(entorno);
 				creeper_cargando2.Cargando(entorno);
 				Barra_carga += 1;
+
+				fps.terminar(System.nanoTime());
 			}else{ 
 
 			//Juego 		System.out.println();
@@ -302,13 +309,19 @@ public class Juego extends InterfaceJuego {
 				proyectilesEst[0] = jugador.disparar();
 			}
 			}
-
+			fps.terminar(System.nanoTime());
 		}else{
 			entorno.dibujarImagen(imagen_gameOver,ANCHO_JUEGO/2, ALTO_JUEGO/2, 0, 0.9);
 			if(entorno.sePresiono('r')){
 				jugador.setVidas(3);
 			}
+			fps.terminar(System.nanoTime());	
 		}
+
+
+		fps.terminar(System.nanoTime());
+		fps.dibujar(entorno, ANCHO_JUEGO-80, ALTO_JUEGO-40);
+
 	 		
 	}
 
