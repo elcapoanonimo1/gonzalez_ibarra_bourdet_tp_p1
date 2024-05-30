@@ -55,7 +55,7 @@ public class Player {
                 break;
 
             case "x":
-            if(mira=="d"){
+            if(mira.equals("d")){
                 e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadod.png"), x, y, 0,
                         3);
             }else {
@@ -65,7 +65,7 @@ public class Player {
                 break;
 
             default:
-            if(mira=="d"){ 
+            if(mira.equals("d")){ 
                 e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y, 0,
                         3);
             }else {

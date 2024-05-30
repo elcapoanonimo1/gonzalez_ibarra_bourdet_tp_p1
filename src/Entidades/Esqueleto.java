@@ -54,7 +54,7 @@ public class Esqueleto {
         }
     }
     public void mover(Entorno e, Bloque[] b) {
-        if(destino == "d" && !colisionoDerecha(b,e)) {
+        if(destino.equals("d") && !colisionoDerecha(b,e)) {
             x += velocidad;
             seMueveA = "d";
         } else {
@@ -63,9 +63,9 @@ public class Esqueleto {
                 seMueveA = "i";
             }
         }
-        if (destino == "i" && !colisionoIzquierda(b)) {
+        if (destino.equals("i") && !colisionoIzquierda(b)) {
             x -= velocidad;
-        } else if(destino == "i"){
+        } else if(destino.equals("i")){
             if(colisionoAbajo(b)){
                 destino = "d";
             }

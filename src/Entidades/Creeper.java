@@ -61,7 +61,7 @@ public class Creeper {
 
 
     public void mover(Entorno e, Bloque[] b) {
-        if(destino == "d" && !colisionoDerecha(b,e)) {
+        if(destino.equals("d") && !colisionoDerecha(b,e)) {
             x += velocidad;
             seMueveA = "d";
         } else {
@@ -70,9 +70,9 @@ public class Creeper {
                 seMueveA = "i";
             }
         }
-        if (destino == "i" && !colisionoIzquierda(b)) {
+        if (destino.equals("i") && !colisionoIzquierda(b)) {
             x -= velocidad;
-        } else if(destino == "i"){
+        } else if(destino.equals("i")){
             if(colisionoAbajo(b)){
                 destino = "d";
             }
@@ -157,10 +157,10 @@ public class Creeper {
 
     public void Cargando(Entorno e) {
         this.dibujarse(e);
-        if(this.destino == "d") {
+        if(this.destino.equals("d")) {
             this.x += this.velocidad;
         }
-        if (this.destino == "i") {
+        if (this.destino.equals("i")) {
             this.x -= this.velocidad;
         }
     

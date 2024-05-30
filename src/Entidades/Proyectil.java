@@ -28,9 +28,9 @@ public class Proyectil {
 
         switch (tipoDePro){
 			case "esq":
-			if (direccion == "d") {
+			if (direccion.equals("d")) {
 				this.img = Herramientas.cargarImagen("recursos/imagenes/Proyectil/Flecha der.gif");
-			} else if (direccion == "i") {
+			} else if (direccion.equals("i")) {
 				this.img = Herramientas.cargarImagen("recursos/imagenes/Proyectil/Flecha izq.gif");
 			}
 			break;
@@ -40,9 +40,9 @@ public class Proyectil {
 			break;
 
 			case "cre":
-			if (direccion == "d") {
+			if (direccion.equals("d")) {
 				this.img = Herramientas.cargarImagen("recursos/imagenes/Proyectil/Proyectil TNTd.gif");
-			} else if (direccion == "i") {
+			} else if (direccion.equals("i")) {
 				this.img = Herramientas.cargarImagen("recursos/imagenes/Proyectil/Proyectil TNTi.gif");
 			}
 			break;
@@ -53,7 +53,7 @@ public class Proyectil {
     }
 
     public void dibujar(Entorno e) {
-		if (tipoDePro =="cre"){
+		if (tipoDePro.equals("cre")) {
 			e.dibujarImagen(img, x, y, 0, 0.09);
 		}else{
 			e.dibujarImagen(img, x, y, 0, 2);
@@ -63,10 +63,10 @@ public class Proyectil {
 	}
 
     public void mover() {
-		if (direccion == "d") {
+		if (direccion.equals("d")) {
 			x += 3;
 		}
-		if (direccion == "i") {
+		if (direccion.equals("i")) {
 			x -= 3;
 		}
 	}
