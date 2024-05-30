@@ -1,4 +1,4 @@
-package Scores;
+package Extras;
 
 import entorno.Entorno;
 import java.awt.Color;

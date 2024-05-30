@@ -17,7 +17,7 @@ import Entidades.Creeper;
 import Estructuras.Bloque;
 import Estructuras.Fondo;
 import Estructuras.Plataforma;
-import Scores.Puntuaciones;
+import Extras.Puntuaciones;
 
 public class Juego extends InterfaceJuego {
 	
@@ -41,7 +41,8 @@ public class Juego extends InterfaceJuego {
 	private Proyectil[] proyectilesEst;
 	private Esqueleto[] Esqueletos;
 	private Creeper[] Creepers;
-	private Puntuaciones puntuaciones;	private Item Items[];
+	private Puntuaciones puntuaciones;
+	private Item Items[];
 	private int tick=0;
 	private int Barra_carga = 0;
 	private boolean pantalla_carga = true;
@@ -92,7 +93,6 @@ public class Juego extends InterfaceJuego {
 		this.plataforma = new Plataforma(ALTO_JUEGO, ANCHO_JUEGO);
 		this.bloques = this.plataforma.getBloques();
 		this.puntuaciones = new Puntuaciones(20, 15, 30);
-		// ...
 
 		// this.entorno.cambiarFont("Comics Sans", 500, Color.green);
 		creeper_cargando1 = new Creeper(410, ALTO_JUEGO/2, 40, 20, 0.5, 2);
@@ -241,7 +241,7 @@ public class Juego extends InterfaceJuego {
 			}
 
 
-			
+			puntuaciones.dibujarse(entorno);
 			jugador.dibujarse(entorno);
 			plataforma.actualizar(entorno, this.bloques, jugador);
 
