@@ -255,13 +255,6 @@ public class Juego extends InterfaceJuego {
 
 			
 
-		/// JUGADOR
-
-		if (entorno.estaPresionada(entorno.TECLA_DERECHA) && !jugador.colisionoDerecha(this.bloques, entorno)
-				&& jugador.getDerecha() < this.ANCHO_JUEGO) {
-			jugador.setMira("d");
-			jugador.moverDerecha(entorno);
-		}
 			/// JUGADOR
 			
 			
