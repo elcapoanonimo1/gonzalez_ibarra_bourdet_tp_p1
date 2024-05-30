@@ -137,13 +137,13 @@ public class Player {
 
     public void moverDerecha(Entorno e) {
         if(estaAgachado == false){
-        this.x += velocidad;
+        this.x += this.velocidad;
         }
     }
 
     public void moverIzquierda(Entorno e) {
         if(estaAgachado == false){
-        this.x -= velocidad;
+        this.x -= this.velocidad;
         }
     }
 
