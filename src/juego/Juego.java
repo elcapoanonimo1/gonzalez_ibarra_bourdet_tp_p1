@@ -8,9 +8,6 @@ import entorno.InterfaceJuego;
 import java.awt.Color;
 import java.util.Random;
 
-
-
-
 // Clases
 import Entidades.Esqueleto;
 import Entidades.Item;
@@ -20,8 +17,7 @@ import Entidades.Creeper;
 import Estructuras.Bloque;
 import Estructuras.Fondo;
 import Estructuras.Plataforma;
-
-
+import Scores.Puntuaciones;
 
 public class Juego extends InterfaceJuego {
 	
@@ -45,7 +41,7 @@ public class Juego extends InterfaceJuego {
 	private Proyectil[] proyectilesEst;
 	private Esqueleto[] Esqueletos;
 	private Creeper[] Creepers;
-	private Item Items[];
+	private Puntuaciones puntuaciones;	private Item Items[];
 	private int tick=0;
 	private int Barra_carga = 0;
 	private boolean pantalla_carga = true;
@@ -64,36 +60,41 @@ public class Juego extends InterfaceJuego {
 
 		// Inicializar lo que haga falta para el juego
 
-		//Instanciamos los Array de enemigos
-		
+		// Instanciamos los Array de enemigos
+		Random random = new Random();
 		Creepers = new Creeper[4];
 		Esqueletos = new Esqueleto[4];
 		Items =new Item[4];
 
-		for (int j = 0; j < Esqueletos.length; j++){ 
+		for (int j = 0; j < Esqueletos.length; j++) {
 			if (Esqueletos[j] == null) {
-				Esqueletos[j] = new Esqueleto((random.nextInt(1)* 100), 532-(random.nextInt(2)* 145), 40, 20, 1.0, random.nextInt());;
-		}
-		}
-		
-		for (int j = 0; j < Creepers.length; j++){ 
-			if (Creepers[j] == null) {
-				Creepers[j] = new Creeper((random.nextInt(3)* 100), 532-(random.nextInt(4)* 145), 40, 20, 1, random.nextInt());
-		}
-						
+				Esqueletos[j] = new Esqueleto((random.nextInt(1) * 100), 532 - (random.nextInt(2) * 145), 40, 20, 1.0,
+						random.nextInt());
+				;
+			}
 		}
 
-		//Proyectiles
-		proyectilesCre= new Proyectil[4];
-		proyectilesEsq= new Proyectil[4];
-		proyectilesEst= new Proyectil[1];
-		
+		for (int j = 0; j < Creepers.length; j++) {
+			if (Creepers[j] == null) {
+				Creepers[j] = new Creeper((random.nextInt(3) * 100), 532 - (random.nextInt(4) * 145), 40, 20, 1,
+						random.nextInt());
+			}
+
+		}
+
+		// Proyectiles
+		proyectilesCre = new Proyectil[4];
+		proyectilesEsq = new Proyectil[4];
+		proyectilesEst = new Proyectil[1];
+
 		this.jugador = new Player(ANCHO_JUEGO / 2, ALTO_JUEGO - 80, 40, 20, 5.0,3);
 		this.fondo = new Fondo(ANCHO_JUEGO, ALTO_JUEGO, 1);
 		this.plataforma = new Plataforma(ALTO_JUEGO, ANCHO_JUEGO);
 		this.bloques = this.plataforma.getBloques();
-
+		this.puntuaciones = new Puntuaciones(20, 15, 30);
 		// ...
+
+		// this.entorno.cambiarFont("Comics Sans", 500, Color.green);
 		creeper_cargando1 = new Creeper(410, ALTO_JUEGO/2, 40, 20, 0.5, 2);
 		creeper_cargando2 = new Creeper(390, ALTO_JUEGO/2, 40, 20, 0.5, 3);
 		imagen_carga = Herramientas.cargarImagen("recursos/Volcano-Scape.png");
@@ -103,6 +104,7 @@ public class Juego extends InterfaceJuego {
 		
 		// Inicia el juego!
 		this.entorno.iniciar();
+
 	}
 
 	/**
@@ -130,10 +132,8 @@ public class Juego extends InterfaceJuego {
 				Barra_carga += 1;
 			}else{ 
 
-			//Juego 
-
+			//Juego 		System.out.println();
 			fondo.actualizar(entorno);
-
 
 			if (proyectilesEst[0] != null) {
 				proyectilesEst[0].dibujar(entorno);
@@ -144,7 +144,7 @@ public class Juego extends InterfaceJuego {
 				}
 			}
 
-			//Actualizar enemigos y proyectiles de enemigos
+			// Actualizar enemigos y proyectiles de enemigos
 			for (int e = 0; e < Creepers.length; e++) {
 				if (Creepers[e] != null) {
 					Creepers[e].actualizar(entorno, bloques);
@@ -205,7 +205,7 @@ public class Juego extends InterfaceJuego {
 
 				if (proyectilesEsq[e] == null && Esqueletos[e] != null) {
 					proyectilesEsq[e] = Esqueletos[e].disparar();
-				
+	
 				}
 
 				if (proyectilesEsq[e] != null) {
@@ -248,6 +248,13 @@ public class Juego extends InterfaceJuego {
 
 			
 
+		/// JUGADOR
+
+		if (entorno.estaPresionada(entorno.TECLA_DERECHA) && !jugador.colisionoDerecha(this.bloques, entorno)
+				&& jugador.getDerecha() < this.ANCHO_JUEGO) {
+			jugador.setMira("d");
+			jugador.moverDerecha(entorno);
+		}
 			/// JUGADOR
 			
 			
@@ -304,7 +311,7 @@ public class Juego extends InterfaceJuego {
 		}
 	 		
 	}
-	
+
 	/**
 	 * La función principal crea una instancia de la clase Juego.
 	 */
