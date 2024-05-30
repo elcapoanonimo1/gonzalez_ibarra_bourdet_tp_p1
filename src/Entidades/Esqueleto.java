@@ -53,19 +53,22 @@ public class Esqueleto {
                 break;
         }
     }
-
-    public void mover(Entorno e){
-        if(destino == "d" && !colicionaBorde("derecha", e)) {
+    public void mover(Entorno e, Bloque[] b) {
+        if(destino == "d" && !colisionoDerecha(b,e)) {
             x += velocidad;
             seMueveA = "d";
         } else {
-            destino = "i";
-            seMueveA = "i";
+            if (colisionoAbajo(b)) {
+                destino = "i";
+                seMueveA = "i";
+            }
         }
-        if (destino == "i" && !colicionaBorde("izquierda", e)) {
+        if (destino == "i" && !colisionoIzquierda(b)) {
             x -= velocidad;
         } else if(destino == "i"){
-            destino = "d";
+            if(colisionoAbajo(b)){
+                destino = "d";
+            }
         }
     }
             
@@ -75,39 +78,35 @@ public class Esqueleto {
     }
 
 
-
-    public boolean colicionaBorde(String borde, Entorno e){
-        if (borde == "arriba"){
-            if((this.y - alto_esqueleto/2) > 0){
-                return true;
-            } else {
-                return false;
+    public boolean colisionoDerecha(Bloque[] b, Entorno e) {
+        for (Bloque bloque : b) {
+            if (bloque != null) {
+                if ((getDerecha() + velocidad >= bloque.ObtenerLadoIzquierdo() &&
+                    getDerecha() <= bloque.ObtenerLadoIzquierdo() + velocidad &&
+                    getAbajo() > bloque.ObtenerLadoSuperior() &&
+                    getArriba() < bloque.ObtenerLadoInferior()) || getDerecha() >= e.ancho()) {
+                    return true;
+                }
             }
         }
-        if (borde == "abajo"){
-            if((this.y + alto_esqueleto/2) < e.alto()){
-                return true;
-            } else {
-                return false;
-            }
-        }
-        if (borde == "izquierda"){
-            if((this.x - ancho_esqueleto/2) > 0){
-                return false;
-            } else {
-                return true;
-            }
-        }
-        if (borde == "derecha"){
-            if((this.x + ancho_esqueleto/2) < e.ancho()){
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-        throw new IllegalArgumentException("Borde invalido");
+        return false;
     }
+    
+    public boolean colisionoIzquierda(Bloque[] b) {
+        for (Bloque bloque : b) {
+            if (bloque != null) {
+                if ((getIzquierda() - velocidad <= bloque.ObtenerLadoDerecho() &&
+                    getIzquierda() >= bloque.ObtenerLadoDerecho() - velocidad &&
+                    getAbajo() > bloque.ObtenerLadoSuperior() &&
+                    getArriba() < bloque.ObtenerLadoInferior()) || getIzquierda() <= 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
     public double getX() {
         return this.x;
     }
@@ -153,7 +152,7 @@ public class Esqueleto {
     public void actualizar(Entorno e, Bloque[] bloques) {
 		
         this.dibujarse(e);
-        mover(e);
+        mover(e, bloques);
         if (!this.colisionoAbajo(bloques)) {
             this.caer(e);
         }
