@@ -54,11 +54,11 @@ public class counterFPS {
             recet();
         }
         e.cambiarFont("Monospaced", 15, java.awt.Color.green);
-        if (FullFPS == 0){
-            e.escribirTexto("FPS: X", x, y);
-        } else {
+        if (FullFPS != 0){
             e.escribirTexto("FPS: " + FullFPS, x, y);
         }
+    
+
     }
 }
 }
