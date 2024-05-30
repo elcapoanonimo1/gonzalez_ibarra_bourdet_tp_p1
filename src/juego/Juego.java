@@ -284,7 +284,7 @@ public class Juego extends InterfaceJuego {
 
 				if (jugador.getEstaSaltando() == true) {
 					if (!jugador.colisionoArriba(this.bloques) && (jugador.getY() >= jugador.getAlturaMaximaSalto())) {
-						jugador.moverArriba(entorno, this.bloques);
+						jugador.moverArriba(entorno);
 					} else {
 						jugador.setEstaSaltando(false);
 					}

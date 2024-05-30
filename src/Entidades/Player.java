@@ -134,7 +134,7 @@ public class Player {
         this.y += velocidadCaida;
     }
 
-    public void moverArriba(Entorno e, Bloque[] b) {
+    public void moverArriba(Entorno e) {
         this.y -= velocidadSalto;
     }
 
@@ -245,6 +245,7 @@ public class Player {
         }
         return false;
     }
+
 
     public void setVidas(int i) {
         Vidas += i;
