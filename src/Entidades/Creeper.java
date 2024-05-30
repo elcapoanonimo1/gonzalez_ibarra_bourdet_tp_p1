@@ -16,17 +16,17 @@ public class Creeper {
     protected java.awt.Image img;
     protected double velocidadCaida = 1;
 
-    public Creeper(double x, double y, int alto_creeper, int ancho_creeper, double velocidad, int destino){
+    public Creeper(double x, double y, int alto_creeper, int ancho_creeper, double velocidad, int destino) {
         this.x = x;
         this.y = y;
         this.alto_creeper = alto_creeper;
         this.ancho_creeper = ancho_creeper;
         this.velocidad = velocidad;
-        
-        if (destino % 2== 0){
+
+        if (destino % 2 == 0) {
             this.destino = "d";
             this.seMueveA = "d";
-        }else{
+        } else {
             this.destino = "i";
             this.seMueveA = "i";
         }
@@ -36,19 +36,20 @@ public class Creeper {
     public void dibujarse(Entorno e) {
         switch (seMueveA) {
             case "d":
-            img = Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendod.gif");
-            e.dibujarImagen(img, x, y,0,3);
+                img = Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendod.gif");
+                e.dibujarImagen(img, x, y, 0, 3);
                 break;
-            
+
             case "i":
-            img = Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendoi.gif");
-            e.dibujarImagen(img, x, y,0,3);
+                img = Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendoi.gif");
+                e.dibujarImagen(img, x, y, 0, 3);
                 break;
 
             default:
-            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendoi.gif"), x, y-10,0,3);
+                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendoi.gif"), x,
+                        y - 10, 0, 3);
                 break;
-    }
+        }
     }
 
     public void moverDerecha(Entorno e) {
@@ -59,9 +60,8 @@ public class Creeper {
         x -= velocidad;
     }
 
-
     public void mover(Entorno e, Bloque[] b) {
-        if(destino.equals("d") && !colisionoDerecha(b,e)) {
+        if (destino.equals("d") && !colisionoDerecha(b, e)) {
             x += velocidad;
             seMueveA = "d";
         } else {
@@ -72,15 +72,15 @@ public class Creeper {
         }
         if (destino.equals("i") && !colisionoIzquierda(b)) {
             x -= velocidad;
-        } else if(destino.equals("i")){
-            if(colisionoAbajo(b)){
+        } else if (destino.equals("i")) {
+            if (colisionoAbajo(b)) {
                 destino = "d";
             }
         }
     }
-    
+
     public Proyectil disparar() {
-        return new Proyectil(x, y-10, 10, 10, destino,"cre");
+        return new Proyectil(x, y - 10, 10, 10, destino, "cre");
     }
 
     public double getAbajo() {
@@ -101,15 +101,17 @@ public class Creeper {
 
     public void caer(Entorno e) {
         if (getAbajo() >= e.alto()) {
-            this.y = (this.y + alto_creeper/2);
+            this.y = (this.y + alto_creeper / 2);
         } else {
             this.y = y + velocidadCaida;
         }
     }
+
     public boolean colisionoAbajo(Bloque[] b) {
         for (Bloque bloque : b) {
-            if (bloque != null){
-                if (getAbajo() == bloque.ObtenerLadoSuperior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
+            if (bloque != null) {
+                if (getAbajo() == bloque.ObtenerLadoSuperior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo()
+                        && getIzquierda() <= bloque.ObtenerLadoDerecho())) {
                     return true;
                 }
             }
@@ -121,23 +123,23 @@ public class Creeper {
         for (Bloque bloque : b) {
             if (bloque != null) {
                 if ((getDerecha() + velocidad >= bloque.ObtenerLadoIzquierdo() &&
-                    getDerecha() <= bloque.ObtenerLadoIzquierdo() + velocidad &&
-                    getAbajo() > bloque.ObtenerLadoSuperior() &&
-                    getArriba() < bloque.ObtenerLadoInferior()) || getDerecha() >= e.ancho()) {
+                        getDerecha() <= bloque.ObtenerLadoIzquierdo() + velocidad &&
+                        getAbajo() > bloque.ObtenerLadoSuperior() &&
+                        getArriba() < bloque.ObtenerLadoInferior()) || getDerecha() >= e.ancho()) {
                     return true;
                 }
             }
         }
         return false;
     }
-    
+
     public boolean colisionoIzquierda(Bloque[] b) {
         for (Bloque bloque : b) {
             if (bloque != null) {
                 if ((getIzquierda() - velocidad <= bloque.ObtenerLadoDerecho() &&
-                    getIzquierda() >= bloque.ObtenerLadoDerecho() - velocidad &&
-                    getAbajo() > bloque.ObtenerLadoSuperior() &&
-                    getArriba() < bloque.ObtenerLadoInferior()) || getIzquierda() <= 0) {
+                        getIzquierda() >= bloque.ObtenerLadoDerecho() - velocidad &&
+                        getAbajo() > bloque.ObtenerLadoSuperior() &&
+                        getArriba() < bloque.ObtenerLadoInferior()) || getIzquierda() <= 0) {
                     return true;
                 }
             }
@@ -145,30 +147,22 @@ public class Creeper {
         return false;
     }
 
-
-
     public void actualizar(Entorno e, Bloque[] bloques) {
-		    this.dibujarse(e);
-            mover(e, bloques);
-            if (!this.colisionoAbajo(bloques)) {
-                this.caer(e);
-            }
+        this.dibujarse(e);
+        mover(e, bloques);
+        if (!this.colisionoAbajo(bloques)) {
+            this.caer(e);
         }
+    }
 
     public void Cargando(Entorno e) {
         this.dibujarse(e);
-        if(this.destino.equals("d")) {
+        if (this.destino.equals("d")) {
             this.x += this.velocidad;
         }
         if (this.destino.equals("i")) {
             this.x -= this.velocidad;
         }
-    
+
     }
 }
-
-
-    
-
-
-   

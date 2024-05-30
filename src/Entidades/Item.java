@@ -14,30 +14,31 @@ public class Item {
     public Item(String tipoItem, double x, double y) {
         this.tipoItem = tipoItem;
         this.x = x;
-        this.y = y;    
+        this.y = y;
     }
 
     public void dibujarse(Entorno e) {
         switch (tipoItem) {
             case "hueso":
-            img = Herramientas.cargarImagen("recursos/imagenes/Items/Hueso.gif");
-            e.dibujarImagen(img, x, y,0,0.2);
+                img = Herramientas.cargarImagen("recursos/imagenes/Items/Hueso.gif");
+                e.dibujarImagen(img, x, y, 0, 0.2);
                 break;
-            
+
             case "Vida":
-            img = Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendoi.gif");
-            e.dibujarImagen(img, x, y,0,3);
+                img = Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendoi.gif");
+                e.dibujarImagen(img, x, y, 0, 3);
                 break;
 
             case "Estrella":
-            img = Herramientas.cargarImagen("recursos/imagenes/Items/Nether_Star.gif");
-            e.dibujarImagen(img, e.ancho()/2, e.alto()*0.05 ,0,0.4);
+                img = Herramientas.cargarImagen("recursos/imagenes/Items/Nether_Star.gif");
+                e.dibujarImagen(img, e.ancho() / 2, e.alto() * 0.05, 0, 0.4);
                 break;
 
             default:
-            e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendoi.gif"), x, y-10,0,3);
+                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendoi.gif"), x,
+                        y - 10, 0, 3);
                 break;
-    }
+        }
     }
 
     public void actualizar(Entorno entorno) {

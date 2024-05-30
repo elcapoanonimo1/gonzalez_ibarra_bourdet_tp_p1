@@ -36,42 +36,44 @@ public class Player {
     public void dibujarse(Entorno e) {
         switch (se_mueve_a(e)) {
             case "d":
-            if(estaAgachado == false){
-            
-                img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendod.gif");
-                e.dibujarImagen(img, x, y-1, 0, 3);
-            }else{
-                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadod.png"), x, y, 0,3);
-            }
+                if (estaAgachado == false) {
+
+                    img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendod.gif");
+                    e.dibujarImagen(img, x, y - 1, 0, 3);
+                } else {
+                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadod.png"), x, y, 0,
+                            3);
+                }
                 break;
 
             case "i":
-            if(estaAgachado == false){
-                img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendoi.gif");
-                e.dibujarImagen(img, x, y-1, 0, 3);
-            }else{
-                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadoi.png"), x, y, 0,3);
-            }
+                if (estaAgachado == false) {
+                    img = Herramientas.cargarImagen("recursos/imagenes/Steve/Corriendo/Steve - corriendoi.gif");
+                    e.dibujarImagen(img, x, y - 1, 0, 3);
+                } else {
+                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadoi.png"), x, y, 0,
+                            3);
+                }
                 break;
 
             case "x":
-            if(mira.equals("d")){
-                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadod.png"), x, y, 0,
-                        3);
-            }else {
-                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadoi.png"), x, y, 0,
-                        3);
-            }
+                if (mira.equals("d")) {
+                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadod.png"), x, y, 0,
+                            3);
+                } else {
+                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - agachadoi.png"), x, y, 0,
+                            3);
+                }
                 break;
 
             default:
-            if(mira.equals("d")){ 
-                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y, 0,
-                        3);
-            }else {
-                e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quietoi.png"), x, y, 0,
-                        3);
-            }
+                if (mira.equals("d")) {
+                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quieto.png"), x, y, 0,
+                            3);
+                } else {
+                    e.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Steve/Steve - quietoi.png"), x, y, 0,
+                            3);
+                }
                 break;
         }
     }
@@ -86,21 +88,22 @@ public class Player {
         return this.alturaMaximaSalto;
     }
 
-    public void setEstaSaltando(boolean saltando){
+    public void setEstaSaltando(boolean saltando) {
         this.estaSaltando = saltando;
     }
 
-    public boolean getEstaSaltando(){
+    public boolean getEstaSaltando() {
         return estaSaltando;
     }
 
-    public boolean getEstaAgachado(){
+    public boolean getEstaAgachado() {
         return this.estaAgachado;
     }
 
-    public void setMira(String m){
+    public void setMira(String m) {
         this.mira = m;
     }
+
     public double getX() {
         return x;
     }
@@ -128,7 +131,7 @@ public class Player {
     //////// MOVIMIENTOS ////////
 
     public void moverAbajo(Entorno e) {
-        this.y += velocidadCaida; 
+        this.y += velocidadCaida;
     }
 
     public void moverArriba(Entorno e, Bloque[] b) {
@@ -136,14 +139,14 @@ public class Player {
     }
 
     public void moverDerecha(Entorno e) {
-        if(estaAgachado == false){
-        this.x += this.velocidad;
+        if (estaAgachado == false) {
+            this.x += this.velocidad;
         }
     }
 
     public void moverIzquierda(Entorno e) {
-        if(estaAgachado == false){
-        this.x -= this.velocidad;
+        if (estaAgachado == false) {
+            this.x -= this.velocidad;
         }
     }
 
@@ -185,15 +188,17 @@ public class Player {
     }
 
     public Proyectil disparar() {
-        return new Proyectil(x, y, 10, 10, mira,"ste");
+        return new Proyectil(x, y, 10, 10, mira, "ste");
     }
 
     //////////////////////////////////// COLICIONES
 
     public boolean colisionoArriba(Bloque[] b) {
         for (Bloque bloque : b) {
-            if (bloque != null){
-                if ((getArriba() == bloque.ObtenerLadoInferior() || getArriba() <= 0) && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
+            if (bloque != null) {
+                if ((getArriba() == bloque.ObtenerLadoInferior() || getArriba() <= 0)
+                        && (getDerecha() >= bloque.ObtenerLadoIzquierdo()
+                                && getIzquierda() <= bloque.ObtenerLadoDerecho())) {
                     return true;
                 }
             }
@@ -203,8 +208,9 @@ public class Player {
 
     public boolean colisionoAbajo(Bloque[] b) {
         for (Bloque bloque : b) {
-            if (bloque != null){
-                if (getAbajo() == bloque.ObtenerLadoSuperior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo() && getIzquierda() <= bloque.ObtenerLadoDerecho())){
+            if (bloque != null) {
+                if (getAbajo() == bloque.ObtenerLadoSuperior() && (getDerecha() >= bloque.ObtenerLadoIzquierdo()
+                        && getIzquierda() <= bloque.ObtenerLadoDerecho())) {
                     return true;
                 }
             }
@@ -216,23 +222,23 @@ public class Player {
         for (Bloque bloque : b) {
             if (bloque != null) {
                 if (getDerecha() + velocidad >= bloque.ObtenerLadoIzquierdo() &&
-                    getDerecha() <= bloque.ObtenerLadoIzquierdo() + velocidad &&
-                    getAbajo() > bloque.ObtenerLadoSuperior() &&
-                    getArriba() < bloque.ObtenerLadoInferior()) {
+                        getDerecha() <= bloque.ObtenerLadoIzquierdo() + velocidad &&
+                        getAbajo() > bloque.ObtenerLadoSuperior() &&
+                        getArriba() < bloque.ObtenerLadoInferior()) {
                     return true;
                 }
             }
         }
         return false;
     }
-    
+
     public boolean colisionoIzquierda(Bloque[] b) {
         for (Bloque bloque : b) {
             if (bloque != null) {
                 if (getIzquierda() - velocidad <= bloque.ObtenerLadoDerecho() &&
-                    getIzquierda() >= bloque.ObtenerLadoDerecho() - velocidad &&
-                    getAbajo() > bloque.ObtenerLadoSuperior() &&
-                    getArriba() < bloque.ObtenerLadoInferior()) {
+                        getIzquierda() >= bloque.ObtenerLadoDerecho() - velocidad &&
+                        getAbajo() > bloque.ObtenerLadoSuperior() &&
+                        getArriba() < bloque.ObtenerLadoInferior()) {
                     return true;
                 }
             }
@@ -245,13 +251,14 @@ public class Player {
     }
 
     public void reaparecer(int ANCHO_JUEGO, int ALTO_JUEGO) {
-        Herramientas.cargarSonido("recursos/sonido/Muerte.wav").start();;
-        //x= ANCHO_JUEGO/2;
-        //y= ALTO_JUEGO - 80;
+        Herramientas.cargarSonido("recursos/sonido/Muerte.wav").start();
+        ;
+        // x= ANCHO_JUEGO/2;
+        // y= ALTO_JUEGO - 80;
     }
 
     public int getVidas() {
         return this.Vidas;
     }
-    
+
 }
