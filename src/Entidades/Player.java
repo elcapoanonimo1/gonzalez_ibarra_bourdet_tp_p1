@@ -245,7 +245,7 @@ public class Player {
     }
 
     public void reaparecer(int ANCHO_JUEGO, int ALTO_JUEGO) {
-        Herramientas.cargarSonido("recursos/Muerte.wav").start();;
+        Herramientas.cargarSonido("recursos/sonido/Muerte.wav").start();;
         //x= ANCHO_JUEGO/2;
         //y= ALTO_JUEGO - 80;
     }

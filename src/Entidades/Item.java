@@ -20,7 +20,7 @@ public class Item {
     public void dibujarse(Entorno e) {
         switch (tipoItem) {
             case "hueso":
-            img = Herramientas.cargarImagen("recursos/imagenes/Hueso.gif");
+            img = Herramientas.cargarImagen("recursos/imagenes/Items/Hueso.gif");
             e.dibujarImagen(img, x, y,0,0.2);
                 break;
             
@@ -30,7 +30,7 @@ public class Item {
                 break;
 
             case "Estrella":
-            img = Herramientas.cargarImagen("recursos/imagenes/Nether_Star.gif");
+            img = Herramientas.cargarImagen("recursos/imagenes/Items/Nether_Star.gif");
             e.dibujarImagen(img, e.ancho()/2, e.alto()*0.05 ,0,0.4);
                 break;
 

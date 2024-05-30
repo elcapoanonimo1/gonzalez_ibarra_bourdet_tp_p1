@@ -98,10 +98,10 @@ public class Juego extends InterfaceJuego {
 		// this.entorno.cambiarFont("Comics Sans", 500, Color.green);
 		creeper_cargando1 = new Creeper(410, ALTO_JUEGO/2, 40, 20, 0.5, 2);
 		creeper_cargando2 = new Creeper(390, ALTO_JUEGO/2, 40, 20, 0.5, 3);
-		imagen_carga = Herramientas.cargarImagen("recursos/Volcano-Scape.png");
-		imagen_carga_fondo = Herramientas.cargarImagen("recursos/Cargando.jpg");
+		imagen_carga = Herramientas.cargarImagen("recursos/imagenes/Pantallas/Loading/Volcano-Scape.png" );
+		imagen_carga_fondo = Herramientas.cargarImagen("recursos/imagenes/Pantallas/Loading/Cargando.jpg");
 
-		imagen_gameOver = Herramientas.cargarImagen("recursos/imagenes/GAME-OVER.png");
+		imagen_gameOver = Herramientas.cargarImagen("recursos/imagenes/Pantallas/GameOver/GAME-OVER.png");
 		
 		
 		// Inicia el juego!
