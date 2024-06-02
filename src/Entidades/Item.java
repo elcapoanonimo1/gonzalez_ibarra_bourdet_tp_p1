@@ -34,7 +34,7 @@ public class Item {
 
             case "Estrella":
                 img = Herramientas.cargarImagen("recursos/imagenes/Items/Nether_Star.gif");
-                e.dibujarImagen(img, e.ancho() / 2, e.alto() * 0.05, 0, 0.4);
+                e.dibujarImagen(img, e.ancho() / 2, e.alto() * 0.05, 0, 1);
                 break;
 
             default:

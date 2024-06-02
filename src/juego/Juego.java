@@ -137,7 +137,6 @@ public class Juego extends InterfaceJuego {
 				fps.terminar(System.nanoTime());
 			} else {
 
-				// Juego System.out.println();
 				fondo.actualizar(entorno);
 
 				if (proyectilesJug[0] != null) {
@@ -175,7 +174,6 @@ public class Juego extends InterfaceJuego {
 							if (x == 4) {
 							Items[0] = new Item("manzana", Creepers[e].getX(), Creepers[e].getY());
 
-							System.out.println("Tiene que aparecer una manzana");
 							}
 							Creepers[e] = null;
 							puntuaciones.addPuntos(1);
@@ -216,11 +214,11 @@ public class Juego extends InterfaceJuego {
 						Esqueletos[e].actualizar(entorno, bloques);
 					}
 					if (Esqueletos[e] != null && jugador.getInvulnerable(System.nanoTime()) == false){
-						if (Esqueletos[e].getIzquierda() == jugador.getDerecha() &&
-							Esqueletos[e].getDerecha() == jugador.getIzquierda() &&
-							Esqueletos[e].getAbajo() == jugador.getArriba() &&
-							Esqueletos[e].getArriba() == jugador.getAbajo()) {
-							jugador.setVidas(-3); // Restamos una vida al jugador
+						if (Esqueletos[e].getIzquierda() <= jugador.getDerecha() &&
+							Esqueletos[e].getDerecha() >= jugador.getIzquierda() &&
+							Esqueletos[e].getAbajo() >= jugador.getArriba() &&
+							Esqueletos[e].getArriba() <= jugador.getAbajo()) {
+							jugador.setVidas(-1); // Restamos una vida al jugador
 							jugador.setInvulnerable(System.nanoTime());
 						}
 					}
@@ -236,7 +234,6 @@ public class Juego extends InterfaceJuego {
 						if (x == 4) {
 							Items[0] = new Item("hueso", Esqueletos[e].getX(), Esqueletos[e].getY());
 
-							System.out.println("Tiene que aparecer un hueso");
 						}
 
 						Esqueletos[e] = null;
@@ -299,7 +296,6 @@ public class Juego extends InterfaceJuego {
 						Items[e].getArriba() <= jugador.getAbajo()) {
 
 							Game_win = true;
-							System.out.println("Ganaste");
 
 						}
 
@@ -398,9 +394,6 @@ public class Juego extends InterfaceJuego {
 		} else if(jugador.getVidas<=0 && Game_win == false){
 
 			entorno.dibujarImagen(imagen_gameOver, ANCHO_JUEGO / 2, ALTO_JUEGO / 2, 0, 0.9);
-			if (entorno.sePresiono('r')) {
-				jugador.setVidas(3);
-			}
 			fps.terminar(System.nanoTime());
 
 		}else{
