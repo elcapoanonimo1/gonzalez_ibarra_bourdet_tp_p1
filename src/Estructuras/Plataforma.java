@@ -79,7 +79,7 @@ public class Plataforma {
         for (int i = 0; i < bloques.length;  i++){
             if(bloques[i] != null){
                 if(bloques[i].getSeRompe() == true){
-                    if(jugador.getArriba() == bloques[i].ObtenerLadoInferior() && (jugador.getDerecha() >= bloques[i].ObtenerLadoIzquierdo() && jugador.getIzquierda() <= bloques[i].ObtenerLadoDerecho())){
+                    if(jugador.getInvulnerable(System.nanoTime()) == false &&jugador.getArriba() == bloques[i].ObtenerLadoInferior() && (jugador.getDerecha() >= bloques[i].ObtenerLadoIzquierdo() && jugador.getIzquierda() <= bloques[i].ObtenerLadoDerecho())){
                         bloques[i] = null;
                         jugador.setEstaSaltando(false);
                     }

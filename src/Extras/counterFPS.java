@@ -27,7 +27,7 @@ public class counterFPS {
 
     }
 
-    public void recet() {
+    public void reset() {
         this.fps = 0;
         this.temporizador = 0;
     }
@@ -49,7 +49,7 @@ public class counterFPS {
         {
             if (temporizador >= 1000000000) {
                 FullFPS = fps;
-                recet();
+                reset();
             }
             e.cambiarFont("Monospaced", 15, java.awt.Color.green);
             if (FullFPS != 0) {

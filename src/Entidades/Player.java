@@ -21,6 +21,8 @@ public class Player {
     protected String mira = "i";
     protected Image img;
     public int getVidas;
+    public boolean invulnerable = false;
+    public long tiempoInvulnerable;
 
     public Player(double x, double y, int alto_personaje, int ancho_personaje, double velocidad, int Vidas) {
         this.x = x;
@@ -79,6 +81,28 @@ public class Player {
     }
 
     ///////// GETERS Y SETERS /////////
+
+    public int getAncho(){
+        return this.ancho_personaje;
+    }
+
+    public boolean getInvulnerable(long tiempo){
+        if(this.tiempoInvulnerable != 0){
+            if(tiempo > this.tiempoInvulnerable + 3000000000L){
+                this.invulnerable = false;
+                return this.invulnerable;
+            } else {
+                return this.invulnerable;
+            }
+        } else {
+            return this.invulnerable;
+        }
+    }
+
+    public void setInvulnerable(long tiempo) {
+        this.tiempoInvulnerable = tiempo;
+        this.invulnerable = true;
+    }
 
     public void setAlturaMaximaSalto(double alturamax) {
         this.alturaMaximaSalto = alturamax;
@@ -253,7 +277,6 @@ public class Player {
 
     public void reaparecer(int ANCHO_JUEGO, int ALTO_JUEGO) {
         Herramientas.cargarSonido("recursos/sonido/Muerte.wav").start();
-        ;
         // x= ANCHO_JUEGO/2;
         // y= ALTO_JUEGO - 80;
     }
