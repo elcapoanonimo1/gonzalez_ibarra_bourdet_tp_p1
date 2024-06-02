@@ -189,7 +189,8 @@ public class Juego extends InterfaceJuego {
 
 							proyectilesCre[e].dibujar(entorno);
 							proyectilesCre[e].mover();
-							if (proyectilesCre[e] != null && jugador.getInvulnerable(System.nanoTime()) == false && proyectilesCre[e].getX() <= jugador.getDerecha() &&
+							if (proyectilesCre[e] != null && jugador.getInvulnerable(System.nanoTime()) == false && 
+									proyectilesCre[e].getX() <= jugador.getDerecha() &&
 									proyectilesCre[e].getX() >= jugador.getIzquierda() &&
 									proyectilesCre[e].getY() >= jugador.getArriba() &&
 									proyectilesCre[e].getY() <= jugador.getAbajo()) {
@@ -354,13 +355,13 @@ public class Juego extends InterfaceJuego {
 					jugador.agachar(entorno, false);
 				}
 
-				if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques)
+				if (entorno.estaPresionada('x') && jugador.colisionoAbajo(this.bloques)
 						&& !jugador.getEstaAgachado()) {
 					jugador.setAlturaMaximaSalto(jugador.getY() - 150);
 					jugador.setEstaSaltando(true);
 				}
 
-				if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques)
+				if (entorno.estaPresionada('x') && jugador.colisionoAbajo(this.bloques)
 						&& !jugador.getEstaAgachado()) {
 					jugador.setAlturaMaximaSalto(jugador.getY() - 150);
 					jugador.setEstaSaltando(true);
@@ -384,7 +385,7 @@ public class Juego extends InterfaceJuego {
 					}
 				}
 
-				if (entorno.estaPresionada('x') && proyectilesJug[0] == null && jugador.getInvulnerable(System.nanoTime()) == false) {
+				if (entorno.estaPresionada('c') && proyectilesJug[0] == null && jugador.getInvulnerable(System.nanoTime()) == false) {
 					proyectilesJug[0] = jugador.disparar();
 				}
 
