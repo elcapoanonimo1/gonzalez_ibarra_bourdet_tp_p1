@@ -12,7 +12,6 @@ import java.util.Random;
 // Clases
 import Entidades.Esqueleto;
 import Entidades.Item;
-import Entidades.Lobo;
 import Entidades.Player;
 import Entidades.Proyectil;
 import Entidades.Creeper;
@@ -55,7 +54,6 @@ public class Juego extends InterfaceJuego {
 	private java.awt.Image imagen_carga_fondo;
 	private Random random = new Random();
 	private counterFPS fps = new counterFPS();
-	private Lobo lobo;
 	private boolean Game_win= false;
 
 	// ...
@@ -74,13 +72,13 @@ public class Juego extends InterfaceJuego {
 		
 		for (int j = 0; j < Esqueletos.length; j++) {
 			if (Esqueletos[j] == null) {
-				Esqueletos[j] = new Esqueleto((random.nextInt(ANCHO_JUEGO)), 532 - (random.nextInt(2) * 145), 40, 20, 1.0, random.nextInt());
+				Esqueletos[j] = new Esqueleto((random.nextInt(ANCHO_JUEGO - ANCHO_JUEGO/2)), j == 0 ? ALTO_JUEGO * 0.65 : j == 1 ? ALTO_JUEGO * 0.40 : j >= 2 ? ALTO_JUEGO * 0.15 : ALTO_JUEGO * 0.15, 40, 20, 1.0, "d");
 			}
 		}
 
 		for (int j = 0; j < Creepers.length; j++) {
 			if (Creepers[j] == null) {
-				Creepers[j] = new Creeper((random.nextInt(ANCHO_JUEGO)), 532 - (random.nextInt(4) * 145), 40, 20, 1, random.nextInt());
+				Creepers[j] = new Creeper((ANCHO_JUEGO/2 + random.nextInt( ANCHO_JUEGO/2)), j == 0 ? ALTO_JUEGO * 0.65 : j == 1 ? ALTO_JUEGO * 0.40 : j >= 2 ? ALTO_JUEGO * 0.15 : ALTO_JUEGO * 0.15, 40, 20, 1, "i");
 			}
 
 		}
@@ -97,8 +95,8 @@ public class Juego extends InterfaceJuego {
 		this.puntuaciones = new Puntuaciones(20, 15, 30);
 
 		// this.entorno.cambiarFont("Comics Sans", 500, Color.green);
-		creeper_cargando1 = new Creeper(410, ALTO_JUEGO / 2, 40, 20, 0.5, 2);
-		creeper_cargando2 = new Creeper(390, ALTO_JUEGO / 2, 40, 20, 0.5, 3);
+		creeper_cargando1 = new Creeper(410, ALTO_JUEGO / 2, 40, 20, 0.5, "d");
+		creeper_cargando2 = new Creeper(390, ALTO_JUEGO / 2, 40, 20, 0.5, "i");
 		imagen_carga = Herramientas.cargarImagen("recursos/imagenes/Pantallas/Loading/Volcano-Scape.png");
 		imagen_carga_fondo = Herramientas.cargarImagen("recursos/imagenes/Pantallas/Loading/Cargando.jpg");
 		imagen_gameWin = Herramientas.cargarImagen("recursos/imagenes/Pantallas/GameWin/GameWin.png");
@@ -230,11 +228,6 @@ public class Juego extends InterfaceJuego {
 							proyectilesJug[0].getY() >= Esqueletos[e].getArriba()) {
 
 						proyectilesJug[0] = null;
-						int x = random.nextInt(5);
-						if (x == 4) {
-							Items[0] = new Item("hueso", Esqueletos[e].getX(), Esqueletos[e].getY());
-
-						}
 
 						Esqueletos[e] = null;
 						puntuaciones.addPuntos(1);
@@ -284,7 +277,6 @@ public class Juego extends InterfaceJuego {
 						Items[e].getArriba() <= jugador.getAbajo()) {
 
 							Items[e] = null;
-							lobo = new Lobo(jugador.getY(), 900);
 
 						}
 
@@ -318,11 +310,6 @@ public class Juego extends InterfaceJuego {
 					entorno.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Items/Vida.png"), ANCHO_JUEGO-20-(35*e), 25, 0, 0.2);
 				}
 
-				//Mascotas
-				if (lobo != null){
-					lobo.dibujarse(entorno);
-					lobo.mover(jugador.getX(), jugador.getY());
-				}
 
 				//Elementos en pantalla
 				jugador.dibujarse(entorno);

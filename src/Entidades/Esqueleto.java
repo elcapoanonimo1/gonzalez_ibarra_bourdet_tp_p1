@@ -18,20 +18,14 @@ public class Esqueleto {
     protected Image img;
     protected double velocidadCaida = 1;
 
-    public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad, int destino) {
+    public Esqueleto(double x, double y, int alto_esqueleto, int ancho_esqueleto, double velocidad, String destino) {
         this.x = x;
         this.y = y;
         this.alto_esqueleto = alto_esqueleto;
         this.ancho_esqueleto = ancho_esqueleto;
         this.velocidad = velocidad;
-
-        if (destino % 2 == 0) {
-            this.destino = "d";
-            this.seMueveA = "d";
-        } else {
-            this.destino = "i";
-            this.seMueveA = "i";
-        }
+        this.destino = destino;
+        this.seMueveA = destino;
 
     }
 

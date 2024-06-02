@@ -16,20 +16,14 @@ public class Creeper {
     protected java.awt.Image img;
     protected double velocidadCaida = 1;
 
-    public Creeper(double x, double y, int alto_creeper, int ancho_creeper, double velocidad, int destino) {
+    public Creeper(double x, double y, int alto_creeper, int ancho_creeper, double velocidad, String destino) {
         this.x = x;
         this.y = y;
         this.alto_creeper = alto_creeper;
         this.ancho_creeper = ancho_creeper;
         this.velocidad = velocidad;
-
-        if (destino % 2 == 0) {
-            this.destino = "d";
-            this.seMueveA = "d";
-        } else {
-            this.destino = "i";
-            this.seMueveA = "i";
-        }
+        this.destino = destino;
+        this.seMueveA = destino;
 
     }
 
