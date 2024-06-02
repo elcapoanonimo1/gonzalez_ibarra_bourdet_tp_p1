@@ -165,4 +165,12 @@ public class Creeper {
         }
 
     }
+
+    public double getX() {
+        return this.x;
+    }
+
+    public double getY() {
+        return this.y;
+    }
 }

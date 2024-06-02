@@ -8,9 +8,11 @@ import entorno.InterfaceJuego;
 import java.awt.Color;
 import java.util.Random;
 
+
 // Clases
 import Entidades.Esqueleto;
 import Entidades.Item;
+import Entidades.Lobo;
 import Entidades.Player;
 import Entidades.Proyectil;
 import Entidades.Creeper;
@@ -41,7 +43,7 @@ public class Juego extends InterfaceJuego {
 	private Esqueleto[] Esqueletos;
 	private Creeper[] Creepers;
 	private Puntuaciones puntuaciones;
-	private Item Items[];
+	private Item Items[];	
 	private int tick = 0;
 	private int Barra_carga = 0;
 	private boolean pantalla_carga = true;
@@ -49,9 +51,13 @@ public class Juego extends InterfaceJuego {
 	private Creeper creeper_cargando2;
 	private java.awt.Image imagen_carga;
 	private java.awt.Image imagen_gameOver;
+	private java.awt.Image imagen_gameWin;
 	private java.awt.Image imagen_carga_fondo;
 	private Random random = new Random();
 	private counterFPS fps = new counterFPS();
+
+	private Lobo lobo;
+	private boolean Game_win= false;
 
 	// ...
 
@@ -99,7 +105,7 @@ public class Juego extends InterfaceJuego {
 		creeper_cargando2 = new Creeper(390, ALTO_JUEGO / 2, 40, 20, 0.5, 3);
 		imagen_carga = Herramientas.cargarImagen("recursos/imagenes/Pantallas/Loading/Volcano-Scape.png");
 		imagen_carga_fondo = Herramientas.cargarImagen("recursos/imagenes/Pantallas/Loading/Cargando.jpg");
-
+		imagen_gameWin = Herramientas.cargarImagen("recursos/imagenes/Pantallas/GameWin/GameWin.png");
 		imagen_gameOver = Herramientas.cargarImagen("recursos/imagenes/Pantallas/GameOver/GAME-OVER.png");
 
 		// Inicia el juego!
@@ -118,7 +124,7 @@ public class Juego extends InterfaceJuego {
 		fps.iniciar(System.nanoTime());
 
 		// Pantalla de carga
-		if (jugador.getVidas() > 0) {
+		if (jugador.getVidas() > 0 && Game_win ==false) {
 			if (entorno.sePresiono(entorno.TECLA_ENTER) || tick > 500) {
 				pantalla_carga = false;
 			}
@@ -158,7 +164,15 @@ public class Juego extends InterfaceJuego {
 								&& proyectilesEst[0].getY() <= Creepers[e].getAbajo()
 								&& proyectilesEst[0].getY() >= Creepers[e].getArriba()) {
 							proyectilesEst[0] = null;
+							int x = random.nextInt(5);
+							if (x == 4) {
+							Items[0] = new Item("manzana", Creepers[e].getX(), Creepers[e].getY());
+
+							System.out.println("Tiene que aparecer una manzana");
+						}
 							Creepers[e] = null;
+							puntuaciones.addPuntos(1);
+
 						}
 
 						if (proyectilesCre[e] == null && Creepers[e] != null) {
@@ -199,7 +213,6 @@ public class Juego extends InterfaceJuego {
 							proyectilesEst[0].getY() >= Esqueletos[e].getArriba()) {
 
 						proyectilesEst[0] = null;
-						// int x = random.nextInt(0, 5);
 						int x = random.nextInt(5);
 						if (x == 4) {
 							Items[0] = new Item("hueso", Esqueletos[e].getX(), Esqueletos[e].getY());
@@ -208,6 +221,7 @@ public class Juego extends InterfaceJuego {
 						}
 
 						Esqueletos[e] = null;
+						puntuaciones.addPuntos(1);
 					}
 
 					if (proyectilesEsq[e] == null && Esqueletos[e] != null) {
@@ -238,17 +252,72 @@ public class Juego extends InterfaceJuego {
 
 				}
 				// Items
+
 				Items[1] = new Item("Estrella", ANCHO_JUEGO / 2, 10);
 
 				for (int e = 0; e < Items.length; e++) {
 					if (Items[e] != null) {
 						Items[e].actualizar(entorno);
+
+						if (Items[e] != null&& 
+						Items[e].gettipoItem() == "hueso" &&
+						Items[e].getIzquierda() <= jugador.getDerecha() &&
+						Items[e].getDerecha() >= jugador.getIzquierda() &&
+						Items[e].getAbajo() >= jugador.getArriba() &&
+						Items[e].getArriba() <= jugador.getAbajo()) {
+
+							Items[e] = null;
+							lobo = new Lobo(jugador.getY(), 900);
+
+							
+						}
+
+						if (Items[e] != null&& 
+						Items[e].gettipoItem() == "Estrella" &&
+						Items[e].getIzquierda() <= jugador.getDerecha() &&
+						Items[e].getDerecha() >= jugador.getIzquierda() &&
+						Items[e].getAbajo() >= jugador.getArriba() &&
+						Items[e].getArriba() <= jugador.getAbajo()) {
+
+							Game_win = true;
+							System.out.println("Ganaste");
+
+							
+						}
+
+						if (Items[e] != null&& 
+						Items[e].gettipoItem() == "manzana" &&
+						Items[e].getIzquierda() <= jugador.getDerecha() &&
+						Items[e].getDerecha() >= jugador.getIzquierda() &&
+						Items[e].getAbajo() >= jugador.getArriba() &&
+						Items[e].getArriba() <= jugador.getAbajo()) {
+
+							Items[e] = null;
+							jugador.setVidas(1);
+
+							
+						}
 					}
 				}
 
-				puntuaciones.dibujarse(entorno);
+				for(int e = 0; e <= jugador.getVidas()-1; e++){
+					System.out.println("Vida numero " + e);
+					entorno.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Items/Vida.png"), ANCHO_JUEGO-20-(35*e), 25, 0, 0.2);
+				}
+
+				//Mascotas
+
+				if (lobo != null){
+					lobo.dibujarse(entorno);
+					lobo.mover(jugador.getX(), jugador.getY());
+				}
+
+				//Elementos en pantalla
+				
 				jugador.dibujarse(entorno);
 				plataforma.actualizar(entorno, this.bloques, jugador);
+				puntuaciones.dibujarse(entorno);
+
 
 				/// JUGADOR
 
@@ -304,13 +373,20 @@ public class Juego extends InterfaceJuego {
 					proyectilesEst[0] = jugador.disparar();
 				}
 			}
+
 			fps.terminar(System.nanoTime());
-		} else {
+		} else if(jugador.getVidas<=0 && Game_win == false){
+
 			entorno.dibujarImagen(imagen_gameOver, ANCHO_JUEGO / 2, ALTO_JUEGO / 2, 0, 0.9);
 			if (entorno.sePresiono('r')) {
 				jugador.setVidas(3);
 			}
 			fps.terminar(System.nanoTime());
+
+		}else{
+			entorno.dibujarImagen(imagen_gameWin, ANCHO_JUEGO / 2, ALTO_JUEGO / 2, 0, 0.9);
+			fps.terminar(System.nanoTime());
+
 		}
 
 		fps.terminar(System.nanoTime());

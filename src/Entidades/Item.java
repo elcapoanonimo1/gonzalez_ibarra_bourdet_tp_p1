@@ -10,11 +10,14 @@ public class Item {
     private double x;
     private double y;
     private Image img;
+    private int alto_item=10;
+    private int ancho_item=10;
 
     public Item(String tipoItem, double x, double y) {
         this.tipoItem = tipoItem;
         this.x = x;
         this.y = y;
+        
     }
 
     public void dibujarse(Entorno e) {
@@ -24,9 +27,9 @@ public class Item {
                 e.dibujarImagen(img, x, y, 0, 0.2);
                 break;
 
-            case "Vida":
-                img = Herramientas.cargarImagen("recursos/imagenes/Creeper/Creeper - corriendoi.gif");
-                e.dibujarImagen(img, x, y, 0, 3);
+            case "manzana":
+                img = Herramientas.cargarImagen("recursos/imagenes/Items/Manzana.gif");
+                e.dibujarImagen(img, x, y, 0, 0.15);
                 break;
 
             case "Estrella":
@@ -45,4 +48,23 @@ public class Item {
         dibujarse(entorno);
     }
 
+    public double getArriba() {
+        return (this.y - alto_item / 2);
+    }
+
+    public double getIzquierda() {
+        return (this.x - ancho_item / 2);
+    }
+
+    public double getDerecha() {
+        return (this.x + ancho_item / 2);
+    }
+
+    public double getAbajo() {
+        return (this.y + alto_item / 2);
+    }
+
+    public String gettipoItem(){
+        return this.tipoItem;
+    }
 }
