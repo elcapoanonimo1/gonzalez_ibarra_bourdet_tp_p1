@@ -144,6 +144,28 @@ public class Juego extends InterfaceJuego {
 					if (proyectilesJug[0].estaFueraDEPantalla(entorno)) {
 						proyectilesJug[0] = null;
 					}
+
+					for (int i = 0; i < proyectilesEsq.length; i++) {
+						if (proyectilesEsq[i] != null && proyectilesJug[0] != null) {
+							if(proyectilesJug[0].getY() == proyectilesEsq[i].getY() 
+							&& (proyectilesJug[0].getDerecha() >= proyectilesEsq[i].getIzquierda() && proyectilesJug[0].getDerecha() <= proyectilesEsq[i].getDerecha()
+							|| proyectilesJug[0].getIzquierda() <= proyectilesEsq[i].getDerecha() && proyectilesJug[0].getIzquierda() >= proyectilesEsq[i].getIzquierda())){
+								proyectilesEsq[i] = null;
+								proyectilesJug[0] = null;
+							}
+						}
+					}
+
+					for (int i = 0; i < proyectilesCre.length; i++) {
+						if (proyectilesCre[i] != null && proyectilesJug[0] != null) {
+							if(proyectilesJug[0].getY() == proyectilesCre[i].getY() 
+							&& (proyectilesJug[0].getDerecha() >= proyectilesCre[i].getIzquierda() && proyectilesJug[0].getDerecha() <= proyectilesCre[i].getDerecha()
+							|| proyectilesJug[0].getIzquierda() <= proyectilesCre[i].getDerecha() && proyectilesJug[0].getIzquierda() >= proyectilesCre[i].getIzquierda())){
+								proyectilesCre[i] = null;
+								proyectilesJug[0] = null;
+							}
+						}
+					}
 				}
 
 				// Actualizar enemigos y proyectiles de enemigos

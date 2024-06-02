@@ -212,7 +212,7 @@ public class Player {
     }
 
     public Proyectil disparar() {
-        return new Proyectil(x, y, 10, 10, mira, "ste");
+        return new Proyectil(x, y-10, 10, 10, mira, "ste");
     }
 
     //////////////////////////////////// COLICIONES
