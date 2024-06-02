@@ -14,6 +14,7 @@ import Entidades.Esqueleto;
 import Entidades.Item;
 import Entidades.Player;
 import Entidades.Proyectil;
+import Entidades.Lobo;
 import Entidades.Creeper;
 import Estructuras.Bloque;
 import Estructuras.Fondo;
@@ -42,6 +43,7 @@ public class Juego extends InterfaceJuego {
 	private Esqueleto[] Esqueletos;
 	private Creeper[] Creepers;
 	private Puntuaciones puntuaciones;
+	private Lobo lobo;
 	private Item Items[];	
 	private int tick = 0;
 	private int Barra_carga = 0;
@@ -55,6 +57,9 @@ public class Juego extends InterfaceJuego {
 	private Random random = new Random();
 	private counterFPS fps = new counterFPS();
 	private boolean Game_win= false;
+
+	private boolean musica = false;
+	private int musica_r;
 
 	// ...
 
@@ -134,7 +139,11 @@ public class Juego extends InterfaceJuego {
 
 				fps.terminar(System.nanoTime());
 			} else {
-
+				if (musica == false){
+					Herramientas.cargarSonido("recursos/sonido/Minero 8-Bit.wav").loop(10);
+					musica = true;
+				}
+				
 				fondo.actualizar(entorno);
 
 				if (proyectilesJug[0] != null) {
@@ -251,7 +260,11 @@ public class Juego extends InterfaceJuego {
 							proyectilesJug[0].getY() >= Esqueletos[e].getArriba()) {
 
 						proyectilesJug[0] = null;
-
+						//int x = random.nextInt(5);
+						int x = 4;
+						if (x == 4) {
+						Items[0] = new Item("hueso", Esqueletos[e].getX(), Esqueletos[e].getY());
+						}
 						Esqueletos[e] = null;
 						puntuaciones.addPuntos(1);
 					}
@@ -298,10 +311,12 @@ public class Juego extends InterfaceJuego {
 						Items[e].getDerecha() >= jugador.getIzquierda() &&
 						Items[e].getAbajo() >= jugador.getArriba() &&
 						Items[e].getArriba() <= jugador.getAbajo()) {
-
+							Herramientas.cargarSonido("recursos/sonido/Agarra objeto.mp3").start();
 							Items[e] = null;
+							lobo = new Lobo(jugador.getY(), 900);
 
 						}
+						
 
 						if (Items[e] != null&& 
 						Items[e].gettipoItem() == "Estrella" &&
@@ -320,7 +335,7 @@ public class Juego extends InterfaceJuego {
 						Items[e].getDerecha() >= jugador.getIzquierda() &&
 						Items[e].getAbajo() >= jugador.getArriba() &&
 						Items[e].getArriba() <= jugador.getAbajo()) {
-
+							Herramientas.cargarSonido("recursos/sonido/Agarra objeto.mp3").start();
 							Items[e] = null;
 							jugador.setVidas(1);
 
@@ -333,11 +348,37 @@ public class Juego extends InterfaceJuego {
 					entorno.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Items/Vida.png"), ANCHO_JUEGO-20-(35*e), 25, 0, 0.2);
 				}
 
+				//Mascotas
+				if (lobo != null){
+					lobo.dibujarse(entorno);
+					lobo.mover(jugador.getX(), jugador.getY());
+					for(int e = 0; e < Creepers.length; e++){
+						if(lobo != null && Creepers[e]!= null && Creepers[e].getIzquierda() <= lobo.getDerecha() &&
+						Creepers[e].getDerecha() >= lobo.getIzquierda() &&
+						Creepers[e].getAbajo() >= lobo.getArriba() &&
+						Creepers[e].getArriba() <= lobo.getAbajo()){
+
+							Creepers [e]=null;
+						}
+					}
+					for(int e = 0; e < Esqueletos.length; e++){
+						if(lobo != null && Esqueletos[e]!=null && Esqueletos[e].getIzquierda() <= lobo.getDerecha() &&
+						Esqueletos[e].getDerecha() >= lobo.getIzquierda() &&
+						Esqueletos[e].getAbajo() >= lobo.getArriba() &&
+						Esqueletos[e].getArriba() <= lobo.getAbajo()){
+
+							Esqueletos [e]=null;
+						}
+					}
+				}
+
 
 				//Elementos en pantalla
 				jugador.dibujarse(entorno);
 				plataforma.actualizar(entorno, this.bloques, jugador);
 				puntuaciones.dibujarse(entorno);
+
+				
 
 
 				/// JUGADOR
@@ -364,8 +405,7 @@ public class Juego extends InterfaceJuego {
 					jugador.agachar(entorno, false);
 				}
 
-				if (entorno.estaPresionada('x') && jugador.colisionoAbajo(this.bloques)
-						&& !jugador.getEstaAgachado()) {
+				if (entorno.estaPresionada('x') && jugador.colisionoAbajo(this.bloques) && !jugador.getEstaAgachado() || entorno.estaPresionada(entorno.TECLA_ESPACIO) && jugador.colisionoAbajo(this.bloques) && !jugador.getEstaAgachado()) {
 					jugador.setAlturaMaximaSalto(jugador.getY() - 150);
 					jugador.setEstaSaltando(true);
 				}
@@ -405,10 +445,12 @@ public class Juego extends InterfaceJuego {
 
 			entorno.dibujarImagen(imagen_gameOver, ANCHO_JUEGO / 2, ALTO_JUEGO / 2, 0, 0.9);
 			fps.terminar(System.nanoTime());
+			Herramientas.cargarSonido("recursos/sonido/Minero 8-Bit.wav").stop();
 
 		}else{
 			entorno.dibujarImagen(imagen_gameWin, ANCHO_JUEGO / 2, ALTO_JUEGO / 2, 0, 0.9);
 			fps.terminar(System.nanoTime());
+			Herramientas.cargarSonido("recursos/sonido/Minero 8-Bit.wav").stop();
 
 		}
 
