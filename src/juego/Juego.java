@@ -343,7 +343,8 @@ public class Juego extends InterfaceJuego {
 				/// JUGADOR
 
 				if (jugador.getInvulnerable(System.nanoTime()) == true) {
-					entorno.dibujarRectangulo(jugador.getX(), jugador.getArriba()-5, jugador.getAncho(), 5, 0, Color.yellow);
+					entorno.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Aureola/Aureola.png"), jugador.getX(), jugador.getArriba()-10, 0, 0.04
+					);
 
 				}				
 				if (entorno.estaPresionada(entorno.TECLA_DERECHA) && !jugador.colisionoDerecha(this.bloques, entorno)
