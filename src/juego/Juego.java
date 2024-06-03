@@ -8,6 +8,7 @@ import entorno.InterfaceJuego;
 import java.awt.Color;
 import java.util.Random;
 
+import javax.sound.sampled.Clip;
 
 // Clases
 import Entidades.Esqueleto;
@@ -59,7 +60,9 @@ public class Juego extends InterfaceJuego {
 	private boolean Game_win= false;
 
 	private boolean musica = false;
-	private int musica_r;
+
+	private Clip musica_r;
+	private Clip sonido_item;
 
 	// ...
 
@@ -106,6 +109,8 @@ public class Juego extends InterfaceJuego {
 		imagen_carga_fondo = Herramientas.cargarImagen("recursos/imagenes/Pantallas/Loading/Cargando.jpg");
 		imagen_gameWin = Herramientas.cargarImagen("recursos/imagenes/Pantallas/GameWin/GameWin.png");
 		imagen_gameOver = Herramientas.cargarImagen("recursos/imagenes/Pantallas/GameOver/GAME-OVER.png");
+		musica_r = Herramientas.cargarSonido("recursos/sonido/Minero 8-Bit.wav");
+		sonido_item = Herramientas.cargarSonido("recursos/sonido/Agarra_objeto.wav");
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -140,7 +145,7 @@ public class Juego extends InterfaceJuego {
 				fps.terminar(System.nanoTime());
 			} else {
 				if (musica == false){
-					Herramientas.cargarSonido("recursos/sonido/Minero 8-Bit.wav").loop(10);
+					musica_r.loop(10);
 					musica = true;
 				}
 				
@@ -311,7 +316,8 @@ public class Juego extends InterfaceJuego {
 						Items[e].getDerecha() >= jugador.getIzquierda() &&
 						Items[e].getAbajo() >= jugador.getArriba() &&
 						Items[e].getArriba() <= jugador.getAbajo()) {
-							Herramientas.cargarSonido("recursos/sonido/Agarra objeto.mp3").start();
+							sonido_item.stop();
+							sonido_item.start();
 							Items[e] = null;
 							lobo = new Lobo(jugador.getY(), 900);
 
@@ -335,7 +341,8 @@ public class Juego extends InterfaceJuego {
 						Items[e].getDerecha() >= jugador.getIzquierda() &&
 						Items[e].getAbajo() >= jugador.getArriba() &&
 						Items[e].getArriba() <= jugador.getAbajo()) {
-							Herramientas.cargarSonido("recursos/sonido/Agarra objeto.mp3").start();
+							sonido_item.stop();
+							sonido_item.start();
 							Items[e] = null;
 							jugador.setVidas(1);
 
@@ -445,12 +452,12 @@ public class Juego extends InterfaceJuego {
 
 			entorno.dibujarImagen(imagen_gameOver, ANCHO_JUEGO / 2, ALTO_JUEGO / 2, 0, 0.9);
 			fps.terminar(System.nanoTime());
-			Herramientas.cargarSonido("recursos/sonido/Minero 8-Bit.wav").stop();
+			musica_r.stop();
 
 		}else{
 			entorno.dibujarImagen(imagen_gameWin, ANCHO_JUEGO / 2, ALTO_JUEGO / 2, 0, 0.9);
 			fps.terminar(System.nanoTime());
-			Herramientas.cargarSonido("recursos/sonido/Minero 8-Bit.wav").stop();
+			musica_r.stop();
 
 		}
 
