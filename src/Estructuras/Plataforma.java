@@ -76,15 +76,18 @@ public class Plataforma {
     }
 
     public void actualizar(Entorno e, Bloque[] bloques, Player jugador) {
-        for (int i = 0; i < bloques.length;  i++){
-            if(bloques[i] != null){
-                if(bloques[i].getSeRompe() == true){
-                    if(jugador.getInvulnerable(System.nanoTime()) == false &&jugador.getArriba() == bloques[i].ObtenerLadoInferior() && (jugador.getDerecha() >= bloques[i].ObtenerLadoIzquierdo() && jugador.getIzquierda() <= bloques[i].ObtenerLadoDerecho())){
+        for (int i = 0; i < bloques.length; i++) {
+            if (bloques[i] != null) {
+                if (bloques[i].getSeRompe() == true) {
+                    if (jugador.getInvulnerable(System.nanoTime()) == false
+                            && jugador.getArriba() == bloques[i].ObtenerLadoInferior()
+                            && (jugador.getDerecha() >= bloques[i].ObtenerLadoIzquierdo()
+                                    && jugador.getIzquierda() <= bloques[i].ObtenerLadoDerecho())) {
                         bloques[i] = null;
                         jugador.setEstaSaltando(false);
                     }
                 }
-                if(bloques[i] != null){
+                if (bloques[i] != null) {
                     bloques[i].actualizar(e);
                 }
             }

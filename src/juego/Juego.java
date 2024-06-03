@@ -8,7 +8,6 @@ import entorno.InterfaceJuego;
 import java.awt.Color;
 import java.util.Random;
 
-
 // Clases
 import Entidades.Esqueleto;
 import Entidades.Item;
@@ -42,7 +41,7 @@ public class Juego extends InterfaceJuego {
 	private Esqueleto[] Esqueletos;
 	private Creeper[] Creepers;
 	private Puntuaciones puntuaciones;
-	private Item Items[];	
+	private Item Items[];
 	private int tick = 0;
 	private int Barra_carga = 0;
 	private boolean pantalla_carga = true;
@@ -54,7 +53,7 @@ public class Juego extends InterfaceJuego {
 	private java.awt.Image imagen_carga_fondo;
 	private Random random = new Random();
 	private counterFPS fps = new counterFPS();
-	private boolean Game_win= false;
+	private boolean Game_win = false;
 
 	// ...
 
@@ -69,16 +68,22 @@ public class Juego extends InterfaceJuego {
 		Creepers = new Creeper[4];
 		Esqueletos = new Esqueleto[4];
 		Items = new Item[4];
-		
+
 		for (int j = 0; j < Esqueletos.length; j++) {
 			if (Esqueletos[j] == null) {
-				Esqueletos[j] = new Esqueleto((random.nextInt(ANCHO_JUEGO - ANCHO_JUEGO/2)), j == 0 ? ALTO_JUEGO * 0.65 : j == 1 ? ALTO_JUEGO * 0.40 : j >= 2 ? ALTO_JUEGO * 0.15 : ALTO_JUEGO * 0.15, 40, 20, 1.0, "d");
+				Esqueletos[j] = new Esqueleto((random.nextInt(ANCHO_JUEGO - ANCHO_JUEGO / 2)),
+						j == 0 ? ALTO_JUEGO * 0.65
+								: j == 1 ? ALTO_JUEGO * 0.40 : j >= 2 ? ALTO_JUEGO * 0.15 : ALTO_JUEGO * 0.15,
+						40, 20, 1.0, "d");
 			}
 		}
 
 		for (int j = 0; j < Creepers.length; j++) {
 			if (Creepers[j] == null) {
-				Creepers[j] = new Creeper((ANCHO_JUEGO/2 + random.nextInt( ANCHO_JUEGO/2)), j == 0 ? ALTO_JUEGO * 0.65 : j == 1 ? ALTO_JUEGO * 0.40 : j >= 2 ? ALTO_JUEGO * 0.15 : ALTO_JUEGO * 0.15, 40, 20, 1, "i");
+				Creepers[j] = new Creeper((ANCHO_JUEGO / 2 + random.nextInt(ANCHO_JUEGO / 2)),
+						j == 0 ? ALTO_JUEGO * 0.65
+								: j == 1 ? ALTO_JUEGO * 0.40 : j >= 2 ? ALTO_JUEGO * 0.15 : ALTO_JUEGO * 0.15,
+						40, 20, 1, "i");
 			}
 
 		}
@@ -118,7 +123,7 @@ public class Juego extends InterfaceJuego {
 		fps.iniciar(System.nanoTime());
 
 		// Pantalla de carga
-		if (jugador.getVidas() > 0 && Game_win ==false) {
+		if (jugador.getVidas() > 0 && Game_win == false) {
 			if (entorno.sePresiono(entorno.TECLA_ENTER) || tick > 500) {
 				pantalla_carga = false;
 			}
@@ -147,9 +152,12 @@ public class Juego extends InterfaceJuego {
 
 					for (int i = 0; i < proyectilesEsq.length; i++) {
 						if (proyectilesEsq[i] != null && proyectilesJug[0] != null) {
-							if(proyectilesJug[0].getY() == proyectilesEsq[i].getY() 
-							&& (proyectilesJug[0].getDerecha() >= proyectilesEsq[i].getIzquierda() && proyectilesJug[0].getDerecha() <= proyectilesEsq[i].getDerecha()
-							|| proyectilesJug[0].getIzquierda() <= proyectilesEsq[i].getDerecha() && proyectilesJug[0].getIzquierda() >= proyectilesEsq[i].getIzquierda())){
+							if (proyectilesJug[0].getY() == proyectilesEsq[i].getY()
+									&& (proyectilesJug[0].getDerecha() >= proyectilesEsq[i].getIzquierda()
+											&& proyectilesJug[0].getDerecha() <= proyectilesEsq[i].getDerecha()
+											|| proyectilesJug[0].getIzquierda() <= proyectilesEsq[i].getDerecha()
+													&& proyectilesJug[0].getIzquierda() >= proyectilesEsq[i]
+															.getIzquierda())) {
 								proyectilesEsq[i] = null;
 								proyectilesJug[0] = null;
 							}
@@ -158,9 +166,12 @@ public class Juego extends InterfaceJuego {
 
 					for (int i = 0; i < proyectilesCre.length; i++) {
 						if (proyectilesCre[i] != null && proyectilesJug[0] != null) {
-							if(proyectilesJug[0].getY() == proyectilesCre[i].getY() 
-							&& (proyectilesJug[0].getDerecha() >= proyectilesCre[i].getIzquierda() && proyectilesJug[0].getDerecha() <= proyectilesCre[i].getDerecha()
-							|| proyectilesJug[0].getIzquierda() <= proyectilesCre[i].getDerecha() && proyectilesJug[0].getIzquierda() >= proyectilesCre[i].getIzquierda())){
+							if (proyectilesJug[0].getY() == proyectilesCre[i].getY()
+									&& (proyectilesJug[0].getDerecha() >= proyectilesCre[i].getIzquierda()
+											&& proyectilesJug[0].getDerecha() <= proyectilesCre[i].getDerecha()
+											|| proyectilesJug[0].getIzquierda() <= proyectilesCre[i].getDerecha()
+													&& proyectilesJug[0].getIzquierda() >= proyectilesCre[i]
+															.getIzquierda())) {
 								proyectilesCre[i] = null;
 								proyectilesJug[0] = null;
 							}
@@ -170,19 +181,19 @@ public class Juego extends InterfaceJuego {
 
 				// Actualizar enemigos y proyectiles de enemigos
 
-				//Creeper
+				// Creeper
 				for (int e = 0; e < Creepers.length; e++) {
 					if (Creepers[e] != null) {
 						Creepers[e].actualizar(entorno, bloques);
 
-						if (Creepers[e] != null && jugador.getInvulnerable(System.nanoTime()) == false){
+						if (Creepers[e] != null && jugador.getInvulnerable(System.nanoTime()) == false) {
 							if (Creepers[e].getIzquierda() <= jugador.getDerecha() &&
-								Creepers[e].getDerecha() >= jugador.getIzquierda() &&
-								Creepers[e].getAbajo() >= jugador.getArriba() &&
-								Creepers[e].getArriba() <= jugador.getAbajo()) {
+									Creepers[e].getDerecha() >= jugador.getIzquierda() &&
+									Creepers[e].getAbajo() >= jugador.getArriba() &&
+									Creepers[e].getArriba() <= jugador.getAbajo()) {
 								jugador.setVidas(-1); // Restamos una vida al jugador
 								jugador.setInvulnerable(System.nanoTime());
-							   }
+							}
 						}
 						if (Creepers[e] != null && proyectilesJug[0] != null
 								&& proyectilesJug[0].getX() <= Creepers[e].getDerecha()
@@ -192,7 +203,7 @@ public class Juego extends InterfaceJuego {
 							proyectilesJug[0] = null;
 							int x = random.nextInt(5);
 							if (x == 4) {
-							Items[0] = new Item("manzana", Creepers[e].getX(), Creepers[e].getY());
+								Items[0] = new Item("manzana", Creepers[e].getX(), Creepers[e].getY());
 
 							}
 							Creepers[e] = null;
@@ -209,7 +220,7 @@ public class Juego extends InterfaceJuego {
 
 							proyectilesCre[e].dibujar(entorno);
 							proyectilesCre[e].mover();
-							if (proyectilesCre[e] != null && jugador.getInvulnerable(System.nanoTime()) == false && 
+							if (proyectilesCre[e] != null && jugador.getInvulnerable(System.nanoTime()) == false &&
 									proyectilesCre[e].getX() <= jugador.getDerecha() &&
 									proyectilesCre[e].getX() >= jugador.getIzquierda() &&
 									proyectilesCre[e].getY() >= jugador.getArriba() &&
@@ -229,16 +240,16 @@ public class Juego extends InterfaceJuego {
 
 				}
 
-				//Esqueleto
+				// Esqueleto
 				for (int e = 0; e < Esqueletos.length; e++) {
 					if (Esqueletos[e] != null) {
 						Esqueletos[e].actualizar(entorno, bloques);
 					}
-					if (Esqueletos[e] != null && jugador.getInvulnerable(System.nanoTime()) == false){
+					if (Esqueletos[e] != null && jugador.getInvulnerable(System.nanoTime()) == false) {
 						if (Esqueletos[e].getIzquierda() <= jugador.getDerecha() &&
-							Esqueletos[e].getDerecha() >= jugador.getIzquierda() &&
-							Esqueletos[e].getAbajo() >= jugador.getArriba() &&
-							Esqueletos[e].getArriba() <= jugador.getAbajo()) {
+								Esqueletos[e].getDerecha() >= jugador.getIzquierda() &&
+								Esqueletos[e].getAbajo() >= jugador.getArriba() &&
+								Esqueletos[e].getArriba() <= jugador.getAbajo()) {
 							jugador.setVidas(-1); // Restamos una vida al jugador
 							jugador.setInvulnerable(System.nanoTime());
 						}
@@ -292,61 +303,59 @@ public class Juego extends InterfaceJuego {
 					if (Items[e] != null) {
 						Items[e].actualizar(entorno);
 
-						if (Items[e] != null&& 
-						Items[e].gettipoItem() == "hueso" &&
-						Items[e].getIzquierda() <= jugador.getDerecha() &&
-						Items[e].getDerecha() >= jugador.getIzquierda() &&
-						Items[e].getAbajo() >= jugador.getArriba() &&
-						Items[e].getArriba() <= jugador.getAbajo()) {
+						if (Items[e] != null &&
+								Items[e].gettipoItem() == "hueso" &&
+								Items[e].getIzquierda() <= jugador.getDerecha() &&
+								Items[e].getDerecha() >= jugador.getIzquierda() &&
+								Items[e].getAbajo() >= jugador.getArriba() &&
+								Items[e].getArriba() <= jugador.getAbajo()) {
 
 							Items[e] = null;
 
 						}
 
-						if (Items[e] != null&& 
-						Items[e].gettipoItem() == "Estrella" &&
-						Items[e].getIzquierda() <= jugador.getDerecha() &&
-						Items[e].getDerecha() >= jugador.getIzquierda() &&
-						Items[e].getAbajo() >= jugador.getArriba() &&
-						Items[e].getArriba() <= jugador.getAbajo()) {
+						if (Items[e] != null &&
+								Items[e].gettipoItem() == "Estrella" &&
+								Items[e].getIzquierda() <= jugador.getDerecha() &&
+								Items[e].getDerecha() >= jugador.getIzquierda() &&
+								Items[e].getAbajo() >= jugador.getArriba() &&
+								Items[e].getArriba() <= jugador.getAbajo()) {
 
 							Game_win = true;
 
 						}
 
-						if (Items[e] != null&& 
-						Items[e].gettipoItem() == "manzana" &&
-						Items[e].getIzquierda() <= jugador.getDerecha() &&
-						Items[e].getDerecha() >= jugador.getIzquierda() &&
-						Items[e].getAbajo() >= jugador.getArriba() &&
-						Items[e].getArriba() <= jugador.getAbajo()) {
+						if (Items[e] != null &&
+								Items[e].gettipoItem() == "manzana" &&
+								Items[e].getIzquierda() <= jugador.getDerecha() &&
+								Items[e].getDerecha() >= jugador.getIzquierda() &&
+								Items[e].getAbajo() >= jugador.getArriba() &&
+								Items[e].getArriba() <= jugador.getAbajo()) {
 
 							Items[e] = null;
 							jugador.setVidas(1);
 
-							
 						}
 					}
 				}
 
-				for(int e = 1; e <= jugador.getVidas(); e++){
-					entorno.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Items/Vida.png"), ANCHO_JUEGO-20-(35*e), 25, 0, 0.2);
+				for (int e = 1; e <= jugador.getVidas(); e++) {
+					entorno.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Items/Vida.png"),
+							ANCHO_JUEGO - 20 - (35 * e), 25, 0, 0.2);
 				}
 
-
-				//Elementos en pantalla
+				// Elementos en pantalla
 				jugador.dibujarse(entorno);
 				plataforma.actualizar(entorno, this.bloques, jugador);
 				puntuaciones.dibujarse(entorno);
 
-
 				/// JUGADOR
 
 				if (jugador.getInvulnerable(System.nanoTime()) == true) {
-					entorno.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Aureola/Aureola.png"), jugador.getX(), jugador.getArriba()-10, 0, 0.04
-					);
+					entorno.dibujarImagen(Herramientas.cargarImagen("recursos/imagenes/Aureola/Aureola.png"),
+							jugador.getX(), jugador.getArriba() - 10, 0, 0.04);
 
-				}				
+				}
 				if (entorno.estaPresionada(entorno.TECLA_DERECHA) && !jugador.colisionoDerecha(this.bloques, entorno)
 						&& jugador.getDerecha() < this.ANCHO_JUEGO) {
 					jugador.setMira("d");
@@ -395,19 +404,20 @@ public class Juego extends InterfaceJuego {
 					}
 				}
 
-				if (entorno.estaPresionada('c') && proyectilesJug[0] == null && jugador.getInvulnerable(System.nanoTime()) == false) {
+				if (entorno.estaPresionada('c') && proyectilesJug[0] == null
+						&& jugador.getInvulnerable(System.nanoTime()) == false) {
 					proyectilesJug[0] = jugador.disparar();
 				}
 
 			}
 
 			fps.terminar(System.nanoTime());
-		} else if(jugador.getVidas<=0 && Game_win == false){
+		} else if (jugador.getVidas <= 0 && Game_win == false) {
 
 			entorno.dibujarImagen(imagen_gameOver, ANCHO_JUEGO / 2, ALTO_JUEGO / 2, 0, 0.9);
 			fps.terminar(System.nanoTime());
 
-		}else{
+		} else {
 			entorno.dibujarImagen(imagen_gameWin, ANCHO_JUEGO / 2, ALTO_JUEGO / 2, 0, 0.9);
 			fps.terminar(System.nanoTime());
 

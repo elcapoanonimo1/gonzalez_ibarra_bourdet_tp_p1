@@ -32,18 +32,9 @@ public class counterFPS {
         this.temporizador = 0;
     }
 
-    // public void retornadorFPS(){
-    // if (temporizador >= 1000000000){
-    // System.out.println("fps: " + fps);
-    // recet();
-    // }
-    // }
-
     public int getFPS() {
         return this.fps;
     }
-
-    // dibujar
 
     public void dibujar(Entorno e, double x, double y) {
         {
