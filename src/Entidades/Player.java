@@ -272,6 +272,9 @@ public class Player {
 
 
     public void setVidas(int i) {
+        if (i< 0){
+            Herramientas.cargarSonido("recursos/sonido/Muerte.wav").start();
+        }
         Vidas += i;
     }
 

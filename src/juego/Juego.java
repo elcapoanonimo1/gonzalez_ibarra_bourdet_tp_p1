@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.util.Random;
 
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 
 // Clases
 import Entidades.Esqueleto;
@@ -62,7 +63,13 @@ public class Juego extends InterfaceJuego {
 	private boolean musica = false;
 
 	private Clip musica_r;
-	private Clip sonido_item;
+
+	private Clip musica_Win;
+	private boolean Huevo_de_pascua= false;
+
+	private Clip musica_egg;
+
+	private DataLine musica_over;
 
 	// ...
 
@@ -110,7 +117,12 @@ public class Juego extends InterfaceJuego {
 		imagen_gameWin = Herramientas.cargarImagen("recursos/imagenes/Pantallas/GameWin/GameWin.png");
 		imagen_gameOver = Herramientas.cargarImagen("recursos/imagenes/Pantallas/GameOver/GAME-OVER.png");
 		musica_r = Herramientas.cargarSonido("recursos/sonido/Minero 8-Bit.wav");
-		sonido_item = Herramientas.cargarSonido("recursos/sonido/Agarra_objeto.wav");
+		musica_Win=Herramientas.cargarSonido("recursos/sonido/Ganar.wav");
+		musica_egg = Herramientas.cargarSonido("recursos/sonido/GIGACHAD 8BIT.wav");
+		musica_over = Herramientas.cargarSonido("recursos/sonido/Music Over.wav");
+		
+
+		
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -265,8 +277,7 @@ public class Juego extends InterfaceJuego {
 							proyectilesJug[0].getY() >= Esqueletos[e].getArriba()) {
 
 						proyectilesJug[0] = null;
-						//int x = random.nextInt(5);
-						int x = 4;
+						int x = random.nextInt(5);
 						if (x == 4) {
 						Items[0] = new Item("hueso", Esqueletos[e].getX(), Esqueletos[e].getY());
 						}
@@ -316,8 +327,7 @@ public class Juego extends InterfaceJuego {
 						Items[e].getDerecha() >= jugador.getIzquierda() &&
 						Items[e].getAbajo() >= jugador.getArriba() &&
 						Items[e].getArriba() <= jugador.getAbajo()) {
-							sonido_item.stop();
-							sonido_item.start();
+							Herramientas.cargarSonido("recursos/sonido/Agarra_objeto.wav").start();
 							Items[e] = null;
 							lobo = new Lobo(jugador.getY(), 900);
 
@@ -341,8 +351,7 @@ public class Juego extends InterfaceJuego {
 						Items[e].getDerecha() >= jugador.getIzquierda() &&
 						Items[e].getAbajo() >= jugador.getArriba() &&
 						Items[e].getArriba() <= jugador.getAbajo()) {
-							sonido_item.stop();
-							sonido_item.start();
+							Herramientas.cargarSonido("recursos/sonido/Agarra_objeto.wav").start();
 							Items[e] = null;
 							jugador.setVidas(1);
 
@@ -384,9 +393,6 @@ public class Juego extends InterfaceJuego {
 				jugador.dibujarse(entorno);
 				plataforma.actualizar(entorno, this.bloques, jugador);
 				puntuaciones.dibujarse(entorno);
-
-				
-
 
 				/// JUGADOR
 
@@ -453,11 +459,33 @@ public class Juego extends InterfaceJuego {
 			entorno.dibujarImagen(imagen_gameOver, ANCHO_JUEGO / 2, ALTO_JUEGO / 2, 0, 0.9);
 			fps.terminar(System.nanoTime());
 			musica_r.stop();
+			musica=false;
+			if (musica == false){
+				musica_over.start();
+				musica = true;
+			}
 
 		}else{
 			entorno.dibujarImagen(imagen_gameWin, ANCHO_JUEGO / 2, ALTO_JUEGO / 2, 0, 0.9);
 			fps.terminar(System.nanoTime());
 			musica_r.stop();
+			musica=false;
+			if (musica == false){
+				musica_Win.start();
+				musica = true;
+			}
+			if (entorno.sePresiono('g')){
+				Huevo_de_pascua=true;
+				musica=false;
+				musica_Win.stop();
+			}
+			if (Huevo_de_pascua == true && musica ==false){	
+				if (musica == false){
+					musica_egg.loop(10);
+					musica = true;
+			}
+			}
+			
 
 		}
 
