@@ -15,7 +15,6 @@ public class Bloque {
     private Image bloque_normal = Herramientas.cargarImagen("recursos/imagenes/Bloque/bloque.png");
     private Image bloque_rompible = Herramientas.cargarImagen("recursos/imagenes/Bloque/bloque_rompible.png");
 
-
     public Bloque(double pos_x, double pos_y, int ancho_bloque, int alto_bloque, boolean se_rompe) {
         this.pos_x = pos_x;
         this.pos_y = pos_y;
@@ -24,15 +23,15 @@ public class Bloque {
         this.se_rompe = se_rompe;
     }
 
-    public double getX(){
+    public double getX() {
         return pos_x;
     }
 
-    public boolean getSeRompe(){
+    public boolean getSeRompe() {
         return se_rompe;
     }
 
-    public double getY(){
+    public double getY() {
         return pos_y;
     }
 
@@ -54,7 +53,7 @@ public class Bloque {
     }
 
     public void dibujarBloque(Entorno e) {
-        if (se_rompe == true){
+        if (se_rompe == true) {
             e.dibujarImagen(bloque_rompible, pos_x, pos_y, 0, 1);
         } else {
             e.dibujarImagen(bloque_normal, pos_x, pos_y, 0, 1);

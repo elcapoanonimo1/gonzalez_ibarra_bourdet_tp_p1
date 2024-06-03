@@ -87,7 +87,7 @@ public class Plataforma {
                         jugador.setEstaSaltando(false);
                     }
                 }
-                if(bloques[i] != null){
+                if (bloques[i] != null) {
                     bloques[i].actualizar(e);
                 }
             }

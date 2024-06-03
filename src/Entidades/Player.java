@@ -17,7 +17,6 @@ public class Player {
     protected double velocidad;
     protected double velocidadSalto = 5.0;
     protected double velocidadCaida = 5.0;
-    protected double xAnterior = 0;
     protected String mira = "i";
     protected Image img;
     public int getVidas;
@@ -82,13 +81,13 @@ public class Player {
 
     ///////// GETERS Y SETERS /////////
 
-    public int getAncho(){
+    public int getAncho() {
         return this.ancho_personaje;
     }
 
-    public boolean getInvulnerable(long tiempo){
-        if(this.tiempoInvulnerable != 0){
-            if(tiempo > this.tiempoInvulnerable + 3000000000L){
+    public boolean getInvulnerable(long tiempo) {
+        if (this.tiempoInvulnerable != 0) {
+            if (tiempo > this.tiempoInvulnerable + 3000000000L) {
                 this.invulnerable = false;
                 return this.invulnerable;
             } else {
@@ -212,7 +211,7 @@ public class Player {
     }
 
     public Proyectil disparar() {
-        return new Proyectil(x, y-10, 10, 10, mira, "ste");
+        return new Proyectil(x, y - 10, 10, 10, mira, "ste");
     }
 
     //////////////////////////////////// COLICIONES
@@ -270,7 +269,6 @@ public class Player {
         return false;
     }
 
-
     public void setVidas(int i) {
         if (i< 0){
             Herramientas.cargarSonido("recursos/sonido/Muerte.wav").start();
@@ -280,8 +278,6 @@ public class Player {
 
     public void reaparecer(int ANCHO_JUEGO, int ALTO_JUEGO) {
         Herramientas.cargarSonido("recursos/sonido/Muerte.wav").start();
-        // x= ANCHO_JUEGO/2;
-        // y= ALTO_JUEGO - 80;
     }
 
     public int getVidas() {

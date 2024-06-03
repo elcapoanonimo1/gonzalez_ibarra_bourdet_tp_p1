@@ -10,14 +10,14 @@ public class Item {
     private double x;
     private double y;
     private Image img;
-    private int alto_item=10;
-    private int ancho_item=10;
+    private int alto_item = 10;
+    private int ancho_item = 10;
 
     public Item(String tipoItem, double x, double y) {
         this.tipoItem = tipoItem;
         this.x = x;
         this.y = y;
-        
+
     }
 
     public void dibujarse(Entorno e) {
@@ -64,7 +64,7 @@ public class Item {
         return (this.y + alto_item / 2);
     }
 
-    public String gettipoItem(){
+    public String gettipoItem() {
         return this.tipoItem;
     }
 }
