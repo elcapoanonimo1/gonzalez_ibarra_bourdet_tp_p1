@@ -1,6 +1,8 @@
 package Estructuras;
 
 import entorno.Entorno;
+import entorno.Herramientas;
+
 import java.util.Random;
 
 import Entidades.Player;
@@ -80,6 +82,7 @@ public class Plataforma {
             if(bloques[i] != null){
                 if(bloques[i].getSeRompe() == true){
                     if(jugador.getInvulnerable(System.nanoTime()) == false &&jugador.getArriba() == bloques[i].ObtenerLadoInferior() && (jugador.getDerecha() >= bloques[i].ObtenerLadoIzquierdo() && jugador.getIzquierda() <= bloques[i].ObtenerLadoDerecho())){
+                        Herramientas.cargarSonido("recursos/sonido/Romper_bloque.wav").start();
                         bloques[i] = null;
                         jugador.setEstaSaltando(false);
                     }

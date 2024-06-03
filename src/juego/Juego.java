@@ -102,7 +102,6 @@ public class Juego extends InterfaceJuego {
 		this.bloques = this.plataforma.getBloques();
 		this.puntuaciones = new Puntuaciones(20, 15, 30);
 
-		// this.entorno.cambiarFont("Comics Sans", 500, Color.green);
 		creeper_cargando1 = new Creeper(410, ALTO_JUEGO / 2, 40, 20, 0.5, "d");
 		creeper_cargando2 = new Creeper(390, ALTO_JUEGO / 2, 40, 20, 0.5, "i");
 		imagen_carga = Herramientas.cargarImagen("recursos/imagenes/Pantallas/Loading/Volcano-Scape.png");
@@ -265,7 +264,6 @@ public class Juego extends InterfaceJuego {
 							proyectilesJug[0].getY() >= Esqueletos[e].getArriba()) {
 
 						proyectilesJug[0] = null;
-						//int x = random.nextInt(5);
 						int x = 4;
 						if (x == 4) {
 						Items[0] = new Item("hueso", Esqueletos[e].getX(), Esqueletos[e].getY());
