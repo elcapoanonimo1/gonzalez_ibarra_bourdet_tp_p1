@@ -1,4 +1,10 @@
+![Logo](https://i.imgur.com/QkLXWrv.png)
 # Volcano Steve, Minecraft Edition
+
+## Imagenes
+
+![Imagen1](https://i.imgur.com/HSe8A0T.png)
+![Imagen2](https://i.imgur.com/t8nAsQj.png)
 
 ### Participantes (Grupo 12)
 - Gonzalez Cristian
