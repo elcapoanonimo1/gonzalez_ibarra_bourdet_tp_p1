@@ -1,5 +1,5 @@
 ![Logo](https://i.imgur.com/QkLXWrv.png)
-# Volcano Steve, Minecraft Edition
+# Volcano Scape, Minecraft Edition
 
 ## Imagenes
 
