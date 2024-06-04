@@ -1,4 +1,4 @@
-# Super Elizabeth Sis, Volcano Edition
+# Volcano Steve, Minecraft Edition
 
 ### Participantes (Grupo 12)
 - Gonzalez Cristian
